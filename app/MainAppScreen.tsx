@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { View, StyleSheet, TouchableOpacity, Image, Text, Animated } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { useFonts } from 'expo-font';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import HomeScreen from './home';
 import AskLuminScreen from './ask-lumin';
 import WishlistScreen from './wishlist';
@@ -23,16 +24,16 @@ export default function MainAppScreen() {
   const animateTabTransition = (newTab: string) => {
     if (newTab === activeTab) return;
 
-    // Fade out current content
+    // Update tab immediately to prevent blink
+    setActiveTab(newTab);
+    
+    // Smooth fade transition without blank state
     Animated.timing(fadeAnim, {
-      toValue: 0,
+      toValue: 0.3,
       duration: 150,
       useNativeDriver: true,
     }).start(() => {
-      // Update tab
-      setActiveTab(newTab);
-      
-      // Fade in new content
+      // Quickly fade back to full opacity
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 200,
@@ -43,12 +44,12 @@ export default function MainAppScreen() {
 
   const renderTabContent = () => {
     const screens = {
-      'home': <HomeScreen onNavigateToHair={() => setActiveTab('hair')} onNavigateToSkin={() => setActiveTab('skin')} />,
+      'home': <HomeScreen onNavigateToHair={() => animateTabTransition('hair')} onNavigateToSkin={() => animateTabTransition('skin')} />,
       'ask-lumin': <AskLuminScreen />,
       'wishlist': <WishlistScreen />,
       'profile': <ProfileScreen />,
-      'hair': <HairScreen onBack={() => setActiveTab('home')} onNavigateToSkin={() => setActiveTab('skin')} />,
-      'skin': <SkinScreen onBack={() => setActiveTab('home')} />,
+      'hair': <HairScreen onBack={() => animateTabTransition('home')} onNavigateToSkin={() => animateTabTransition('skin')} />,
+      'skin': <SkinScreen onBack={() => animateTabTransition('home')} />,
     };
 
     return (
@@ -71,82 +72,84 @@ export default function MainAppScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      {/* Tab Content */}
-      {renderTabContent()}
+    <SafeAreaProvider>
+      <View style={styles.container}>
+        {/* Tab Content */}
+        {renderTabContent()}
 
-      {/* Custom Tab Bar */}
-      <View style={styles.tabBar}>
-        <View style={styles.tabWrapper}>
-          <TouchableOpacity
-            style={styles.tabItem}
-            onPress={() => animateTabTransition('home')}
-          >
-            <Image
-              source={getActiveTabForUI() === 'home' ? require('../assets/images/home.png') : require('../assets/images/homegray.png')}
-              style={styles.tabIcon}
-            />
-            <Text style={[styles.tabLabel, getActiveTabForUI() === 'home' && styles.activeTabLabel]}>
-              Home
-            </Text>
-          </TouchableOpacity>
-          {getActiveTabForUI() === 'home' && <View style={styles.activeIndicator} />}
-        </View>
-
-        <View style={styles.tabWrapper}>
-          <TouchableOpacity
-            style={styles.tabItem}
-            onPress={() => animateTabTransition('ask-lumin')}
-          >
-            <View style={styles.lottieContainer}>
-              <LottieView
-                source={require('../assets/lottie/fixedblur.json')}
-                autoPlay={true}
-                loop={true}
-                style={styles.lottieIcon}
-                resizeMode="contain"
+        {/* Custom Tab Bar */}
+        <View style={styles.tabBar}>
+          <View style={styles.tabWrapper}>
+            <TouchableOpacity
+              style={styles.tabItem}
+              onPress={() => animateTabTransition('home')}
+            >
+              <Image
+                source={getActiveTabForUI() === 'home' ? require('../assets/images/home.png') : require('../assets/images/homegray.png')}
+                style={styles.tabIcon}
               />
-            </View>
-            <Text style={[styles.tabLabel, getActiveTabForUI() === 'ask-lumin' && styles.activeTabLabel]}>
-              Ask Lumin
-            </Text>
-          </TouchableOpacity>
-          {getActiveTabForUI() === 'ask-lumin' && <View style={styles.activeIndicator} />}
-        </View>
+              <Text style={[styles.tabLabel, getActiveTabForUI() === 'home' && styles.activeTabLabel]}>
+                Home
+              </Text>
+            </TouchableOpacity>
+            {getActiveTabForUI() === 'home' && <View style={styles.activeIndicator} />}
+          </View>
 
-        <View style={styles.tabWrapper}>
-          <TouchableOpacity
-            style={styles.tabItem}
-            onPress={() => animateTabTransition('wishlist')}
-          >
-            <Image
-              source={getActiveTabForUI() === 'wishlist' ? require('../assets/images/like.png') : require('../assets/images/likegray.png')}
-              style={styles.tabIcon}
-            />
-            <Text style={[styles.tabLabel, getActiveTabForUI() === 'wishlist' && styles.activeTabLabel]}>
-              Wishlist
-            </Text>
-          </TouchableOpacity>
-          {getActiveTabForUI() === 'wishlist' && <View style={styles.activeIndicator} />}
-        </View>
+          <View style={styles.tabWrapper}>
+            <TouchableOpacity
+              style={styles.tabItem}
+              onPress={() => animateTabTransition('ask-lumin')}
+            >
+              <View style={styles.lottieContainer}>
+                <LottieView
+                  source={require('../assets/lottie/fixedblur.json')}
+                  autoPlay={true}
+                  loop={true}
+                  style={styles.lottieIcon}
+                  resizeMode="contain"
+                />
+              </View>
+              <Text style={[styles.tabLabel, getActiveTabForUI() === 'ask-lumin' && styles.activeTabLabel]}>
+                Ask Lumin
+              </Text>
+            </TouchableOpacity>
+            {getActiveTabForUI() === 'ask-lumin' && <View style={styles.activeIndicator} />}
+          </View>
 
-        <View style={styles.tabWrapper}>
-          <TouchableOpacity
-            style={styles.tabItem}
-            onPress={() => animateTabTransition('profile')}
-          >
-            <Image
-              source={getActiveTabForUI() === 'profile' ? require('../assets/images/user.png') : require('../assets/images/usergray.png')}
-              style={styles.tabIcon}
-            />
-            <Text style={[styles.tabLabel, getActiveTabForUI() === 'profile' && styles.activeTabLabel]}>
-              Profile
-            </Text>
-          </TouchableOpacity>
-          {getActiveTabForUI() === 'profile' && <View style={styles.activeIndicator} />}
+          <View style={styles.tabWrapper}>
+            <TouchableOpacity
+              style={styles.tabItem}
+              onPress={() => animateTabTransition('wishlist')}
+            >
+              <Image
+                source={getActiveTabForUI() === 'wishlist' ? require('../assets/images/like.png') : require('../assets/images/likegray.png')}
+                style={styles.tabIcon}
+              />
+              <Text style={[styles.tabLabel, getActiveTabForUI() === 'wishlist' && styles.activeTabLabel]}>
+                Wishlist
+              </Text>
+            </TouchableOpacity>
+            {getActiveTabForUI() === 'wishlist' && <View style={styles.activeIndicator} />}
+          </View>
+
+          <View style={styles.tabWrapper}>
+            <TouchableOpacity
+              style={styles.tabItem}
+              onPress={() => animateTabTransition('profile')}
+            >
+              <Image
+                source={getActiveTabForUI() === 'profile' ? require('../assets/images/user.png') : require('../assets/images/usergray.png')}
+                style={styles.tabIcon}
+              />
+              <Text style={[styles.tabLabel, getActiveTabForUI() === 'profile' && styles.activeTabLabel]}>
+                Profile
+              </Text>
+            </TouchableOpacity>
+            {getActiveTabForUI() === 'profile' && <View style={styles.activeIndicator} />}
+          </View>
         </View>
       </View>
-    </View>
+    </SafeAreaProvider>
   );
 }
 

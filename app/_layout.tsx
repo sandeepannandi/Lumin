@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Animated, Dimensions } from 'react-native';
 import AnimatedSplashScreen from '../components/AnimatedSplashScreen';
 import OnboardingCarousel from '../components/OnboardingCarousel';
 import LoginScreen from '../components/LoginScreen';
 import ForgotPasswordScreen from '../components/ForgotPasswordScreen';
 import UserDetailsScreen from '../components/UserDetailsScreen';
+import BodyDetailsScreen from '../components/BodyDetailsScreen';
 import MainAppScreen from './MainAppScreen';
 import { useFonts } from 'expo-font';
+
+const { width: screenWidth } = Dimensions.get('window');
 
 // Prevent splash from showing again after first time in this app session
 let splashShownFlag = false;
@@ -40,32 +43,105 @@ const ONBOARDING_STEPS = [
   },
 ];
 
-export default function RootLayout() {
-  // All hooks at the top!
-  const [showSplash, setShowSplash] = useState(!splashShownFlag);
-  const [showOnboarding, setShowOnboarding] = useState(!onboardingDoneFlag);
-  const [onboardingStep, setOnboardingStep] = useState(0);
+export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showUserDetails, setShowUserDetails] = useState(false);
+  const [showBodyDetails, setShowBodyDetails] = useState(false);
   const [showMainApp, setShowMainApp] = useState(false);
+  const [onboardingStep, setOnboardingStep] = useState(0);
+  
+  // Separate animation values for each transition
+  const userDetailsSlideAnim = useState(new Animated.Value(0))[0];
+  const bodyDetailsSlideAnim = useState(new Animated.Value(0))[0];
+  const fadeAnim = useState(new Animated.Value(1))[0];
 
   const [fontsLoaded] = useFonts({
     'PlayfairDisplay': require('../assets/fonts/playfair.ttf'),
+    'NataSans': require('../assets/fonts/NataSans-Regular.ttf'),
   });
 
-  // Auto-advance onboarding every 4 seconds unless on last page
-  useEffect(() => {
-    if (showOnboarding && !showSplash && onboardingStep < ONBOARDING_STEPS.length - 1) {
-      const timer = setTimeout(() => {
-        setOnboardingStep((prev) => prev + 1);
-      }, 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [showOnboarding, showSplash, onboardingStep]);
+  // Animation functions for UserDetails
+  const slideInUserDetails = (callback?: () => void) => {
+    userDetailsSlideAnim.setValue(screenWidth);
+    Animated.timing(userDetailsSlideAnim, {
+      toValue: 0,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
 
-  // Only this return is allowed before all hooks
-  if (!fontsLoaded) return null;
+  const slideOutUserDetails = (callback?: () => void) => {
+    Animated.timing(userDetailsSlideAnim, {
+      toValue: -screenWidth,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  // Animation functions for BodyDetails
+  const slideInBodyDetails = (callback?: () => void) => {
+    bodyDetailsSlideAnim.setValue(screenWidth);
+    Animated.timing(bodyDetailsSlideAnim, {
+      toValue: 0,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  const slideOutBodyDetails = (callback?: () => void) => {
+    Animated.timing(bodyDetailsSlideAnim, {
+      toValue: -screenWidth,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  const fadeIn = (callback?: () => void) => {
+    fadeAnim.setValue(0);
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  const fadeOut = (callback?: () => void) => {
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  // Handle splash screen
+  useEffect(() => {
+    if (!splashShownFlag) {
+      splashShownFlag = true;
+      setTimeout(() => {
+        setShowSplash(false);
+        if (!onboardingDoneFlag) {
+          setShowOnboarding(true);
+        } else {
+          setShowLogin(true);
+        }
+      }, 3000);
+    } else {
+      setShowSplash(false);
+      if (!onboardingDoneFlag) {
+        setShowOnboarding(true);
+      } else {
+        setShowLogin(true);
+      }
+    }
+  }, []);
+
+  // Don't render anything until fonts are loaded
+  if (!fontsLoaded) {
+    return null;
+  }
 
   if (showSplash) {
     return (
@@ -84,6 +160,7 @@ export default function RootLayout() {
         step={onboardingStep}
         steps={ONBOARDING_STEPS}
         onGetStarted={() => {
+          onboardingDoneFlag = true;
           setShowOnboarding(false);
           setShowLogin(true);
         }}
@@ -93,40 +170,105 @@ export default function RootLayout() {
   }
 
   if (showLogin) {
-    if (showForgotPassword) {
-      return <ForgotPasswordScreen onBack={() => setShowForgotPassword(false)} />;
-    }
-    if (showUserDetails) {
-      return (
-        <UserDetailsScreen
-          onComplete={() => {
-            // Mark onboarding as done for this session and show main app
-            onboardingDoneFlag = true;
-            setShowUserDetails(false);
-            setShowLogin(false);
-            setShowOnboarding(false);
-            setShowMainApp(true);
+    return (
+      <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+        <LoginScreen
+          onLoginSuccess={() => {
+            fadeOut(() => {
+              setShowLogin(false);
+              setShowUserDetails(true);
+              slideInUserDetails();
+            });
+          }}
+          onForgotPassword={() => {
+            setShowForgotPassword(true);
           }}
         />
-      );
-    }
+      </Animated.View>
+    );
+  }
+
+  if (showForgotPassword) {
     return (
-      <LoginScreen
+      <ForgotPasswordScreen
         onBack={() => {
-          setShowLogin(false);
-          setShowOnboarding(true);
+          setShowForgotPassword(false);
         }}
-        onForgotPassword={() => setShowForgotPassword(true)}
-        onLoginSuccess={() => setShowUserDetails(true)}
       />
     );
   }
 
-  // Show main app after user details completion
+  if (showUserDetails) {
+    return (
+      <Animated.View style={[
+        styles.container,
+        { transform: [{ translateX: userDetailsSlideAnim }] }
+      ]}>
+        <UserDetailsScreen
+          onComplete={() => {
+            // Start sliding in the new screen immediately
+            setShowBodyDetails(true);
+            slideInBodyDetails();
+            // Then slide out the current screen
+            slideOutUserDetails(() => {
+              setShowUserDetails(false);
+            });
+          }}
+        />
+      </Animated.View>
+    );
+  }
+
+  if (showBodyDetails) {
+    return (
+      <Animated.View style={[
+        styles.container,
+        { transform: [{ translateX: bodyDetailsSlideAnim }] }
+      ]}>
+        <BodyDetailsScreen
+          onComplete={() => {
+            // Mark onboarding as done for this session and show main app
+            onboardingDoneFlag = true;
+            slideOutBodyDetails(() => {
+              setShowBodyDetails(false);
+              setShowLogin(false);
+              setShowOnboarding(false);
+              setShowMainApp(true);
+            });
+          }}
+          onBack={() => {
+            // Start sliding in the previous screen immediately
+            setShowUserDetails(true);
+            userDetailsSlideAnim.setValue(-screenWidth);
+            Animated.timing(userDetailsSlideAnim, {
+              toValue: 0,
+              duration: 50,
+              useNativeDriver: true,
+            }).start();
+            // Then slide out the current screen
+            Animated.timing(bodyDetailsSlideAnim, {
+              toValue: screenWidth,
+              duration: 50,
+              useNativeDriver: true,
+            }).start(() => {
+              setShowBodyDetails(false);
+            });
+          }}
+        />
+      </Animated.View>
+    );
+  }
+
   if (showMainApp) {
     return <MainAppScreen />;
   }
 
   // Fallback: render nothing here
   return null;
-} 
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+}); 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Animated, ScrollView, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
+import { Image as RNImage } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { ShoppingBag, History, Camera, ArrowRight, Heart, ArrowLeft, ChevronLeft } from 'lucide-react-native';
 import GridBackground from '../components/GridBackground';
@@ -228,38 +229,38 @@ export default function HairScreen({ onBack, onNavigateToSkin }: HairScreenProps
             <View style={styles.categoryContainer}>
               {/* First Row */}
               <View style={styles.categoryRow}>
-                                 {[
-                   { name: 'Pixie Cut', image: require('../assets/images/pixie.jpg') },
-                   { name: 'Long Bob', image: require('../assets/images/longbob.jpg') },
-                   { name: 'Curtain Bangs', image: require('../assets/images/curtain.jpg') },
-                   { name: 'High Ponytail', image: require('../assets/images/ponytail.jpg') },
-                 ].map((category, index) => (
-                   <TouchableOpacity key={index} style={styles.categoryItem}>
-                                          <View style={styles.categoryImageContainer}>
-                        <Image source={category.image} style={[
-                          styles.categoryImage,
-                          category.name === 'Long Bob' && styles.longBobImage
-                        ]} cachePolicy="memory-disk" />
-                      </View>
-                     <Text style={styles.categoryName}>{category.name}</Text>
-                   </TouchableOpacity>
-                 ))}
+                                                   {[
+                    { name: 'Pixie Cut', image: require('../assets/images/pixie.jpg') },
+                    { name: 'Long Bob', image: require('../assets/images/longbob.jpg') },
+                    { name: 'Curtain Bangs', image: require('../assets/images/curtain.jpg') },
+                    { name: 'High Ponytail', image: require('../assets/images/ponytail.jpg') },
+                  ].map((category, index) => (
+                    <TouchableOpacity key={index} style={styles.categoryItem}>
+                                           <View style={styles.categoryImageContainer}>
+                         <RNImage source={category.image} style={[
+                           styles.categoryImage,
+                           category.name === 'Long Bob' && styles.longBobImage
+                         ]} />
+                       </View>
+                      <Text style={styles.categoryName}>{category.name}</Text>
+                    </TouchableOpacity>
+                  ))}
               </View>
               
               {/* Second Row */}
               <View style={styles.categoryRow}>
-                                 {[
-                   { name: 'Messy Bun', image: require('../assets/images/messybun.jpg') },
-                   { name: 'French Braid', image: require('../assets/images/braid.jpg') },
-                   { name: 'Wolf Cut', image: require('../assets/images/wolf.jpg') }
-                 ].map((category, index) => (
-                   <TouchableOpacity key={index + 5} style={styles.categoryItem}>
-                     <View style={styles.categoryImageContainer}>
-                       <Image source={category.image} style={styles.categoryImage} cachePolicy="memory-disk" />
-                     </View>
-                     <Text style={styles.categoryName}>{category.name}</Text>
-                   </TouchableOpacity>
-                 ))}
+                                                   {[
+                    { name: 'Messy Bun', image: require('../assets/images/messybun.jpg') },
+                    { name: 'French Braid', image: require('../assets/images/braid.jpg') },
+                    { name: 'Wolf Cut', image: require('../assets/images/wolf.jpg') }
+                  ].map((category, index) => (
+                    <TouchableOpacity key={index + 5} style={styles.categoryItem}>
+                      <View style={styles.categoryImageContainer}>
+                        <RNImage source={category.image} style={styles.categoryImage} />
+                      </View>
+                      <Text style={styles.categoryName}>{category.name}</Text>
+                    </TouchableOpacity>
+                  ))}
               </View>
             </View>
           </View>
@@ -268,18 +269,18 @@ export default function HairScreen({ onBack, onNavigateToSkin }: HairScreenProps
              <View style={styles.discoverSection}>
                <Text style={styles.discoverTitle}>Also Discover</Text>
                <View style={styles.discoverContainer}>
-                                   <TouchableOpacity style={styles.discoverBox} onPress={onNavigateToSkin}>
-                    <View style={styles.discoverImageContainer}>
-                      <Image source={require('../assets/images/skincare.jpg')} style={styles.discoverImage} cachePolicy="memory-disk" />
-                    </View>
-                    <Text style={styles.discoverName}>Skin Care</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.discoverBox}>
-                    <View style={styles.discoverImageContainer}>
-                      <Image source={require('../assets/images/fashion.jpg')} style={styles.discoverImage} cachePolicy="memory-disk" />
-                    </View>
-                    <Text style={styles.discoverName}>Fashion</Text>
-                  </TouchableOpacity>
+                                                                       <TouchableOpacity style={styles.discoverBox} onPress={onNavigateToSkin}>
+                     <View style={styles.discoverImageContainer}>
+                       <RNImage source={require('../assets/images/skincare.jpg')} style={styles.discoverImage} />
+                     </View>
+                     <Text style={styles.discoverName}>Skin Care</Text>
+                   </TouchableOpacity>
+                   <TouchableOpacity style={styles.discoverBox}>
+                     <View style={styles.discoverImageContainer}>
+                       <RNImage source={require('../assets/images/fashion.jpg')} style={styles.discoverImage} />
+                     </View>
+                     <Text style={styles.discoverName}>Fashion</Text>
+                   </TouchableOpacity>
                </View>
              </View>
 
@@ -327,8 +328,8 @@ export default function HairScreen({ onBack, onNavigateToSkin }: HairScreenProps
 
                          {/* Virtual Try-On Section */}
              <View style={styles.virtualTryOnSection}>
-                               <TouchableOpacity style={styles.virtualTryOnContainer}>
-                  <Image source={require('../assets/images/hairtryon.png')} style={styles.virtualTryOnBackground} cachePolicy="memory-disk" />
+                                                               <TouchableOpacity style={styles.virtualTryOnContainer}>
+                   <RNImage source={require('../assets/images/hairtryon.png')} style={styles.virtualTryOnBackground} />
                                   <View style={styles.virtualTryOnOverlay}>
                    <Text style={styles.virtualTryOnTitle}>VIRTUAL TRY-ON</Text>
                    <View style={styles.virtualTryOnSubtitleContainer}>
@@ -343,46 +344,46 @@ export default function HairScreen({ onBack, onNavigateToSkin }: HairScreenProps
              <View style={styles.forYouSection}>
                <Text style={styles.forYouTitle}>For You</Text>
                <View style={styles.staggeredGrid}>
-                                   <View style={styles.leftColumn}>
-                    <TouchableOpacity style={styles.gridItem}>
-                      <Image source={require('../assets/images/wedding.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
-                      <TouchableOpacity style={styles.heartIcon}>
-                        <Heart size={18} color="#ffffff" />
-                      </TouchableOpacity>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.gridItem}>
-                      <Image source={require('../assets/images/party.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
-                      <TouchableOpacity style={styles.heartIcon}>
-                        <Heart size={18} color="#ffffff" />
-                      </TouchableOpacity>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.gridItem}>
-                      <Image source={require('../assets/images/college.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
-                      <TouchableOpacity style={styles.heartIcon}>
-                        <Heart size={18} color="#ffffff" />
-                      </TouchableOpacity>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.rightColumn}>
-                    <TouchableOpacity style={styles.gridItem}>
-                      <Image source={require('../assets/images/office.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
-                      <TouchableOpacity style={styles.heartIcon}>
-                        <Heart size={18} color="#ffffff" />
-                      </TouchableOpacity>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.gridItem}>
-                      <Image source={require('../assets/images/casual.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
-                      <TouchableOpacity style={styles.heartIcon}>
-                        <Heart size={18} color="#ffffff" />
-                      </TouchableOpacity>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.gridItem}>
-                      <Image source={require('../assets/images/datenight.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
-                      <TouchableOpacity style={styles.heartIcon}>
-                        <Heart size={18} color="#ffffff" />
-                      </TouchableOpacity>
-                    </TouchableOpacity>
-                  </View>
+                                                                       <View style={styles.leftColumn}>
+                     <TouchableOpacity style={styles.gridItem}>
+                       <RNImage source={require('../assets/images/wedding.jpg')} style={styles.gridImage} />
+                       <TouchableOpacity style={styles.heartIcon}>
+                         <Heart size={18} color="#ffffff" />
+                       </TouchableOpacity>
+                     </TouchableOpacity>
+                     <TouchableOpacity style={styles.gridItem}>
+                       <RNImage source={require('../assets/images/party.jpg')} style={styles.gridImage} />
+                       <TouchableOpacity style={styles.heartIcon}>
+                         <Heart size={18} color="#ffffff" />
+                       </TouchableOpacity>
+                     </TouchableOpacity>
+                     <TouchableOpacity style={styles.gridItem}>
+                       <RNImage source={require('../assets/images/college.jpg')} style={styles.gridImage} />
+                       <TouchableOpacity style={styles.heartIcon}>
+                         <Heart size={18} color="#ffffff" />
+                       </TouchableOpacity>
+                     </TouchableOpacity>
+                   </View>
+                   <View style={styles.rightColumn}>
+                     <TouchableOpacity style={styles.gridItem}>
+                       <RNImage source={require('../assets/images/office.jpg')} style={styles.gridImage} />
+                       <TouchableOpacity style={styles.heartIcon}>
+                         <Heart size={18} color="#ffffff" />
+                       </TouchableOpacity>
+                     </TouchableOpacity>
+                     <TouchableOpacity style={styles.gridItem}>
+                       <RNImage source={require('../assets/images/casual.jpg')} style={styles.gridImage} />
+                       <TouchableOpacity style={styles.heartIcon}>
+                         <Heart size={18} color="#ffffff" />
+                       </TouchableOpacity>
+                     </TouchableOpacity>
+                     <TouchableOpacity style={styles.gridItem}>
+                       <RNImage source={require('../assets/images/datenight.jpg')} style={styles.gridImage} />
+                       <TouchableOpacity style={styles.heartIcon}>
+                         <Heart size={18} color="#ffffff" />
+                       </TouchableOpacity>
+                     </TouchableOpacity>
+                   </View>
                </View>
              </View>
              </ScrollView>

@@ -79,7 +79,7 @@ export default function UserDetailsScreen({ onComplete }: { onComplete?: () => v
         ))}
       </View>
       {/* Brands/Platforms */}
-      <Text style={[styles.label, { marginBottom: 12 }]}>WHICH BRANDS OR SHOPPING PLATFORM DO YOU LIKE THE MOST? <Text style={styles.required}>*</Text></Text>
+      <Text style={styles.label}>WHERE DO YOU SHOP? <Text style={styles.required}>*</Text></Text>
       {BRANDS.map((row, i) => (
         <TouchableOpacity
           key={i}
@@ -95,8 +95,20 @@ export default function UserDetailsScreen({ onComplete }: { onComplete?: () => v
         </TouchableOpacity>
       ))}
       {/* Continue Button */}
-      <TouchableOpacity style={styles.continueBtn} onPress={onComplete}>
-        <Text style={styles.continueBtnText}>Continue</Text>
+      <TouchableOpacity 
+        style={[
+          styles.continueBtn, 
+          (!age || !gender || !occupation || brandRow === -1) && styles.continueBtnDisabled
+        ]} 
+        onPress={onComplete}
+        disabled={!age || !gender || !occupation || brandRow === -1}
+      >
+        <Text style={[
+          styles.continueBtnText,
+          (!age || !gender || !occupation || brandRow === -1) && styles.continueBtnTextDisabled
+        ]}>
+          Continue
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -203,5 +215,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  continueBtnDisabled: {
+    backgroundColor: '#ccc',
+    opacity: 0.7,
+  },
+  continueBtnTextDisabled: {
+    color: '#888',
   },
 }); 
