@@ -215,17 +215,17 @@ export default function SkinScreen({ onBack }: SkinScreenProps) {
               {/* First Row */}
               <View style={styles.categoryRow}>
                 {[
-                  { name: 'Cleanser', image: require('../assets/images/pixie.jpg') },
-                  { name: 'Moisturizer', image: require('../assets/images/longbob.jpg') },
-                  { name: 'Sunscreen', image: require('../assets/images/curtain.jpg') },
-                  { name: 'Serum', image: require('../assets/images/ponytail.jpg') },
+                  { name: 'Cleanser', image: require('../assets/images/cleanser.jpg') },
+                  { name: 'Moisturizer', image: require('../assets/images/moisturizer.jpg') },
+                  { name: 'Sunscreen', image: require('../assets/images/sunscreen.jpg') },
+                  { name: 'Serum', image: require('../assets/images/serum.jpg') },
                 ].map((category, index) => (
                   <TouchableOpacity key={index} style={styles.categoryItem}>
                                          <View style={styles.categoryImageContainer}>
                        <Image source={category.image} style={[
                          styles.categoryImage,
                          category.name === 'Moisturizer' && styles.longBobImage
-                       ]} />
+                       ]} cachePolicy="memory-disk" />
                      </View>
                     <Text style={styles.categoryName}>{category.name}</Text>
                   </TouchableOpacity>
@@ -235,13 +235,13 @@ export default function SkinScreen({ onBack }: SkinScreenProps) {
               {/* Second Row */}
               <View style={styles.categoryRow}>
                 {[
-                  { name: 'Toner', image: require('../assets/images/messybun.jpg') },
-                  { name: 'Mask', image: require('../assets/images/braid.jpg') },
-                  { name: 'Exfoliator', image: require('../assets/images/wolf.jpg') }
+                  { name: 'Toner', image: require('../assets/images/toner.jpg') },
+                  { name: 'Mask', image: require('../assets/images/mask.jpg') },
+                  { name: 'Exfoliator', image: require('../assets/images/exfoliator.jpg') }
                 ].map((category, index) => (
                   <TouchableOpacity key={index + 5} style={styles.categoryItem}>
                     <View style={styles.categoryImageContainer}>
-                      <Image source={category.image} style={styles.categoryImage} />
+                      <Image source={category.image} style={styles.categoryImage} cachePolicy="memory-disk" />
                     </View>
                     <Text style={styles.categoryName}>{category.name}</Text>
                   </TouchableOpacity>
@@ -256,13 +256,13 @@ export default function SkinScreen({ onBack }: SkinScreenProps) {
                <View style={styles.discoverContainer}>
                  <TouchableOpacity style={styles.discoverBox}>
                    <View style={styles.discoverImageContainer}>
-                     <Image source={require('../assets/images/haircare.jpg')} style={styles.discoverImage} />
+                     <Image source={require('../assets/images/haircare.jpg')} style={styles.discoverImage} cachePolicy="memory-disk" />
                    </View>
                    <Text style={styles.discoverName}>Hair Care</Text>
                  </TouchableOpacity>
                  <TouchableOpacity style={styles.discoverBox}>
                    <View style={styles.discoverImageContainer}>
-                     <Image source={require('../assets/images/fashion.jpg')} style={styles.discoverImage} />
+                     <Image source={require('../assets/images/fashion.jpg')} style={styles.discoverImage} cachePolicy="memory-disk" />
                    </View>
                    <Text style={styles.discoverName}>Fashion</Text>
                  </TouchableOpacity>
@@ -289,7 +289,7 @@ export default function SkinScreen({ onBack }: SkinScreenProps) {
                 >
                  {featuredItems.map((item, index) => (
                    <View key={item.id} style={styles.featuredItem}>
-                     <Image source={item.image} style={styles.featuredImage} />
+                     <Image source={item.image} style={styles.featuredImage} cachePolicy="memory-disk" />
                    </View>
                  ))}
                </ScrollView>
@@ -314,7 +314,7 @@ export default function SkinScreen({ onBack }: SkinScreenProps) {
                          {/* Virtual Try-On Section */}
              <View style={styles.virtualTryOnSection}>
                <TouchableOpacity style={styles.virtualTryOnContainer}>
-                 <Image source={require('../assets/images/skintryon.png')} style={styles.virtualTryOnBackground} />
+                 <Image source={require('../assets/images/skintryon.png')} style={styles.virtualTryOnBackground} cachePolicy="memory-disk" />
                                   <View style={styles.virtualTryOnOverlay}>
                    <Text style={styles.virtualTryOnTitle}>VIRTUAL TRY-ON</Text>
                    <View style={styles.virtualTryOnSubtitleContainer}>
@@ -331,19 +331,19 @@ export default function SkinScreen({ onBack }: SkinScreenProps) {
                <View style={styles.staggeredGrid}>
                  <View style={styles.leftColumn}>
                    <TouchableOpacity style={styles.gridItem}>
-                     <Image source={require('../assets/images/wedding.jpg')} style={styles.gridImage} />
+                     <Image source={require('../assets/images/wedding.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
                      <TouchableOpacity style={styles.heartIcon}>
                        <Heart size={18} color="#ffffff" />
                      </TouchableOpacity>
                    </TouchableOpacity>
                    <TouchableOpacity style={styles.gridItem}>
-                     <Image source={require('../assets/images/party.jpg')} style={styles.gridImage} />
+                     <Image source={require('../assets/images/party.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
                      <TouchableOpacity style={styles.heartIcon}>
                        <Heart size={18} color="#ffffff" />
                      </TouchableOpacity>
                    </TouchableOpacity>
                    <TouchableOpacity style={styles.gridItem}>
-                     <Image source={require('../assets/images/college.jpg')} style={styles.gridImage} />
+                     <Image source={require('../assets/images/college.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
                      <TouchableOpacity style={styles.heartIcon}>
                        <Heart size={18} color="#ffffff" />
                      </TouchableOpacity>
@@ -351,19 +351,19 @@ export default function SkinScreen({ onBack }: SkinScreenProps) {
                  </View>
                  <View style={styles.rightColumn}>
                    <TouchableOpacity style={styles.gridItem}>
-                     <Image source={require('../assets/images/office.jpg')} style={styles.gridImage} />
+                     <Image source={require('../assets/images/office.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
                      <TouchableOpacity style={styles.heartIcon}>
                        <Heart size={18} color="#ffffff" />
                      </TouchableOpacity>
                    </TouchableOpacity>
                    <TouchableOpacity style={styles.gridItem}>
-                     <Image source={require('../assets/images/casual.jpg')} style={styles.gridImage} />
+                     <Image source={require('../assets/images/casual.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
                      <TouchableOpacity style={styles.heartIcon}>
                        <Heart size={18} color="#ffffff" />
                      </TouchableOpacity>
                    </TouchableOpacity>
                    <TouchableOpacity style={styles.gridItem}>
-                     <Image source={require('../assets/images/datenight.jpg')} style={styles.gridImage} />
+                     <Image source={require('../assets/images/datenight.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
                      <TouchableOpacity style={styles.heartIcon}>
                        <Heart size={18} color="#ffffff" />
                      </TouchableOpacity>

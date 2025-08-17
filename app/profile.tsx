@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, Animated, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, Animated, Modal, Linking } from 'react-native';
 import { Settings, Edit3, ChevronRight, Package, ChevronLeft, Info, Lightbulb, HelpCircle, LogOut, Trash2, Share2 } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image as ExpoImage } from 'expo-image';
@@ -237,7 +237,10 @@ function SettingsScreen({ onBack }: { onBack: () => void }) {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>CONTACT</Text>
             <View style={styles.optionsList}>
-              <TouchableOpacity style={styles.optionItem}>
+              <TouchableOpacity 
+                style={styles.optionItem}
+                onPress={() => Linking.openURL('https://tally.so/r/nPPyZd')}
+              >
                 <View style={styles.optionLeft}>
                   <Info size={20} color="#2c2c2c" />
                   <Text style={styles.optionText}>Report an issue</Text>
@@ -245,7 +248,10 @@ function SettingsScreen({ onBack }: { onBack: () => void }) {
                 <ChevronRight size={20} color="#2c2c2c" style={styles.chevronRight} />
               </TouchableOpacity>
               
-              <TouchableOpacity style={styles.optionItem}>
+              <TouchableOpacity 
+                style={styles.optionItem}
+                onPress={() => Linking.openURL('https://tally.so/r/wLojjG')}
+              >
                 <View style={styles.optionLeft}>
                   <Lightbulb size={20} color="#2c2c2c" />
                   <Text style={styles.optionText}>Suggest new feature</Text>
@@ -253,7 +259,10 @@ function SettingsScreen({ onBack }: { onBack: () => void }) {
                 <ChevronRight size={20} color="#2c2c2c" style={styles.chevronRight} />
               </TouchableOpacity>
               
-              <TouchableOpacity style={styles.optionItem}>
+              <TouchableOpacity 
+                style={styles.optionItem}
+                onPress={() => Linking.openURL('https://tally.so/r/mRrQQp')}
+              >
                 <View style={styles.optionLeft}>
                   <HelpCircle size={20} color="#2c2c2c" />
                   <Text style={styles.optionText}>FAQs</Text>

@@ -236,7 +236,7 @@ export default function HomeScreen({ onNavigateToHair, onNavigateToSkin }: HomeS
                 ].map((category, index) => (
                   <TouchableOpacity key={index} style={styles.categoryItem}>
                     <View style={styles.categoryImageContainer}>
-                      <Image source={category.image} style={styles.categoryImage} />
+                      <Image source={category.image} style={styles.categoryImage} cachePolicy="memory-disk" />
                     </View>
                     <Text style={styles.categoryName}>{category.name}</Text>
                   </TouchableOpacity>
@@ -254,7 +254,7 @@ export default function HomeScreen({ onNavigateToHair, onNavigateToSkin }: HomeS
                 ].map((category, index) => (
                   <TouchableOpacity key={index + 5} style={styles.categoryItem}>
                     <View style={styles.categoryImageContainer}>
-                      <Image source={category.image} style={styles.categoryImage} />
+                      <Image source={category.image} style={styles.categoryImage} cachePolicy="memory-disk" />
                     </View>
                     <Text style={styles.categoryName}>{category.name}</Text>
                   </TouchableOpacity>
@@ -269,13 +269,13 @@ export default function HomeScreen({ onNavigateToHair, onNavigateToSkin }: HomeS
               <View style={styles.discoverContainer}>
                                         <TouchableOpacity style={styles.discoverBox} onPress={onNavigateToHair}>
                           <View style={styles.discoverImageContainer}>
-                            <Image source={require('../assets/images/haircare.jpg')} style={styles.discoverImage} />
+                            <Image source={require('../assets/images/haircare.jpg')} style={styles.discoverImage} cachePolicy="memory-disk" />
                           </View>
                           <Text style={styles.discoverName}>Hair Care</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.discoverBox} onPress={onNavigateToSkin}>
                           <View style={styles.discoverImageContainer}>
-                            <Image source={require('../assets/images/skincare.jpg')} style={styles.discoverImage} />
+                            <Image source={require('../assets/images/skincare.jpg')} style={styles.discoverImage} cachePolicy="memory-disk" />
                           </View>
                           <Text style={styles.discoverName}>Skin Care</Text>
                         </TouchableOpacity>
@@ -302,7 +302,7 @@ export default function HomeScreen({ onNavigateToHair, onNavigateToSkin }: HomeS
                 >
                  {featuredItems.map((item, index) => (
                    <View key={item.id} style={styles.featuredItem}>
-                     <Image source={item.image} style={styles.featuredImage} />
+                     <Image source={item.image} style={styles.featuredImage} cachePolicy="memory-disk" />
                    </View>
                  ))}
                </ScrollView>
@@ -333,7 +333,7 @@ export default function HomeScreen({ onNavigateToHair, onNavigateToSkin }: HomeS
                 {occasionItems.map((item, index) => (
                   <TouchableOpacity key={item.id} style={styles.occasionItem}>
                     <View style={styles.occasionImageContainer}>
-                      <Image source={item.image} style={styles.occasionImage} />
+                      <Image source={item.image} style={styles.occasionImage} cachePolicy="memory-disk" />
                     </View>
                     <Text style={styles.occasionName}>{item.title}</Text>
                   </TouchableOpacity>
@@ -344,7 +344,7 @@ export default function HomeScreen({ onNavigateToHair, onNavigateToSkin }: HomeS
                          {/* Virtual Try-On Section */}
              <View style={styles.virtualTryOnSection}>
                <TouchableOpacity style={styles.virtualTryOnContainer}>
-                 <Image source={require('../assets/images/tryon.png')} style={styles.virtualTryOnBackground} />
+                 <Image source={require('../assets/images/tryon.png')} style={styles.virtualTryOnBackground} cachePolicy="memory-disk" />
                                   <View style={styles.virtualTryOnOverlay}>
                    <Text style={styles.virtualTryOnTitle}>VIRTUAL TRY-ON</Text>
                    <View style={styles.virtualTryOnSubtitleContainer}>
@@ -361,19 +361,19 @@ export default function HomeScreen({ onNavigateToHair, onNavigateToSkin }: HomeS
                <View style={styles.staggeredGrid}>
                  <View style={styles.leftColumn}>
                    <TouchableOpacity style={styles.gridItem}>
-                     <Image source={require('../assets/images/wedding.jpg')} style={styles.gridImage} />
+                     <Image source={require('../assets/images/wedding.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
                      <TouchableOpacity style={styles.heartIcon}>
                        <Heart size={18} color="#ffffff" />
                      </TouchableOpacity>
                    </TouchableOpacity>
                    <TouchableOpacity style={styles.gridItem}>
-                     <Image source={require('../assets/images/party.jpg')} style={styles.gridImage} />
+                     <Image source={require('../assets/images/party.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
                      <TouchableOpacity style={styles.heartIcon}>
                        <Heart size={18} color="#ffffff" />
                      </TouchableOpacity>
                    </TouchableOpacity>
                    <TouchableOpacity style={styles.gridItem}>
-                     <Image source={require('../assets/images/college.jpg')} style={styles.gridImage} />
+                     <Image source={require('../assets/images/college.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
                      <TouchableOpacity style={styles.heartIcon}>
                        <Heart size={18} color="#ffffff" />
                      </TouchableOpacity>
@@ -381,19 +381,19 @@ export default function HomeScreen({ onNavigateToHair, onNavigateToSkin }: HomeS
                  </View>
                  <View style={styles.rightColumn}>
                    <TouchableOpacity style={styles.gridItem}>
-                     <Image source={require('../assets/images/office.jpg')} style={styles.gridImage} />
+                     <Image source={require('../assets/images/office.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
                      <TouchableOpacity style={styles.heartIcon}>
                        <Heart size={18} color="#ffffff" />
                      </TouchableOpacity>
                    </TouchableOpacity>
                    <TouchableOpacity style={styles.gridItem}>
-                     <Image source={require('../assets/images/casual.jpg')} style={styles.gridImage} />
+                     <Image source={require('../assets/images/casual.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
                      <TouchableOpacity style={styles.heartIcon}>
                        <Heart size={18} color="#ffffff" />
                      </TouchableOpacity>
                    </TouchableOpacity>
                    <TouchableOpacity style={styles.gridItem}>
-                     <Image source={require('../assets/images/datenight.jpg')} style={styles.gridImage} />
+                     <Image source={require('../assets/images/datenight.jpg')} style={styles.gridImage} cachePolicy="memory-disk" />
                      <TouchableOpacity style={styles.heartIcon}>
                        <Heart size={18} color="#ffffff" />
                      </TouchableOpacity>
