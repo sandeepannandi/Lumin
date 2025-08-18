@@ -6,6 +6,10 @@ import LoginScreen from '../components/LoginScreen';
 import ForgotPasswordScreen from '../components/ForgotPasswordScreen';
 import UserDetailsScreen from '../components/UserDetailsScreen';
 import BodyDetailsScreen from '../components/BodyDetailsScreen';
+import CasualPreferenceScreen from '../components/CasualPreferenceScreen';
+import WorkPreferenceScreen from '../components/WorkPreferenceScreen';
+import NightOutPreferenceScreen from '../components/NightOutPreferenceScreen';
+import NeverKeepPreferenceScreen from '../components/NeverKeepPreferenceScreen';
 import MainAppScreen from './MainAppScreen';
 import { useFonts } from 'expo-font';
 
@@ -50,12 +54,20 @@ export default function App() {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showUserDetails, setShowUserDetails] = useState(false);
   const [showBodyDetails, setShowBodyDetails] = useState(false);
+  const [showCasualPreference, setShowCasualPreference] = useState(false);
+  const [showWorkPreference, setShowWorkPreference] = useState(false);
+  const [showNightOutPreference, setShowNightOutPreference] = useState(false);
+  const [showNeverKeepPreference, setShowNeverKeepPreference] = useState(false);
   const [showMainApp, setShowMainApp] = useState(false);
   const [onboardingStep, setOnboardingStep] = useState(0);
   
   // Separate animation values for each transition
   const userDetailsSlideAnim = useState(new Animated.Value(0))[0];
   const bodyDetailsSlideAnim = useState(new Animated.Value(0))[0];
+  const casualPreferenceSlideAnim = useState(new Animated.Value(0))[0];
+  const workPreferenceSlideAnim = useState(new Animated.Value(0))[0];
+  const nightOutPreferenceSlideAnim = useState(new Animated.Value(0))[0];
+  const neverKeepPreferenceSlideAnim = useState(new Animated.Value(0))[0];
   const fadeAnim = useState(new Animated.Value(1))[0];
 
   const [fontsLoaded] = useFonts({
@@ -93,6 +105,78 @@ export default function App() {
 
   const slideOutBodyDetails = (callback?: () => void) => {
     Animated.timing(bodyDetailsSlideAnim, {
+      toValue: -screenWidth,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  // Animation functions for CasualPreference
+  const slideInCasualPreference = (callback?: () => void) => {
+    casualPreferenceSlideAnim.setValue(screenWidth);
+    Animated.timing(casualPreferenceSlideAnim, {
+      toValue: 0,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  const slideOutCasualPreference = (callback?: () => void) => {
+    Animated.timing(casualPreferenceSlideAnim, {
+      toValue: -screenWidth,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  // Animation functions for WorkPreference
+  const slideInWorkPreference = (callback?: () => void) => {
+    workPreferenceSlideAnim.setValue(screenWidth);
+    Animated.timing(workPreferenceSlideAnim, {
+      toValue: 0,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  const slideOutWorkPreference = (callback?: () => void) => {
+    Animated.timing(workPreferenceSlideAnim, {
+      toValue: -screenWidth,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  // Animation functions for NightOutPreference
+  const slideInNightOutPreference = (callback?: () => void) => {
+    nightOutPreferenceSlideAnim.setValue(screenWidth);
+    Animated.timing(nightOutPreferenceSlideAnim, {
+      toValue: 0,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  const slideOutNightOutPreference = (callback?: () => void) => {
+    Animated.timing(nightOutPreferenceSlideAnim, {
+      toValue: -screenWidth,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  // Animation functions for NeverKeepPreference
+  const slideInNeverKeepPreference = (callback?: () => void) => {
+    neverKeepPreferenceSlideAnim.setValue(screenWidth);
+    Animated.timing(neverKeepPreferenceSlideAnim, {
+      toValue: 0,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  const slideOutNeverKeepPreference = (callback?: () => void) => {
+    Animated.timing(neverKeepPreferenceSlideAnim, {
       toValue: -screenWidth,
       duration: 50,
       useNativeDriver: true,
@@ -227,13 +311,11 @@ export default function App() {
       ]}>
         <BodyDetailsScreen
           onComplete={() => {
-            // Mark onboarding as done for this session and show main app
-            onboardingDoneFlag = true;
+            // Move to Casual Preference screen with overlapping transition
+            setShowCasualPreference(true);
+            slideInCasualPreference();
             slideOutBodyDetails(() => {
               setShowBodyDetails(false);
-              setShowLogin(false);
-              setShowOnboarding(false);
-              setShowMainApp(true);
             });
           }}
           onBack={() => {
@@ -252,6 +334,156 @@ export default function App() {
               useNativeDriver: true,
             }).start(() => {
               setShowBodyDetails(false);
+            });
+          }}
+        />
+      </Animated.View>
+    );
+  }
+
+  if (showCasualPreference) {
+    return (
+      <Animated.View style={[
+        styles.container,
+        { transform: [{ translateX: casualPreferenceSlideAnim }] }
+      ]}>
+        <CasualPreferenceScreen
+          onComplete={() => {
+            // Move to Work Preference screen with overlapping transition
+            setShowWorkPreference(true);
+            slideInWorkPreference();
+            slideOutCasualPreference(() => {
+              setShowCasualPreference(false);
+            });
+          }}
+          onBack={() => {
+            // Go back to Body Details with overlapping transition
+            setShowBodyDetails(true);
+            bodyDetailsSlideAnim.setValue(-screenWidth);
+            Animated.timing(bodyDetailsSlideAnim, {
+              toValue: 0,
+              duration: 50,
+              useNativeDriver: true,
+            }).start();
+            Animated.timing(casualPreferenceSlideAnim, {
+              toValue: screenWidth,
+              duration: 50,
+              useNativeDriver: true,
+            }).start(() => {
+              setShowCasualPreference(false);
+            });
+          }}
+        />
+      </Animated.View>
+    );
+  }
+
+  if (showWorkPreference) {
+    return (
+      <Animated.View style={[
+        styles.container,
+        { transform: [{ translateX: workPreferenceSlideAnim }] }
+      ]}>
+        <WorkPreferenceScreen
+          onComplete={() => {
+            // Move to Night Out Preference screen
+            setShowNightOutPreference(true);
+            slideInNightOutPreference();
+            slideOutWorkPreference(() => {
+              setShowWorkPreference(false);
+            });
+          }}
+          onBack={() => {
+            // Go back to Casual Preference with overlapping transition
+            setShowCasualPreference(true);
+            casualPreferenceSlideAnim.setValue(-screenWidth);
+            Animated.timing(casualPreferenceSlideAnim, {
+              toValue: 0,
+              duration: 50,
+              useNativeDriver: true,
+            }).start();
+            Animated.timing(workPreferenceSlideAnim, {
+              toValue: screenWidth,
+              duration: 50,
+              useNativeDriver: true,
+            }).start(() => {
+              setShowWorkPreference(false);
+            });
+          }}
+        />
+      </Animated.View>
+    );
+  }
+
+  if (showNightOutPreference) {
+    return (
+      <Animated.View style={[
+        styles.container,
+        { transform: [{ translateX: nightOutPreferenceSlideAnim }] }
+      ]}>
+        <NightOutPreferenceScreen
+          onComplete={() => {
+            // Move to Never Keep Preference screen
+            setShowNeverKeepPreference(true);
+            slideInNeverKeepPreference();
+            slideOutNightOutPreference(() => {
+              setShowNightOutPreference(false);
+            });
+          }}
+          onBack={() => {
+            // Go back to Work Preference with overlapping transition
+            setShowWorkPreference(true);
+            workPreferenceSlideAnim.setValue(-screenWidth);
+            Animated.timing(workPreferenceSlideAnim, {
+              toValue: 0,
+              duration: 50,
+              useNativeDriver: true,
+            }).start();
+            Animated.timing(nightOutPreferenceSlideAnim, {
+              toValue: screenWidth,
+              duration: 50,
+              useNativeDriver: true,
+            }).start(() => {
+              setShowNightOutPreference(false);
+            });
+          }}
+        />
+      </Animated.View>
+    );
+  }
+
+  if (showNeverKeepPreference) {
+    return (
+      <Animated.View style={[
+        styles.container,
+        { transform: [{ translateX: neverKeepPreferenceSlideAnim }] }
+      ]}>
+        <NeverKeepPreferenceScreen
+          onComplete={() => {
+            // Finish onboarding and show main app
+            onboardingDoneFlag = true;
+            slideOutNeverKeepPreference(() => {
+              setShowNeverKeepPreference(false);
+              setShowLogin(false);
+              setShowOnboarding(false);
+              setShowMainApp(true);
+            });
+          }}
+          onBack={() => {
+            // Go back to Night Out Preference with overlapping transition
+            setShowNightOutPreference(true);
+            nightOutPreferenceSlideAnim.setValue(-screenWidth);
+            Animated.timing(nightOutPreferenceSlideAnim, {
+              toValue: 0,
+              duration: 50,
+              useNativeDriver: true,
+            }).start();
+            Animated.timing(neverKeepPreferenceSlideAnim, {
+              toValue: screenWidth,
+              duration: 50,
+              useNativeDriver: true,
+            }).start(() => {
+              setShowNeverKeepPreference(false);
             });
           }}
         />
