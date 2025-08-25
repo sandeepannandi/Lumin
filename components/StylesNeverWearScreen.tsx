@@ -9,24 +9,19 @@ type Props = {
 	onBack?: () => void;
 };
 
-const NEVER_OPTIONS: { name: string; image: any }[] = [
-	{ name: 'Blazers', image: require('../assets/images/blazers.webp') },
-	{ name: 'Skirts', image: require('../assets/images/skirt.jpg') },
-	{ name: 'Dresses', image: require('../assets/images/dresses.webp') },
-	{ name: 'Shorts', image: require('../assets/images/shorts.webp') },
-	{ name: 'Jeans', image: require('../assets/images/jeans.webp') },
-	{ name: 'Trousers', image: require('../assets/images/trouses.webp') },
+const STYLE_OPTIONS: { name: string; image: any }[] = [
+	{ name: 'Low Neck', image: require('../assets/images/lowneck.jpg') },
+	{ name: 'Off Shoulder', image: require('../assets/images/offshoulder.jpg') },
+	{ name: 'Backless', image: require('../assets/images/backless.jpg') },
+	{ name: 'Above The Knee', image: require('../assets/images/abovetheknee.webp') },
+	{ name: 'Cropped', image: require('../assets/images/cropped.jpg') },
+	{ name: 'Bodycon', image: require('../assets/images/bodycon.webp') },
+	{ name: 'Sleeveless', image: require('../assets/images/sleeveless.jpg') },
+	
 
-	{ name: 'Jackets', image: require('../assets/images/jackets.webp') },
-	{ name: 'Handbags', image: require('../assets/images/handbags.webp') },
-	{ name: 'Heels', image: require('../assets/images/heels.webp') },
-
-	{ name: 'Earrings', image: require('../assets/images/earrings.avif') },
-	{ name: 'Necklace', image: require('../assets/images/necklace.avif') },
-	{ name: 'Bracelets', image: require('../assets/images/bracelets.jpg') },
 ];
 
-export default function NeverKeepPreferenceScreen({ onComplete, onBack }: Props) {
+export default function StylesNeverWearScreen({ onComplete, onBack }: Props) {
 	const [selected, setSelected] = useState<string[]>([]);
 
 	const toggleSelection = (name: string) => {
@@ -40,23 +35,17 @@ export default function NeverKeepPreferenceScreen({ onComplete, onBack }: Props)
 
 	return (
 		<View style={styles.container}>
-			{/* Header */}
-			<View style={styles.header}> 
+			<View style={styles.header}>
 				<Text style={styles.headline}>Tell Us About Yourself</Text>
 			</View>
 
-			{/* Content */}
 			<ScrollView style={styles.scrollContent} contentContainerStyle={{ paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
-				<Text style={styles.label}>WHICH ITEMS DO YOU <Text style={{ color: '#ff2d2d' }}>NEVER</Text> KEEP IN YOUR WARDROBE? <Text style={styles.required}>*</Text></Text>
+				<Text style={styles.label}>STYLES YOU <Text style={{ color: '#ff2d2d' }}>NEVER</Text> WEAR? <Text style={styles.required}>*</Text></Text>
 				<View style={styles.imageGrid}>
-					{NEVER_OPTIONS.map((option, index) => {
+					{STYLE_OPTIONS.map((option, index) => {
 						const isSelected = selected.includes(option.name);
 						return (
-							<TouchableOpacity
-								key={index}
-								style={[styles.imageBox]}
-								onPress={() => toggleSelection(option.name)}
-							>
+							<TouchableOpacity key={index} style={styles.imageBox} onPress={() => toggleSelection(option.name)}>
 								<View style={styles.imageContainer}>
 									<Image source={option.image} style={styles.optionImage} resizeMode="cover" />
 									{isSelected && (
@@ -72,7 +61,6 @@ export default function NeverKeepPreferenceScreen({ onComplete, onBack }: Props)
 				</View>
 			</ScrollView>
 
-			{/* Footer Buttons */}
 			<View style={styles.buttonRow}>
 				<View style={styles.buttonsRow}>
 					<TouchableOpacity style={styles.backBtn} onPress={onBack}>
@@ -83,7 +71,7 @@ export default function NeverKeepPreferenceScreen({ onComplete, onBack }: Props)
 						onPress={onComplete}
 						disabled={selected.length < 3}
 					>
-						<Text style={[styles.continueBtnText, selected.length < 3 && styles.continueBtnTextDisabled]}>Continue</Text>
+						<Text style={[styles.continueBtnText, selected.length < 3 && styles.continueBtnTextDisabled]}>Okay with all</Text>
 					</TouchableOpacity>
 				</View>
 				<View style={styles.noteBelow}>
@@ -101,9 +89,9 @@ const styles = StyleSheet.create({
 	scrollContent: { flex: 1, paddingHorizontal: 2 },
 	label: { fontSize: 12, color: '#2c2c2c', fontWeight: '500', marginTop: 12, marginBottom: 6, textAlign: 'center' },
 	required: { color: '#2c2c2c', fontWeight: '600' },
-	imageGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', gap: 3, marginTop: 6, marginBottom:18 },
+	imageGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', gap: 3, marginTop: 6, marginBottom: 18 },
 	imageBox: {
-		width: (width -12) / 3,
+		width: (width - 12) / 3,
 		backgroundColor: 'transparent',
 		borderRadius: 2,
 		padding: 0,
@@ -119,40 +107,10 @@ const styles = StyleSheet.create({
 	selectionOverlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(255,255,255,0.5)', alignItems: 'center', justifyContent: 'center', borderRadius: 2 },
 	optionImage: { width: '100%', height: '100%' },
 	optionLabel: { fontSize: 11, color: '#2c2c2c', marginTop: 6, marginBottom: 12 },
-	buttonRow: {
-		paddingHorizontal: 18,
-		paddingBottom: 70,
-		paddingTop: 20,
-		backgroundColor: '#fdfced',
-		borderTopWidth: 0,
-		borderTopColor: '#e5e5e5',
-		flexDirection: 'column',
-		alignItems: 'stretch',
-	},
+	buttonRow: { paddingHorizontal: 18, paddingBottom: 70, paddingTop: 20, backgroundColor: '#fdfced', borderTopWidth: 0, borderTopColor: '#e5e5e5', flexDirection: 'column', alignItems: 'stretch' },
 	buttonsRow: { flexDirection: 'row', alignItems: 'flex-start' },
-	backBtn: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		backgroundColor: '#ffffff',
-		borderRadius: 28,
-		paddingHorizontal: 0,
-		paddingVertical: 0,
-		width: 52,
-		height: 52,
-		justifyContent: 'center',
-		borderWidth: 0,
-		marginRight: 10,
-		borderColor: '#e5e5e5',
-	},
-	continueBtn: {
-		backgroundColor: '#2c2c2c',
-		borderRadius: 28,
-		boxShadow: '0 0 12px rgba(255, 105, 180, 0.4)',
-		paddingVertical: 14,
-		alignItems: 'center',
-		flex: 1,
-		height: 52,
-	},
+	backBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', borderRadius: 28, paddingHorizontal: 0, paddingVertical: 0, width: 52, height: 52, justifyContent: 'center', borderWidth: 0, marginRight: 10, borderColor: '#e5e5e5' },
+	continueBtn: { backgroundColor: '#2c2c2c', borderRadius: 28, boxShadow: '0 0 12px rgba(255, 105, 180, 0.4)', paddingVertical: 14, alignItems: 'center', flex: 1, height: 52 },
 	continueBtnDisabled: { backgroundColor: '#e5e5e5' },
 	continueBtnText: { color: '#ffffff', fontWeight: '600', fontSize: 16 },
 	continueBtnTextDisabled: { color: '#9CA3AF' },

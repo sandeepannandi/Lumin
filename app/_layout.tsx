@@ -10,6 +10,7 @@ import CasualPreferenceScreen from '../components/CasualPreferenceScreen';
 import WorkPreferenceScreen from '../components/WorkPreferenceScreen';
 import NightOutPreferenceScreen from '../components/NightOutPreferenceScreen';
 import NeverKeepPreferenceScreen from '../components/NeverKeepPreferenceScreen';
+import StylesNeverWearScreen from '../components/StylesNeverWearScreen';
 import MainAppScreen from './MainAppScreen';
 import { useFonts } from 'expo-font';
 
@@ -58,6 +59,7 @@ export default function App() {
   const [showWorkPreference, setShowWorkPreference] = useState(false);
   const [showNightOutPreference, setShowNightOutPreference] = useState(false);
   const [showNeverKeepPreference, setShowNeverKeepPreference] = useState(false);
+  const [showStylesNeverWear, setShowStylesNeverWear] = useState(false);
   const [showMainApp, setShowMainApp] = useState(false);
   const [onboardingStep, setOnboardingStep] = useState(0);
   
@@ -68,6 +70,7 @@ export default function App() {
   const workPreferenceSlideAnim = useState(new Animated.Value(0))[0];
   const nightOutPreferenceSlideAnim = useState(new Animated.Value(0))[0];
   const neverKeepPreferenceSlideAnim = useState(new Animated.Value(0))[0];
+  const stylesNeverWearSlideAnim = useState(new Animated.Value(0))[0];
   const fadeAnim = useState(new Animated.Value(1))[0];
 
   const [fontsLoaded] = useFonts({
@@ -177,6 +180,24 @@ export default function App() {
 
   const slideOutNeverKeepPreference = (callback?: () => void) => {
     Animated.timing(neverKeepPreferenceSlideAnim, {
+      toValue: -screenWidth,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  // Animation functions for StylesNeverWear
+  const slideInStylesNeverWear = (callback?: () => void) => {
+    stylesNeverWearSlideAnim.setValue(screenWidth);
+    Animated.timing(stylesNeverWearSlideAnim, {
+      toValue: 0,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  const slideOutStylesNeverWear = (callback?: () => void) => {
+    Animated.timing(stylesNeverWearSlideAnim, {
       toValue: -screenWidth,
       duration: 50,
       useNativeDriver: true,
@@ -460,13 +481,11 @@ export default function App() {
       ]}>
         <NeverKeepPreferenceScreen
           onComplete={() => {
-            // Finish onboarding and show main app
-            onboardingDoneFlag = true;
+            // Move to Styles Never Wear screen
+            setShowStylesNeverWear(true);
+            slideInStylesNeverWear();
             slideOutNeverKeepPreference(() => {
               setShowNeverKeepPreference(false);
-              setShowLogin(false);
-              setShowOnboarding(false);
-              setShowMainApp(true);
             });
           }}
           onBack={() => {
@@ -484,6 +503,45 @@ export default function App() {
               useNativeDriver: true,
             }).start(() => {
               setShowNeverKeepPreference(false);
+            });
+          }}
+        />
+      </Animated.View>
+    );
+  }
+
+  if (showStylesNeverWear) {
+    return (
+      <Animated.View style={[
+        styles.container,
+        { transform: [{ translateX: stylesNeverWearSlideAnim }] }
+      ]}>
+        <StylesNeverWearScreen
+          onComplete={() => {
+            // Finish onboarding and show main app
+            onboardingDoneFlag = true;
+            slideOutStylesNeverWear(() => {
+              setShowStylesNeverWear(false);
+              setShowLogin(false);
+              setShowOnboarding(false);
+              setShowMainApp(true);
+            });
+          }}
+          onBack={() => {
+            // Go back to Never Keep with overlapping transition
+            setShowNeverKeepPreference(true);
+            neverKeepPreferenceSlideAnim.setValue(-screenWidth);
+            Animated.timing(neverKeepPreferenceSlideAnim, {
+              toValue: 0,
+              duration: 50,
+              useNativeDriver: true,
+            }).start();
+            Animated.timing(stylesNeverWearSlideAnim, {
+              toValue: screenWidth,
+              duration: 50,
+              useNativeDriver: true,
+            }).start(() => {
+              setShowStylesNeverWear(false);
             });
           }}
         />

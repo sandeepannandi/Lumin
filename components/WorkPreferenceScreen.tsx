@@ -9,25 +9,25 @@ type Props = {
 	onBack?: () => void;
 };
 
-const CASUAL_OPTIONS: { name: string; image: any }[] = [
-	{ name: 'Dresses', image: require('../assets/images/dresses.jpg') },
-	{ name: 'Tops', image: require('../assets/images/tops.jpg') },
-	{ name: 'Trousers', image: require('../assets/images/trousers.jpg') },
-	{ name: 'Skirts', image: require('../assets/images/skirts.jpg') },
-	{ name: 'Jeans', image: require('../assets/images/jeans.jpg') },
-	{ name: 'Accessories', image: require('../assets/images/accessories.jpg') },
-	{ name: 'Footwear', image: require('../assets/images/footwear.jpg') },
-	{ name: 'Bags', image: require('../assets/images/bags.jpg') },
-	{ name: 'Kurti', image: require('../assets/images/kurti.jpg') },
-	{ name: 'Saree', image: require('../assets/images/saree.jpg') },
-	{ name: 'Casual', image: require('../assets/images/casual.jpg') },
-	{ name: 'Office', image: require('../assets/images/office.jpg') },
-	{ name: 'College', image: require('../assets/images/college.jpg') },
-	{ name: 'Travel', image: require('../assets/images/travel.jpg') },
-	{ name: 'Party', image: require('../assets/images/party.jpg') },
-	{ name: 'Night Out', image: require('../assets/images/nightout.jpg') },
-	{ name: 'Birthday', image: require('../assets/images/birthday.jpg') },
-	{ name: 'Gym', image: require('../assets/images/gym.jpg') },
+const WORK_OPTIONS: { name: string; image: any }[] = [
+	{ name: 'Work 1', image: require('../assets/images/work1.jpg') },
+	{ name: 'Work 2', image: require('../assets/images/work2.jpg') },
+	{ name: 'Work 3', image: require('../assets/images/work3.jpg') },
+	{ name: 'Work 4', image: require('../assets/images/work4.jpg') },
+	{ name: 'Work 5', image: require('../assets/images/work5.jpg') },
+	{ name: 'Work 6', image: require('../assets/images/work6.jpg') },
+	{ name: 'Work 7', image: require('../assets/images/work7.jpg') },
+	{ name: 'Work 8', image: require('../assets/images/work8.jpg') },
+	{ name: 'Work 9', image: require('../assets/images/work9.jpg') },
+	{ name: 'Work 10', image: require('../assets/images/work10.webp') },
+	{ name: 'Work 11', image: require('../assets/images/work11.webp') },
+	{ name: 'Work 12', image: require('../assets/images/work12.webp') },
+	{ name: 'Work 13', image: require('../assets/images/work13.webp') },
+	{ name: 'Work 14', image: require('../assets/images/work14.webp') },
+	{ name: 'Work 15', image: require('../assets/images/work15.jpg') },
+	{ name: 'Work 16', image: require('../assets/images/work16.jpg') },
+	{ name: 'Work 17', image: require('../assets/images/work17.jpg') },
+	{ name: 'Work 18', image: require('../assets/images/work18.jpg') },
 ];
 
 export default function WorkPreferenceScreen({ onComplete, onBack }: Props) {
@@ -53,7 +53,7 @@ export default function WorkPreferenceScreen({ onComplete, onBack }: Props) {
 			<ScrollView style={styles.scrollContent} contentContainerStyle={{ paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
 				<Text style={styles.label}>WHAT DO YOU PREFER FOR WORK? <Text style={styles.required}>*</Text></Text>
 				<View style={styles.imageGrid}>
-					{CASUAL_OPTIONS.map((option, index) => {
+					{WORK_OPTIONS.map((option, index) => {
 						const isSelected = selected.includes(option.name);
 						return (
 							<TouchableOpacity
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
 	optionImage: { width: '100%', height: '160%', borderRadius: 2 },
 	buttonRow: {
 		paddingHorizontal: 18,
-		paddingBottom: 96,
+		paddingBottom: 70,
 		paddingTop: 20,
 		backgroundColor: '#fdfced',
 		borderTopWidth: 0,

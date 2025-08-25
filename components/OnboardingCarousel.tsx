@@ -18,6 +18,18 @@ export default function OnboardingCarousel({ step, steps, onGetStarted, onStepCh
 }) {
   const scrollRef = useRef<ScrollView>(null);
 
+  // Auto-slide every 4 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (onStepChange) {
+        const nextStep = (step + 1) % steps.length;
+        onStepChange(nextStep);
+      }
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [step, steps.length, onStepChange]);
+
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({ x: step * width, animated: true });

@@ -9,25 +9,25 @@ type Props = {
 	onBack?: () => void;
 };
 
-const CASUAL_OPTIONS: { name: string; image: any }[] = [
-	{ name: 'Dresses', image: require('../assets/images/dresses.jpg') },
-	{ name: 'Tops', image: require('../assets/images/tops.jpg') },
-	{ name: 'Trousers', image: require('../assets/images/trousers.jpg') },
-	{ name: 'Skirts', image: require('../assets/images/skirts.jpg') },
-	{ name: 'Jeans', image: require('../assets/images/jeans.jpg') },
-	{ name: 'Accessories', image: require('../assets/images/accessories.jpg') },
-	{ name: 'Footwear', image: require('../assets/images/footwear.jpg') },
-	{ name: 'Bags', image: require('../assets/images/bags.jpg') },
-	{ name: 'Kurti', image: require('../assets/images/kurti.jpg') },
-	{ name: 'Saree', image: require('../assets/images/saree.jpg') },
-	{ name: 'Casual', image: require('../assets/images/casual.jpg') },
-	{ name: 'Office', image: require('../assets/images/office.jpg') },
-	{ name: 'College', image: require('../assets/images/college.jpg') },
-	{ name: 'Travel', image: require('../assets/images/travel.jpg') },
-	{ name: 'Party', image: require('../assets/images/party.jpg') },
-	{ name: 'Night Out', image: require('../assets/images/nightout.jpg') },
-	{ name: 'Birthday', image: require('../assets/images/birthday.jpg') },
-	{ name: 'Gym', image: require('../assets/images/gym.jpg') },
+const NIGHT_OPTIONS: { name: string; image: any }[] = [
+	{ name: 'Night 1', image: require('../assets/images/night1.jpg') },
+	{ name: 'Night 2', image: require('../assets/images/night2.jpg') },
+	{ name: 'Night 3', image: require('../assets/images/night3.jpg') },
+	{ name: 'Night 4', image: require('../assets/images/night4.jpg') },
+	{ name: 'Night 5', image: require('../assets/images/night5.jpg') },
+	{ name: 'Night 6', image: require('../assets/images/night6.jpg') },
+	{ name: 'Night 7', image: require('../assets/images/night7.jpg') },
+	{ name: 'Night 8', image: require('../assets/images/night8.jpg') },
+	{ name: 'Night 9', image: require('../assets/images/night9.jpg') },
+	{ name: 'Night 10', image: require('../assets/images/night10.jpg') },
+	{ name: 'Night 11', image: require('../assets/images/night11.jpg') },
+	{ name: 'Night 12', image: require('../assets/images/night12.jpg') },
+	{ name: 'Night 13', image: require('../assets/images/night13.jpg') },
+	{ name: 'Night 14', image: require('../assets/images/night14.jpg') },
+	{ name: 'Night 15', image: require('../assets/images/night15.jpg') },
+	{ name: 'Night 16', image: require('../assets/images/night16.jpg') },
+	{ name: 'Night 17', image: require('../assets/images/night17.jpg') },
+	{ name: 'Night 18', image: require('../assets/images/night18.webp') },
 ];
 
 export default function NightOutPreferenceScreen({ onComplete, onBack }: Props) {
@@ -53,7 +53,7 @@ export default function NightOutPreferenceScreen({ onComplete, onBack }: Props) 
 			<ScrollView style={styles.scrollContent} contentContainerStyle={{ paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
 				<Text style={styles.label}>WHAT IS YOUR TASTE FOR NIGHT OUTS? <Text style={styles.required}>*</Text></Text>
 				<View style={styles.imageGrid}>
-					{CASUAL_OPTIONS.map((option, index) => {
+					{NIGHT_OPTIONS.map((option, index) => {
 						const isSelected = selected.includes(option.name);
 						return (
 							<TouchableOpacity
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
 	optionImage: { width: '100%', height: '160%', borderRadius: 2 },
 	buttonRow: {
 		paddingHorizontal: 18,
-		paddingBottom: 96,
+		paddingBottom: 70,
 		paddingTop: 20,
 		backgroundColor: '#fdfced',
 		borderTopWidth: 0,
