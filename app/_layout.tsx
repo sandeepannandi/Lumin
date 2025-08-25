@@ -11,6 +11,7 @@ import WorkPreferenceScreen from '../components/WorkPreferenceScreen';
 import NightOutPreferenceScreen from '../components/NightOutPreferenceScreen';
 import NeverKeepPreferenceScreen from '../components/NeverKeepPreferenceScreen';
 import StylesNeverWearScreen from '../components/StylesNeverWearScreen';
+import FaceAnalysisScreen from '../components/FaceAnalysisScreen';
 import MainAppScreen from './MainAppScreen';
 import { useFonts } from 'expo-font';
 
@@ -60,6 +61,7 @@ export default function App() {
   const [showNightOutPreference, setShowNightOutPreference] = useState(false);
   const [showNeverKeepPreference, setShowNeverKeepPreference] = useState(false);
   const [showStylesNeverWear, setShowStylesNeverWear] = useState(false);
+  const [showFaceAnalysis, setShowFaceAnalysis] = useState(false);
   const [showMainApp, setShowMainApp] = useState(false);
   const [onboardingStep, setOnboardingStep] = useState(0);
   
@@ -71,6 +73,7 @@ export default function App() {
   const nightOutPreferenceSlideAnim = useState(new Animated.Value(0))[0];
   const neverKeepPreferenceSlideAnim = useState(new Animated.Value(0))[0];
   const stylesNeverWearSlideAnim = useState(new Animated.Value(0))[0];
+  const faceAnalysisSlideAnim = useState(new Animated.Value(0))[0];
   const fadeAnim = useState(new Animated.Value(1))[0];
 
   const [fontsLoaded] = useFonts({
@@ -198,6 +201,24 @@ export default function App() {
 
   const slideOutStylesNeverWear = (callback?: () => void) => {
     Animated.timing(stylesNeverWearSlideAnim, {
+      toValue: -screenWidth,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  // Animation functions for FaceAnalysis
+  const slideInFaceAnalysis = (callback?: () => void) => {
+    faceAnalysisSlideAnim.setValue(screenWidth);
+    Animated.timing(faceAnalysisSlideAnim, {
+      toValue: 0,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(callback);
+  };
+
+  const slideOutFaceAnalysis = (callback?: () => void) => {
+    Animated.timing(faceAnalysisSlideAnim, {
       toValue: -screenWidth,
       duration: 50,
       useNativeDriver: true,
@@ -518,13 +539,11 @@ export default function App() {
       ]}>
         <StylesNeverWearScreen
           onComplete={() => {
-            // Finish onboarding and show main app
-            onboardingDoneFlag = true;
+            // Move to Face Analysis screen
+            setShowFaceAnalysis(true);
+            slideInFaceAnalysis();
             slideOutStylesNeverWear(() => {
               setShowStylesNeverWear(false);
-              setShowLogin(false);
-              setShowOnboarding(false);
-              setShowMainApp(true);
             });
           }}
           onBack={() => {
@@ -542,6 +561,44 @@ export default function App() {
               useNativeDriver: true,
             }).start(() => {
               setShowStylesNeverWear(false);
+            });
+          }}
+        />
+      </Animated.View>
+    );
+  }
+
+  if (showFaceAnalysis) {
+    return (
+      <Animated.View style={[
+        styles.container,
+        { transform: [{ translateX: faceAnalysisSlideAnim }] }
+      ]}>
+        <FaceAnalysisScreen
+          onComplete={() => {
+            // Finish onboarding and go to main app
+            onboardingDoneFlag = true;
+            slideOutFaceAnalysis(() => {
+              setShowFaceAnalysis(false);
+              setShowLogin(false);
+              setShowOnboarding(false);
+              setShowMainApp(true);
+            });
+          }}
+          onBack={() => {
+            setShowStylesNeverWear(true);
+            stylesNeverWearSlideAnim.setValue(-screenWidth);
+            Animated.timing(stylesNeverWearSlideAnim, {
+              toValue: 0,
+              duration: 50,
+              useNativeDriver: true,
+            }).start();
+            Animated.timing(faceAnalysisSlideAnim, {
+              toValue: screenWidth,
+              duration: 50,
+              useNativeDriver: true,
+            }).start(() => {
+              setShowFaceAnalysis(false);
             });
           }}
         />

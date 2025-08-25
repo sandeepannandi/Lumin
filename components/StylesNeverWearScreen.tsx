@@ -71,7 +71,7 @@ export default function StylesNeverWearScreen({ onComplete, onBack }: Props) {
 						onPress={onComplete}
 						disabled={selected.length < 3}
 					>
-						<Text style={[styles.continueBtnText, selected.length < 3 && styles.continueBtnTextDisabled]}>Okay with all</Text>
+						<Text style={[styles.continueBtnText, selected.length < 3 && styles.continueBtnTextDisabled]}>Continue</Text>
 					</TouchableOpacity>
 				</View>
 				<View style={styles.noteBelow}>
