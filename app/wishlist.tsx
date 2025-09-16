@@ -3,7 +3,11 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { ShoppingBag } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function WishlistScreen() {
+interface WishlistProps {
+  onNavigateToAskLumin?: () => void;
+}
+
+export default function WishlistScreen({ onNavigateToAskLumin }: WishlistProps) {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <View style={styles.container}>
@@ -32,7 +36,7 @@ export default function WishlistScreen() {
           </View>
 
           {/* Button */}
-          <TouchableOpacity style={styles.mainButton}>
+          <TouchableOpacity style={styles.mainButton} onPress={onNavigateToAskLumin}>
             <Text style={styles.buttonText}>Ask Lumin</Text>
           </TouchableOpacity>
         </View>

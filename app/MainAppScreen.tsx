@@ -47,11 +47,11 @@ export default function MainAppScreen() {
     const screens = {
       'home': <HomeScreen onNavigateToHair={() => animateTabTransition('hair')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
       'ask-lumin': <AskLuminScreen onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
-      'wishlist': <WishlistScreen />,
+      'wishlist': <WishlistScreen onNavigateToAskLumin={() => animateTabTransition('ask-lumin')} />,
       'profile': <ProfileScreen />,
       'hair': <HairScreen onBack={() => animateTabTransition('home')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
       'skin': <SkinScreen onBack={() => animateTabTransition('home')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
-      'chat-history': <ChatHistoryScreen />,
+      'chat-history': <ChatHistoryScreen onBack={() => animateTabTransition('home')} />,
     };
 
     return (

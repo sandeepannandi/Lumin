@@ -1,18 +1,25 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { ShoppingBag } from 'lucide-react-native';
+import { ShoppingBag, ChevronLeft } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function ChatHistoryScreen() {
+interface ChatHistoryProps {
+  onBack?: () => void;
+}
+
+export default function ChatHistoryScreen({ onBack }: ChatHistoryProps) {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>Chat History</Text>
-          <TouchableOpacity style={styles.headerIcon}>
-            <ShoppingBag size={22} color="#2c2c2c" />
-          </TouchableOpacity>
+          <View style={styles.headerLeft}>
+            <TouchableOpacity style={styles.backButton} onPress={onBack}>
+              <ChevronLeft size={22} color="#2c2c2c" />
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Chat History</Text>
+          </View>
+          
         </View>
 
         {/* Main Content (Empty State for now) */}
@@ -54,6 +61,15 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     paddingHorizontal: 20,
     backgroundColor: '#fff',
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  backButton: {
+    padding: 0,
+    marginRight: 10,
+    marginTop: 4,
   },
   headerTitle: {
     fontSize: 20,
