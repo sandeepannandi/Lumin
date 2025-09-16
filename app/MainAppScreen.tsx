@@ -44,7 +44,6 @@ export default function MainAppScreen() {
     setShouldAutoFocusAsk(true);
     setActiveTab('ask-lumin');
     fadeAnim.setValue(1);
-    setTimeout(() => setShouldAutoFocusAsk(false), 700);
   };
 
   const presentOverlay = (route: 'chat-history' | 'bag') => {
@@ -53,7 +52,7 @@ export default function MainAppScreen() {
     Animated.timing(overlayTranslateY, {
       toValue: 0,
       duration: 160,
-      easing: Easing.out(Easing.quad),
+      easing: Easing.bezier(0.2, 0.8, 0.2, 1),
       useNativeDriver: true,
     }).start();
   };
@@ -62,7 +61,7 @@ export default function MainAppScreen() {
     Animated.timing(overlayTranslateY, {
       toValue: Dimensions.get('window').height,
       duration: 160,
-      easing: Easing.in(Easing.quad),
+      easing: Easing.bezier(0.4, 0.0, 1, 1),
       useNativeDriver: true,
     }).start(() => {
       setActiveTab('home');
@@ -72,7 +71,7 @@ export default function MainAppScreen() {
   const renderTabContent = () => {
     const screens = {
       'home': <HomeScreen onNavigateToHair={() => animateTabTransition('hair')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToChatHistory={() => presentOverlay('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => presentOverlay('bag')} />,
-      'ask-lumin': <AskLuminScreen key={`ask-${shouldAutoFocusAsk ? 'focus' : 'nofocus'}`} autoFocusOnMount={shouldAutoFocusAsk} onNavigateToChatHistory={() => presentOverlay('chat-history')} onNavigateToBag={() => presentOverlay('bag')} />,
+      'ask-lumin': <AskLuminScreen autoFocusOnMount={shouldAutoFocusAsk} onNavigateToChatHistory={() => presentOverlay('chat-history')} onNavigateToBag={() => presentOverlay('bag')} />,
       'wishlist': <WishlistScreen onNavigateToAskLumin={() => animateTabTransition('ask-lumin')} onNavigateToBag={() => presentOverlay('bag')} />,
       'profile': <ProfileScreen />,
       'hair': <HairScreen onBack={() => animateTabTransition('home')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToHome={() => animateTabTransition('home')} onNavigateToChatHistory={() => presentOverlay('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => presentOverlay('bag')} />,

@@ -17,11 +17,10 @@ export default function AskLuminScreen({ onNavigateToChatHistory, autoFocusOnMou
 
   useEffect(() => {
     if (autoFocusOnMount && inputRef.current) {
-      // Delay slightly to ensure screen is ready
-      const t = setTimeout(() => {
-        try { inputRef.current?.focus(); } catch {}
-      }, 50);
-      return () => clearTimeout(t);
+      // Force focus and show keyboard reliably
+      const t1 = setTimeout(() => { try { inputRef.current?.focus(); } catch {} }, 50);
+      const t2 = setTimeout(() => { try { inputRef.current?.focus(); } catch {} }, 250);
+      return () => { clearTimeout(t1); clearTimeout(t2); };
     }
   }, [autoFocusOnMount]);
 
