@@ -7,9 +7,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface AskLuminProps {
   onNavigateToChatHistory?: () => void;
+  autoFocusOnMount?: boolean;
+  onNavigateToBag?: () => void;
 }
 
-export default function AskLuminScreen({ onNavigateToChatHistory }: AskLuminProps) {
+export default function AskLuminScreen({ onNavigateToChatHistory, autoFocusOnMount, onNavigateToBag }: AskLuminProps) {
   const [message, setMessage] = useState('');
 
   const knowYourselfItems = [
@@ -43,7 +45,7 @@ export default function AskLuminScreen({ onNavigateToChatHistory }: AskLuminProp
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Chat with Lumin</Text>
         <View style={styles.headerIcons}>
-          <TouchableOpacity style={styles.headerIcon}>
+          <TouchableOpacity style={styles.headerIcon} onPress={onNavigateToBag}>
             <ShoppingBag size={22} color="#2c2c2c" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.headerIcon} onPress={onNavigateToChatHistory}>
@@ -105,6 +107,7 @@ export default function AskLuminScreen({ onNavigateToChatHistory }: AskLuminProp
               onChangeText={setMessage}
               multiline
               maxLength={500}
+              autoFocus={!!autoFocusOnMount}
             />
             {message.trim() && (
               <TouchableOpacity 

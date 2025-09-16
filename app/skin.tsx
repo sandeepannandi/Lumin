@@ -13,9 +13,11 @@ interface SkinScreenProps {
   onNavigateToChatHistory?: () => void;
   onNavigateToHair?: () => void;
   onNavigateToHome?: () => void;
+  onNavigateToAskWithFocus?: () => void;
+  onNavigateToBag?: () => void;
 }
 
-export default function SkinScreen({ onBack, onNavigateToChatHistory, onNavigateToHair, onNavigateToHome }: SkinScreenProps) {
+export default function SkinScreen({ onBack, onNavigateToChatHistory, onNavigateToHair, onNavigateToHome, onNavigateToAskWithFocus, onNavigateToBag }: SkinScreenProps) {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentFeaturedIndex, setCurrentFeaturedIndex] = useState(0);
@@ -108,7 +110,7 @@ export default function SkinScreen({ onBack, onNavigateToChatHistory, onNavigate
       {/* Floating Search Bar */}
       {showFloatingSearch && (
         <View style={styles.floatingSearchBar}>
-          <View style={styles.searchBar}>
+          <TouchableOpacity activeOpacity={0.9} onPress={onNavigateToAskWithFocus} style={styles.searchBar}>
             <View style={styles.searchLeft}>
               <View style={styles.lottieContainer}>
                 <LottieView
@@ -138,10 +140,10 @@ export default function SkinScreen({ onBack, onNavigateToChatHistory, onNavigate
                 </Animated.View>
               </View>
             </View>
-            <TouchableOpacity style={styles.cameraButton}>
+            <View style={styles.cameraButton}>
               <Camera size={22} color="#6B7280" />
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
         </View>
       )}
 
@@ -167,7 +169,7 @@ export default function SkinScreen({ onBack, onNavigateToChatHistory, onNavigate
             <Text style={styles.logo}>Skin Care</Text>
           </View>
           <View style={styles.headerIcons}>
-            <TouchableOpacity style={styles.iconButton}>
+            <TouchableOpacity style={styles.iconButton} onPress={onNavigateToBag}>
               <ShoppingBag size={22} color="#2c2c2c" />
             </TouchableOpacity>
             <TouchableOpacity style={styles.iconButton} onPress={onNavigateToChatHistory}>
@@ -178,7 +180,7 @@ export default function SkinScreen({ onBack, onNavigateToChatHistory, onNavigate
 
         {/* Search Bar */}
         <View style={styles.searchContainer}>
-          <View style={styles.searchBar}>
+          <TouchableOpacity activeOpacity={0.9} onPress={onNavigateToAskWithFocus} style={styles.searchBar}>
             <View style={styles.searchLeft}>
               <View style={styles.lottieContainer}>
                 <LottieView
@@ -208,10 +210,10 @@ export default function SkinScreen({ onBack, onNavigateToChatHistory, onNavigate
                 </Animated.View>
               </View>
             </View>
-            <TouchableOpacity style={styles.cameraButton}>
+            <View style={styles.cameraButton}>
               <Camera size={22} color="#6B7280" />
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
         </View>
 
         {/* Category Section */}

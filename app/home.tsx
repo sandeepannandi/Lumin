@@ -12,9 +12,11 @@ interface HomeScreenProps {
   onNavigateToHair?: () => void;
   onNavigateToSkin?: () => void;
   onNavigateToChatHistory?: () => void;
+  onNavigateToAskWithFocus?: () => void;
+  onNavigateToBag?: () => void;
 }
 
-export default function HomeScreen({ onNavigateToHair, onNavigateToSkin, onNavigateToChatHistory }: HomeScreenProps) {
+export default function HomeScreen({ onNavigateToHair, onNavigateToSkin, onNavigateToChatHistory, onNavigateToAskWithFocus, onNavigateToBag }: HomeScreenProps) {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentFeaturedIndex, setCurrentFeaturedIndex] = useState(0);
@@ -120,7 +122,7 @@ export default function HomeScreen({ onNavigateToHair, onNavigateToSkin, onNavig
       {/* Floating Search Bar */}
       {showFloatingSearch && (
         <View style={styles.floatingSearchBar}>
-          <View style={styles.searchBar}>
+          <TouchableOpacity activeOpacity={0.9} onPress={onNavigateToAskWithFocus} style={styles.searchBar}>
             <View style={styles.searchLeft}>
               <View style={styles.lottieContainer}>
                 <LottieView
@@ -150,10 +152,10 @@ export default function HomeScreen({ onNavigateToHair, onNavigateToSkin, onNavig
                 </Animated.View>
               </View>
             </View>
-            <TouchableOpacity style={styles.cameraButton}>
+            <View style={styles.cameraButton}>
               <Camera size={22} color="#6B7280" />
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
         </View>
       )}
 
@@ -174,7 +176,7 @@ export default function HomeScreen({ onNavigateToHair, onNavigateToSkin, onNavig
         <View style={styles.header}>
           <Text style={styles.logo}>lumin</Text>
           <View style={styles.headerIcons}>
-            <TouchableOpacity style={styles.iconButton}>
+            <TouchableOpacity style={styles.iconButton} onPress={onNavigateToBag}>
               <ShoppingBag size={22} color="#2c2c2c" />
             </TouchableOpacity>
             <TouchableOpacity style={styles.iconButton} onPress={onNavigateToChatHistory}>
@@ -185,7 +187,7 @@ export default function HomeScreen({ onNavigateToHair, onNavigateToSkin, onNavig
 
         {/* Search Bar */}
         <View style={styles.searchContainer}>
-          <View style={styles.searchBar}>
+          <TouchableOpacity activeOpacity={0.9} onPress={onNavigateToAskWithFocus} style={styles.searchBar}>
             <View style={styles.searchLeft}>
               <View style={styles.lottieContainer}>
                 <LottieView
@@ -215,196 +217,196 @@ export default function HomeScreen({ onNavigateToHair, onNavigateToSkin, onNavig
                 </Animated.View>
               </View>
             </View>
-            <TouchableOpacity style={styles.cameraButton}>
+            <View style={styles.cameraButton}>
               <Camera size={22} color="#6B7280" />
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        {/* Category Section */}
+        <View style={styles.categorySection}>
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.categoryContainer}
+          >
+            {/* First Row */}
+            <View style={styles.categoryRow}>
+              {[
+                { name: 'Dresses', image: require('../assets/images/dresses.jpg') },
+                { name: 'Tops', image: require('../assets/images/tops.jpg') },
+                { name: 'Trousers', image: require('../assets/images/trousers.jpg') },
+                { name: 'Skirts', image: require('../assets/images/skirts.jpg') },
+                { name: 'Jeans', image: require('../assets/images/jeans.jpg') }
+              ].map((category, index) => (
+                <TouchableOpacity key={index} style={styles.categoryItem}>
+                  <View style={styles.categoryImageContainer}>
+                    <RNImage source={category.image} style={styles.categoryImage} />
+                  </View>
+                  <Text style={styles.categoryName}>{category.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            
+            {/* Second Row */}
+            <View style={styles.categoryRow}>
+              {[
+                { name: 'Kurti', image: require('../assets/images/kurti.jpg') },
+                { name: 'Saree', image: require('../assets/images/saree.jpg') },
+                { name: 'Accessories', image: require('../assets/images/accessories.jpg') },
+                { name: 'Footwear', image: require('../assets/images/footwear.jpg') },
+                { name: 'Bags', image: require('../assets/images/bags.jpg') }
+              ].map((category, index) => (
+                <TouchableOpacity key={index + 5} style={styles.categoryItem}>
+                  <View style={styles.categoryImageContainer}>
+                    <RNImage source={category.image} style={styles.categoryImage} />
+                  </View>
+                  <Text style={styles.categoryName}>{category.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </ScrollView>
+        </View>
+
+        {/* Also Discover Section */}
+        <View style={styles.discoverSection}>
+          <Text style={styles.discoverTitle}>Also Discover</Text>
+          <View style={styles.discoverContainer}>
+            <TouchableOpacity style={styles.discoverBox} onPress={async () => { try { await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}; onNavigateToHair && onNavigateToHair(); }}>
+              <View style={styles.discoverImageContainer}>
+                <RNImage source={require('../assets/images/haircare.jpg')} style={styles.discoverImage} />
+              </View>
+              <Text style={styles.discoverName}>Hair Care</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.discoverBox} onPress={async () => { try { await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}; onNavigateToSkin && onNavigateToSkin(); }}>
+              <View style={styles.discoverImageContainer}>
+                <RNImage source={require('../assets/images/skincare.jpg')} style={styles.discoverImage} />
+              </View>
+              <Text style={styles.discoverName}>Skin Care</Text>
             </TouchableOpacity>
           </View>
         </View>
 
-               {/* Category Section */}
-         <View style={styles.categorySection}>
-           <ScrollView 
-             horizontal 
-             showsHorizontalScrollIndicator={false}
-             contentContainerStyle={styles.categoryContainer}
-           >
-                         {/* First Row */}
-              <View style={styles.categoryRow}>
-                                {[
-                  { name: 'Dresses', image: require('../assets/images/dresses.jpg') },
-                  { name: 'Tops', image: require('../assets/images/tops.jpg') },
-                  { name: 'Trousers', image: require('../assets/images/trousers.jpg') },
-                  { name: 'Skirts', image: require('../assets/images/skirts.jpg') },
-                  { name: 'Jeans', image: require('../assets/images/jeans.jpg') }
-                ].map((category, index) => (
-                  <TouchableOpacity key={index} style={styles.categoryItem}>
-                    <View style={styles.categoryImageContainer}>
-                      <RNImage source={category.image} style={styles.categoryImage} />
-                    </View>
-                    <Text style={styles.categoryName}>{category.name}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-              
-              {/* Second Row */}
-              <View style={styles.categoryRow}>
-                                {[
-                  { name: 'Kurti', image: require('../assets/images/kurti.jpg') },
-                  { name: 'Saree', image: require('../assets/images/saree.jpg') },
-                  { name: 'Accessories', image: require('../assets/images/accessories.jpg') },
-                  { name: 'Footwear', image: require('../assets/images/footwear.jpg') },
-                  { name: 'Bags', image: require('../assets/images/bags.jpg') }
-                ].map((category, index) => (
-                  <TouchableOpacity key={index + 5} style={styles.categoryItem}>
-                    <View style={styles.categoryImageContainer}>
-                      <RNImage source={category.image} style={styles.categoryImage} />
-                    </View>
-                    <Text style={styles.categoryName}>{category.name}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-                    </ScrollView>
-                    </View>
-
-           {/* Also Discover Section */}
-           <View style={styles.discoverSection}>
-             <Text style={styles.discoverTitle}>Also Discover</Text>
-             <View style={styles.discoverContainer}>
-               <TouchableOpacity style={styles.discoverBox} onPress={async () => { try { await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}; onNavigateToHair && onNavigateToHair(); }}>
-                 <View style={styles.discoverImageContainer}>
-                   <RNImage source={require('../assets/images/haircare.jpg')} style={styles.discoverImage} />
-                 </View>
-                 <Text style={styles.discoverName}>Hair Care</Text>
-               </TouchableOpacity>
-               <TouchableOpacity style={styles.discoverBox} onPress={async () => { try { await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}; onNavigateToSkin && onNavigateToSkin(); }}>
-                 <View style={styles.discoverImageContainer}>
-                   <RNImage source={require('../assets/images/skincare.jpg')} style={styles.discoverImage} />
-                 </View>
-                 <Text style={styles.discoverName}>Skin Care</Text>
-               </TouchableOpacity>
-             </View>
-           </View>
-
-                   {/* Featured Section */}
-           <View style={styles.featuredSection}>
-            <Text style={styles.featuredTitle}>Featured</Text>
-            <View style={styles.featuredCarouselContainer}>
-               <ScrollView
-                 ref={featuredScrollRef}
-                 horizontal
-                 showsHorizontalScrollIndicator={false}
-                 pagingEnabled={true}
-                 snapToInterval={Dimensions.get('window').width}
-                 decelerationRate="fast"
-                 contentContainerStyle={styles.featuredContainer}
-                 onMomentumScrollEnd={(event) => {
-                   const offsetX = event.nativeEvent.contentOffset.x;
-                   const newIndex = Math.round(offsetX / Dimensions.get('window').width);
-                   setCurrentFeaturedIndex(newIndex);
-                 }}
-               >
-                {featuredItems.map((item, index) => (
-                  <View key={item.id} style={styles.featuredItem}>
-                    <Image source={item.image} style={styles.featuredImage} cachePolicy="memory-disk" />
-                  </View>
-                ))}
-              </ScrollView>
-              
-              {/* Page Indicator Dots Overlay */}
-              <View style={styles.pageIndicatorOverlay}>
-                {featuredItems.map((_, index) => (
-                  <View
-                    key={index}
-                    style={[
-                      styles.pageIndicatorDot,
-                      index === currentFeaturedIndex && styles.pageIndicatorDotActive
-                    ]}
-                  />
-                ))}
-              </View>
+        {/* Featured Section */}
+        <View style={styles.featuredSection}>
+          <Text style={styles.featuredTitle}>Featured</Text>
+          <View style={styles.featuredCarouselContainer}>
+            <ScrollView
+              ref={featuredScrollRef}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              pagingEnabled={true}
+              snapToInterval={Dimensions.get('window').width}
+              decelerationRate="fast"
+              contentContainerStyle={styles.featuredContainer}
+              onMomentumScrollEnd={(event) => {
+                const offsetX = event.nativeEvent.contentOffset.x;
+                const newIndex = Math.round(offsetX / Dimensions.get('window').width);
+                setCurrentFeaturedIndex(newIndex);
+              }}
+            >
+              {featuredItems.map((item, index) => (
+                <View key={item.id} style={styles.featuredItem}>
+                  <Image source={item.image} style={styles.featuredImage} cachePolicy="memory-disk" />
+                </View>
+              ))}
+            </ScrollView>
+            
+            {/* Page Indicator Dots Overlay */}
+            <View style={styles.pageIndicatorOverlay}>
+              {featuredItems.map((_, index) => (
+                <View
+                  key={index}
+                  style={[
+                    styles.pageIndicatorDot,
+                    index === currentFeaturedIndex && styles.pageIndicatorDotActive
+                  ]}
+                />
+              ))}
             </View>
           </View>
+        </View>
 
-                      {/* Style by Occasion Section */}
-           <View style={styles.occasionSection}>
-             <Text style={styles.occasionTitle}>Style by Occasion</Text>
-             <ScrollView 
-               horizontal 
-               showsHorizontalScrollIndicator={false}
-               contentContainerStyle={styles.occasionContainer}
-             >
-                                {occasionItems.map((item, index) => (
-                 <TouchableOpacity key={item.id} style={styles.occasionItem}>
-                   <View style={styles.occasionImageContainer}>
-                     <RNImage source={item.image} style={styles.occasionImage} />
-                   </View>
-                   <Text style={styles.occasionName}>{item.title}</Text>
-                 </TouchableOpacity>
-               ))}
-             </ScrollView>
-           </View>
-
-                        {/* Virtual Try-On Section */}
-            <View style={styles.virtualTryOnSection}>
-                              <TouchableOpacity style={styles.virtualTryOnContainer}>
-                 <RNImage source={require('../assets/images/tryon.png')} style={styles.virtualTryOnBackground} />
-                                 <View style={styles.virtualTryOnOverlay}>
-                  <Text style={styles.virtualTryOnTitle}>VIRTUAL TRY-ON</Text>
-                  <View style={styles.virtualTryOnSubtitleContainer}>
-                    <Text style={styles.virtualTryOnSubtitle}>Try Now</Text>
-                    <ArrowRight size={14} color="#ffffff" style={styles.arrowIcon} />
-                  </View>
+        {/* Style by Occasion Section */}
+        <View style={styles.occasionSection}>
+          <Text style={styles.occasionTitle}>Style by Occasion</Text>
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.occasionContainer}
+          >
+            {occasionItems.map((item, index) => (
+              <TouchableOpacity key={item.id} style={styles.occasionItem}>
+                <View style={styles.occasionImageContainer}>
+                  <RNImage source={item.image} style={styles.occasionImage} />
                 </View>
+                <Text style={styles.occasionName}>{item.title}</Text>
               </TouchableOpacity>
-            </View>
+            ))}
+          </ScrollView>
+        </View>
 
-            {/* For You Section */}
-            <View style={styles.forYouSection}>
-              <Text style={styles.forYouTitle}>For You</Text>
-              <View style={styles.staggeredGrid}>
-                                <View style={styles.leftColumn}>
-                   <TouchableOpacity style={styles.gridItem}>
-                     <RNImage source={require('../assets/images/wedding.jpg')} style={styles.gridImage} />
-                     <TouchableOpacity style={styles.heartIcon}>
-                       <Heart size={18} color="#ffffff" />
-                     </TouchableOpacity>
-                   </TouchableOpacity>
-                   <TouchableOpacity style={styles.gridItem}>
-                     <RNImage source={require('../assets/images/party.jpg')} style={styles.gridImage} />
-                     <TouchableOpacity style={styles.heartIcon}>
-                       <Heart size={18} color="#ffffff" />
-                     </TouchableOpacity>
-                   </TouchableOpacity>
-                   <TouchableOpacity style={styles.gridItem}>
-                     <RNImage source={require('../assets/images/college.jpg')} style={styles.gridImage} />
-                     <TouchableOpacity style={styles.heartIcon}>
-                       <Heart size={18} color="#ffffff" />
-                     </TouchableOpacity>
-                   </TouchableOpacity>
-                 </View>
-                 <View style={styles.rightColumn}>
-                   <TouchableOpacity style={styles.gridItem}>
-                     <RNImage source={require('../assets/images/office.jpg')} style={styles.gridImage} />
-                     <TouchableOpacity style={styles.heartIcon}>
-                       <Heart size={18} color="#ffffff" />
-                     </TouchableOpacity>
-                   </TouchableOpacity>
-                   <TouchableOpacity style={styles.gridItem}>
-                     <RNImage source={require('../assets/images/casual.jpg')} style={styles.gridImage} />
-                     <TouchableOpacity style={styles.heartIcon}>
-                       <Heart size={18} color="#ffffff" />
-                     </TouchableOpacity>
-                   </TouchableOpacity>
-                   <TouchableOpacity style={styles.gridItem}>
-                     <RNImage source={require('../assets/images/datenight.jpg')} style={styles.gridImage} />
-                     <TouchableOpacity style={styles.heartIcon}>
-                       <Heart size={18} color="#ffffff" />
-                     </TouchableOpacity>
-                   </TouchableOpacity>
-                 </View>
+        {/* Virtual Try-On Section */}
+        <View style={styles.virtualTryOnSection}>
+          <TouchableOpacity style={styles.virtualTryOnContainer}>
+            <RNImage source={require('../assets/images/tryon.png')} style={styles.virtualTryOnBackground} />
+            <View style={styles.virtualTryOnOverlay}>
+              <Text style={styles.virtualTryOnTitle}>VIRTUAL TRY-ON</Text>
+              <View style={styles.virtualTryOnSubtitleContainer}>
+                <Text style={styles.virtualTryOnSubtitle}>Try Now</Text>
+                <ArrowRight size={14} color="#ffffff" style={styles.arrowIcon} />
               </View>
             </View>
-            </ScrollView>
+          </TouchableOpacity>
+        </View>
+
+        {/* For You Section */}
+        <View style={styles.forYouSection}>
+          <Text style={styles.forYouTitle}>For You</Text>
+          <View style={styles.staggeredGrid}>
+            <View style={styles.leftColumn}>
+              <TouchableOpacity style={styles.gridItem}>
+                <RNImage source={require('../assets/images/wedding.jpg')} style={styles.gridImage} />
+                <TouchableOpacity style={styles.heartIcon}>
+                  <Heart size={18} color="#ffffff" />
+                </TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.gridItem}>
+                <RNImage source={require('../assets/images/party.jpg')} style={styles.gridImage} />
+                <TouchableOpacity style={styles.heartIcon}>
+                  <Heart size={18} color="#ffffff" />
+                </TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.gridItem}>
+                <RNImage source={require('../assets/images/college.jpg')} style={styles.gridImage} />
+                <TouchableOpacity style={styles.heartIcon}>
+                  <Heart size={18} color="#ffffff" />
+                </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.rightColumn}>
+              <TouchableOpacity style={styles.gridItem}>
+                <RNImage source={require('../assets/images/office.jpg')} style={styles.gridImage} />
+                <TouchableOpacity style={styles.heartIcon}>
+                  <Heart size={18} color="#ffffff" />
+                </TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.gridItem}>
+                <RNImage source={require('../assets/images/casual.jpg')} style={styles.gridImage} />
+                <TouchableOpacity style={styles.heartIcon}>
+                  <Heart size={18} color="#ffffff" />
+                </TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.gridItem}>
+                <RNImage source={require('../assets/images/datenight.jpg')} style={styles.gridImage} />
+                <TouchableOpacity style={styles.heartIcon}>
+                  <Heart size={18} color="#ffffff" />
+                </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
       </GridBackground>
     </SafeAreaView>
   );

@@ -11,10 +11,12 @@ import ProfileScreen from './profile';
 import HairScreen from './hair';
 import SkinScreen from './skin';
 import ChatHistoryScreen from './chat-history';
+import BagCheckoutScreen from './bag-checkout';
 
 export default function MainAppScreen() {
   const [activeTab, setActiveTab] = useState('home');
   const fadeAnim = useRef(new Animated.Value(1)).current;
+  const [shouldAutoFocusAsk, setShouldAutoFocusAsk] = useState(false);
 
   const [fontsLoaded] = useFonts({
     'NataSans': require('../assets/fonts/NataSans-Regular.ttf'),
@@ -37,15 +39,23 @@ export default function MainAppScreen() {
     animateTabTransition(newTab);
   };
 
+  const goToAskWithFocus = () => {
+    setShouldAutoFocusAsk(true);
+    setActiveTab('ask-lumin');
+    fadeAnim.setValue(1);
+    setTimeout(() => setShouldAutoFocusAsk(false), 700);
+  };
+
   const renderTabContent = () => {
     const screens = {
-      'home': <HomeScreen onNavigateToHair={() => animateTabTransition('hair')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
-      'ask-lumin': <AskLuminScreen onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
-      'wishlist': <WishlistScreen onNavigateToAskLumin={() => animateTabTransition('ask-lumin')} />,
+      'home': <HomeScreen onNavigateToHair={() => animateTabTransition('hair')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => animateTabTransition('bag')} />,
+      'ask-lumin': <AskLuminScreen key={`ask-${shouldAutoFocusAsk ? 'focus' : 'nofocus'}`} autoFocusOnMount={shouldAutoFocusAsk} onNavigateToChatHistory={() => animateTabTransition('chat-history')} onNavigateToBag={() => animateTabTransition('bag')} />,
+      'wishlist': <WishlistScreen onNavigateToAskLumin={() => animateTabTransition('ask-lumin')} onNavigateToBag={() => animateTabTransition('bag')} />,
       'profile': <ProfileScreen />,
-      'hair': <HairScreen onBack={() => animateTabTransition('home')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToHome={() => animateTabTransition('home')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
-      'skin': <SkinScreen onBack={() => animateTabTransition('home')} onNavigateToHair={() => animateTabTransition('hair')} onNavigateToHome={() => animateTabTransition('home')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
+      'hair': <HairScreen onBack={() => animateTabTransition('home')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToHome={() => animateTabTransition('home')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => animateTabTransition('bag')} />,
+      'skin': <SkinScreen onBack={() => animateTabTransition('home')} onNavigateToHair={() => animateTabTransition('hair')} onNavigateToHome={() => animateTabTransition('home')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => animateTabTransition('bag')} />,
       'chat-history': <ChatHistoryScreen onBack={() => animateTabTransition('home')} onNavigateToAskLumin={() => animateTabTransition('ask-lumin')} />,
+      'bag': <BagCheckoutScreen onBack={() => animateTabTransition('home')} />,
     };
 
     return (

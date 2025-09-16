@@ -1,44 +1,39 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { ShoppingBag } from 'lucide-react-native';
+import { ChevronLeft } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-interface WishlistProps {
-  onNavigateToAskLumin?: () => void;
+interface BagCheckoutProps {
+  onBack?: () => void;
 }
 
-export default function WishlistScreen({ onNavigateToAskLumin, onNavigateToBag }: WishlistProps & { onNavigateToBag?: () => void }) {
+export default function BagCheckoutScreen({ onBack }: BagCheckoutProps) {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>Wishlist</Text>
-          <TouchableOpacity style={styles.headerIcon} onPress={onNavigateToBag}>
-            <ShoppingBag size={22} color="#2c2c2c" />
-          </TouchableOpacity>
+          <View style={styles.headerLeft}>
+            <TouchableOpacity style={styles.backButton} onPress={onBack}>
+              <ChevronLeft size={22} color="#2c2c2c" />
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Bag & Checkout</Text>
+          </View>
         </View>
 
         {/* Main Content */}
         <View style={styles.mainContent}>
-          {/* Image */}
           <View style={styles.imageContainer}>
-            <Image 
-              source={require('../assets/images/wardrobe.jpg')} 
+            <Image
+              source={require('../assets/images/shoppingbags.jpg')}
               style={styles.mainImage}
               resizeMode="cover"
             />
           </View>
 
-          {/* Text Section */}
           <View style={styles.textSection}>
-            <Text style={styles.subText}>Found a great idea on Lumin? Save it for easy access</Text>
+            <Text style={styles.subText}>Your selected items will appear here</Text>
           </View>
-
-          {/* Button */}
-          <TouchableOpacity style={styles.mainButton} onPress={onNavigateToAskLumin}>
-            <Text style={styles.buttonText}>Ask Lumin</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -62,14 +57,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: '#fff',
   },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  backButton: {
+    padding: 0,
+    marginRight: 10,
+    marginTop: 4,
+  },
   headerTitle: {
     fontSize: 20,
     fontWeight: '600',
     color: '#2c2c2c',
     fontFamily: 'PlayfairDisplay',
-  },
-  headerIcon: {
-    padding: 5,
   },
   mainContent: {
     flex: 1,
@@ -83,7 +84,6 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     overflow: 'hidden',
     marginBottom: 10,
-    
   },
   mainImage: {
     width: '100%',
@@ -93,17 +93,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 32,
   },
-  mainText: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#2c2c2c',
-    fontFamily: 'PlayfairDisplay',
-    textAlign: 'center',
-    marginBottom: 8,
-  },
   subText: {
     fontSize: 13,
-    width: 250,
+    width: 260,
     color: '#6B7280',
     fontFamily: 'undefined',
     textAlign: 'center',
@@ -113,8 +105,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 8,
     borderRadius: 28,
-    boxShadow: '0 0 12px rgba(255, 105, 180, 0.4)',
-
   },
   buttonText: {
     color: '#fff',
