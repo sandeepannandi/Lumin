@@ -1,4 +1,4 @@
-import React, { Profiler, useState } from 'react';
+import React, { Profiler, useRef, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { ShoppingBag, History, Image, Send, X, ImagePlus, PersonStanding, User, SendHorizonal } from 'lucide-react-native';
 import { Image as ExpoImage } from 'expo-image';
@@ -13,6 +13,17 @@ interface AskLuminProps {
 
 export default function AskLuminScreen({ onNavigateToChatHistory, autoFocusOnMount, onNavigateToBag }: AskLuminProps) {
   const [message, setMessage] = useState('');
+  const inputRef = useRef<TextInput>(null);
+
+  useEffect(() => {
+    if (autoFocusOnMount && inputRef.current) {
+      // Delay slightly to ensure screen is ready
+      const t = setTimeout(() => {
+        try { inputRef.current?.focus(); } catch {}
+      }, 50);
+      return () => clearTimeout(t);
+    }
+  }, [autoFocusOnMount]);
 
   const knowYourselfItems = [
     { id: 1, title: 'Colour Analysis', icon: '🎨' },
@@ -100,6 +111,7 @@ export default function AskLuminScreen({ onNavigateToChatHistory, autoFocusOnMou
         <View style={styles.inputContainer}>
           <View style={styles.textInputContainer}>
             <TextInput
+              ref={inputRef}
               style={styles.textInput}
               placeholder="Ask Lumin"
               placeholderTextColor="#9CA3AF"

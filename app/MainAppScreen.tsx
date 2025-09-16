@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, Text, Animated } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, Text, Animated, Dimensions, Easing } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { useFonts } from 'expo-font';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -16,6 +16,7 @@ import BagCheckoutScreen from './bag-checkout';
 export default function MainAppScreen() {
   const [activeTab, setActiveTab] = useState('home');
   const fadeAnim = useRef(new Animated.Value(1)).current;
+  const overlayTranslateY = useRef(new Animated.Value(0)).current;
   const [shouldAutoFocusAsk, setShouldAutoFocusAsk] = useState(false);
 
   const [fontsLoaded] = useFonts({
@@ -46,17 +47,50 @@ export default function MainAppScreen() {
     setTimeout(() => setShouldAutoFocusAsk(false), 700);
   };
 
+  const presentOverlay = (route: 'chat-history' | 'bag') => {
+    setActiveTab(route);
+    overlayTranslateY.setValue(Dimensions.get('window').height);
+    Animated.timing(overlayTranslateY, {
+      toValue: 0,
+      duration: 160,
+      easing: Easing.out(Easing.quad),
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const dismissOverlay = () => {
+    Animated.timing(overlayTranslateY, {
+      toValue: Dimensions.get('window').height,
+      duration: 160,
+      easing: Easing.in(Easing.quad),
+      useNativeDriver: true,
+    }).start(() => {
+      setActiveTab('home');
+    });
+  };
+
   const renderTabContent = () => {
     const screens = {
-      'home': <HomeScreen onNavigateToHair={() => animateTabTransition('hair')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => animateTabTransition('bag')} />,
-      'ask-lumin': <AskLuminScreen key={`ask-${shouldAutoFocusAsk ? 'focus' : 'nofocus'}`} autoFocusOnMount={shouldAutoFocusAsk} onNavigateToChatHistory={() => animateTabTransition('chat-history')} onNavigateToBag={() => animateTabTransition('bag')} />,
-      'wishlist': <WishlistScreen onNavigateToAskLumin={() => animateTabTransition('ask-lumin')} onNavigateToBag={() => animateTabTransition('bag')} />,
+      'home': <HomeScreen onNavigateToHair={() => animateTabTransition('hair')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToChatHistory={() => presentOverlay('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => presentOverlay('bag')} />,
+      'ask-lumin': <AskLuminScreen key={`ask-${shouldAutoFocusAsk ? 'focus' : 'nofocus'}`} autoFocusOnMount={shouldAutoFocusAsk} onNavigateToChatHistory={() => presentOverlay('chat-history')} onNavigateToBag={() => presentOverlay('bag')} />,
+      'wishlist': <WishlistScreen onNavigateToAskLumin={() => animateTabTransition('ask-lumin')} onNavigateToBag={() => presentOverlay('bag')} />,
       'profile': <ProfileScreen />,
-      'hair': <HairScreen onBack={() => animateTabTransition('home')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToHome={() => animateTabTransition('home')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => animateTabTransition('bag')} />,
-      'skin': <SkinScreen onBack={() => animateTabTransition('home')} onNavigateToHair={() => animateTabTransition('hair')} onNavigateToHome={() => animateTabTransition('home')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => animateTabTransition('bag')} />,
-      'chat-history': <ChatHistoryScreen onBack={() => animateTabTransition('home')} onNavigateToAskLumin={() => animateTabTransition('ask-lumin')} />,
-      'bag': <BagCheckoutScreen onBack={() => animateTabTransition('home')} />,
+      'hair': <HairScreen onBack={() => animateTabTransition('home')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToHome={() => animateTabTransition('home')} onNavigateToChatHistory={() => presentOverlay('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => presentOverlay('bag')} />,
+      'skin': <SkinScreen onBack={() => animateTabTransition('home')} onNavigateToHair={() => animateTabTransition('hair')} onNavigateToHome={() => animateTabTransition('home')} onNavigateToChatHistory={() => presentOverlay('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => presentOverlay('bag')} />,
+      'chat-history': <ChatHistoryScreen onBack={dismissOverlay} onNavigateToAskLumin={() => animateTabTransition('ask-lumin')} />,
+      'bag': <BagCheckoutScreen onBack={dismissOverlay} />,
     };
+
+    const isOverlay = activeTab === 'chat-history' || activeTab === 'bag';
+    if (isOverlay) {
+      return (
+        <View style={styles.content}>
+          <Animated.View style={[styles.overlayContainer, { transform: [{ translateY: overlayTranslateY }] }]}>
+            {screens[activeTab as keyof typeof screens]}
+          </Animated.View>
+        </View>
+      );
+    }
 
     return (
       <Animated.View style={[styles.content, { opacity: fadeAnim }] }>
@@ -77,6 +111,7 @@ export default function MainAppScreen() {
         {renderTabContent()}
 
         {/* Custom Tab Bar */}
+        {!(activeTab === 'chat-history' || activeTab === 'bag') && (
         <View style={styles.tabBar}>
           <View style={styles.tabWrapper}>
             <TouchableOpacity
@@ -147,6 +182,7 @@ export default function MainAppScreen() {
             {getActiveTabForUI() === 'profile' && <View style={styles.activeIndicator} />}
           </View>
         </View>
+        )}
       </View>
     </SafeAreaProvider>
   );
@@ -161,6 +197,14 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'relative',
     overflow: 'hidden',
+  },
+  overlayContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#fff',
   },
   
   tabBar: {
