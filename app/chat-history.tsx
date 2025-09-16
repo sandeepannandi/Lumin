@@ -26,7 +26,7 @@ export default function ChatHistoryScreen({ onBack }: ChatHistoryProps) {
         <View style={styles.mainContent}>
           <View style={styles.imageContainer}>
             <Image
-              source={require('../assets/images/wardrobe.jpg')}
+              source={require('../assets/images/gossip.jpg')}
               style={styles.mainImage}
               resizeMode="cover"
             />

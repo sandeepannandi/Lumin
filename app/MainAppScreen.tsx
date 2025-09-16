@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Image, Text, Animated } from 'react
 import LottieView from 'lottie-react-native';
 import { useFonts } from 'expo-font';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as Haptics from 'expo-haptics';
 import HomeScreen from './home';
 import AskLuminScreen from './ask-lumin';
 import WishlistScreen from './wishlist';
@@ -41,6 +42,14 @@ export default function MainAppScreen() {
         useNativeDriver: true,
       }).start();
     });
+  };
+
+  const handleTabPress = (newTab: string) => {
+    // Light haptic feedback on tab press
+    try {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    } catch {}
+    animateTabTransition(newTab);
   };
 
   const renderTabContent = () => {
@@ -84,7 +93,7 @@ export default function MainAppScreen() {
           <View style={styles.tabWrapper}>
             <TouchableOpacity
               style={styles.tabItem}
-              onPress={() => animateTabTransition('home')}
+              onPress={() => handleTabPress('home')}
             >
               <Image
                 source={getActiveTabForUI() === 'home' ? require('../assets/images/home.png') : require('../assets/images/homegray.png')}
@@ -100,7 +109,7 @@ export default function MainAppScreen() {
           <View style={styles.tabWrapper}>
             <TouchableOpacity
               style={styles.tabItem}
-              onPress={() => animateTabTransition('ask-lumin')}
+              onPress={() => handleTabPress('ask-lumin')}
             >
               <View style={styles.lottieContainer}>
                 <LottieView
@@ -121,7 +130,7 @@ export default function MainAppScreen() {
           <View style={styles.tabWrapper}>
             <TouchableOpacity
               style={styles.tabItem}
-              onPress={() => animateTabTransition('wishlist')}
+              onPress={() => handleTabPress('wishlist')}
             >
               <Image
                 source={getActiveTabForUI() === 'wishlist' ? require('../assets/images/like.png') : require('../assets/images/likegray.png')}
@@ -137,7 +146,7 @@ export default function MainAppScreen() {
           <View style={styles.tabWrapper}>
             <TouchableOpacity
               style={styles.tabItem}
-              onPress={() => animateTabTransition('profile')}
+              onPress={() => handleTabPress('profile')}
             >
               <Image
                 source={getActiveTabForUI() === 'profile' ? require('../assets/images/user.png') : require('../assets/images/usergray.png')}

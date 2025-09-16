@@ -18,13 +18,6 @@ export default function AskLuminScreen({ onNavigateToChatHistory }: AskLuminProp
     { id: 3, title: 'Face Shape', icon: '😊' },
   ];
 
-  const fashionGoalItems = [
-    { id: 1, title: 'Pairing', icon: '👕' },
-    { id: 2, title: 'Products', icon: '🛍️' },
-    { id: 3, title: 'Outfits', icon: '👗' },
-    { id: 4, title: 'Accessories', icon: '⌚' },
-  ];
-
   const featuresItems = [
     { id: 1, title: 'Fit Check - Does it look good?', image: require('../assets/images/fitcheck.jpg') },
     { id: 2, title: 'Does this hairstyle suit me?', image: require('../assets/images/hairstyle.jpg') },
@@ -64,57 +57,39 @@ export default function AskLuminScreen({ onNavigateToChatHistory }: AskLuminProp
         {/* Know Yourself Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Know Yourself</Text>
-                     <ScrollView 
-             horizontal 
-             showsHorizontalScrollIndicator={false} 
-             style={styles.chipsContainer}
-             contentContainerStyle={styles.chipsContentContainer}
-           >
-             {knowYourselfItems.map((item) => (
-               <TouchableOpacity key={item.id} style={styles.chip}>
-                 <Text style={styles.chipIcon}>{item.icon}</Text>
-                 <Text style={styles.chipText}>{item.title}</Text>
-               </TouchableOpacity>
-             ))}
-           </ScrollView>
-        </View>
-
-        {/* Fashion Goal Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Fashion Goal</Text>
-                     <ScrollView 
-             horizontal 
-             showsHorizontalScrollIndicator={false} 
-             style={styles.chipsContainer}
-             contentContainerStyle={styles.chipsContentContainer}
-           >
-             {fashionGoalItems.map((item) => (
-               <TouchableOpacity key={item.id} style={styles.chip}>
-                 <Text style={styles.chipIcon}>{item.icon}</Text>
-                 <Text style={styles.chipText}>{item.title}</Text>
-               </TouchableOpacity>
-             ))}
-           </ScrollView>
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false} 
+            style={styles.chipsContainer}
+            contentContainerStyle={styles.chipsContentContainer}
+          >
+            {knowYourselfItems.map((item) => (
+              <TouchableOpacity key={item.id} style={styles.chip}>
+                <Text style={styles.chipIcon}>{item.icon}</Text>
+                <Text style={styles.chipText}>{item.title}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
 
         {/* Features Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Features</Text>
-                     <ScrollView 
-             horizontal 
-             showsHorizontalScrollIndicator={false} 
-             style={styles.featuresContainer}
-             contentContainerStyle={styles.featuresContentContainer}
-           >
-             {featuresItems.map((item) => (
-               <TouchableOpacity key={item.id} style={[styles.featureCard,]}>
-                 <View style={styles.featureImageContainer}>
-                   <ExpoImage source={item.image} style={styles.featureImage} />
-                 </View>
-                 <Text style={styles.featureText}>{item.title}</Text>
-               </TouchableOpacity>
-             ))}
-           </ScrollView>
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false} 
+            style={styles.featuresContainer}
+            contentContainerStyle={styles.featuresContentContainer}
+          >
+            {featuresItems.map((item) => (
+              <TouchableOpacity key={item.id} style={[styles.featureCard,]}>
+                <View style={styles.featureImageContainer}>
+                  <ExpoImage source={item.image} style={styles.featureImage} />
+                </View>
+                <Text style={styles.featureText}>{item.title}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
       </ScrollView>
 
@@ -212,7 +187,7 @@ const styles = StyleSheet.create({
     color: '#2c2c2c',
     marginBottom: 12,
   },
-           chipsContainer: {
+          chipsContainer: {
       marginBottom: 0,
       paddingTop: 6,
       paddingBottom: 4,
@@ -236,7 +211,7 @@ const styles = StyleSheet.create({
      elevation: 2,
      borderRadius: 28,
      borderColor: '#e5e7eb',
-   },
+  },
   chipIcon: {
     fontSize: 16,
     marginRight: 6,
