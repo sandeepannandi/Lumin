@@ -5,9 +5,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface ChatHistoryProps {
   onBack?: () => void;
+  onNavigateToAskLumin?: () => void;
 }
 
-export default function ChatHistoryScreen({ onBack }: ChatHistoryProps) {
+export default function ChatHistoryScreen({ onBack, onNavigateToAskLumin }: ChatHistoryProps) {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <View style={styles.container}>
@@ -36,7 +37,7 @@ export default function ChatHistoryScreen({ onBack }: ChatHistoryProps) {
             <Text style={styles.subText}>Your past conversations will appear here</Text>
           </View>
 
-          <TouchableOpacity style={styles.mainButton}>
+          <TouchableOpacity style={styles.mainButton} onPress={onNavigateToAskLumin}>
             <Text style={styles.buttonText}>Ask Lumin</Text>
           </TouchableOpacity>
         </View>

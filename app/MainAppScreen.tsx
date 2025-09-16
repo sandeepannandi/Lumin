@@ -14,7 +14,6 @@ import ChatHistoryScreen from './chat-history';
 
 export default function MainAppScreen() {
   const [activeTab, setActiveTab] = useState('home');
-  
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
   const [fontsLoaded] = useFonts({
@@ -25,23 +24,9 @@ export default function MainAppScreen() {
 
   const animateTabTransition = (newTab: string) => {
     if (newTab === activeTab) return;
-
-    // Update tab immediately to prevent blink
     setActiveTab(newTab);
-    
-    // Smooth fade transition without blank state
-    Animated.timing(fadeAnim, {
-      toValue: 0.3,
-      duration: 150,
-      useNativeDriver: true,
-    }).start(() => {
-      // Quickly fade back to full opacity
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 200,
-        useNativeDriver: true,
-      }).start();
-    });
+    // Instant switch; ensure full opacity
+    fadeAnim.setValue(1);
   };
 
   const handleTabPress = (newTab: string) => {
@@ -58,20 +43,13 @@ export default function MainAppScreen() {
       'ask-lumin': <AskLuminScreen onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
       'wishlist': <WishlistScreen onNavigateToAskLumin={() => animateTabTransition('ask-lumin')} />,
       'profile': <ProfileScreen />,
-      'hair': <HairScreen onBack={() => animateTabTransition('home')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
-      'skin': <SkinScreen onBack={() => animateTabTransition('home')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
-      'chat-history': <ChatHistoryScreen onBack={() => animateTabTransition('home')} />,
+      'hair': <HairScreen onBack={() => animateTabTransition('home')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToHome={() => animateTabTransition('home')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
+      'skin': <SkinScreen onBack={() => animateTabTransition('home')} onNavigateToHair={() => animateTabTransition('hair')} onNavigateToHome={() => animateTabTransition('home')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
+      'chat-history': <ChatHistoryScreen onBack={() => animateTabTransition('home')} onNavigateToAskLumin={() => animateTabTransition('ask-lumin')} />,
     };
 
     return (
-      <Animated.View
-        style={[
-          styles.content,
-          {
-            opacity: fadeAnim,
-          },
-        ]}
-      >
+      <Animated.View style={[styles.content, { opacity: fadeAnim }] }>
         {screens[activeTab as keyof typeof screens]}
       </Animated.View>
     );
@@ -174,6 +152,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     overflow: 'hidden',
   },
+  
   tabBar: {
     flexDirection: 'row',
     backgroundColor: '#ffffff',

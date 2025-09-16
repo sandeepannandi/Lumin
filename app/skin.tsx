@@ -6,13 +6,16 @@ import LottieView from 'lottie-react-native';
 import { ShoppingBag, History, Camera, ArrowRight, Heart, ArrowLeft, ChevronLeft } from 'lucide-react-native';
 import GridBackground from '../components/GridBackground';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import * as Haptics from 'expo-haptics';
 
 interface SkinScreenProps {
   onBack?: () => void;
   onNavigateToChatHistory?: () => void;
+  onNavigateToHair?: () => void;
+  onNavigateToHome?: () => void;
 }
 
-export default function SkinScreen({ onBack, onNavigateToChatHistory }: SkinScreenProps) {
+export default function SkinScreen({ onBack, onNavigateToChatHistory, onNavigateToHair, onNavigateToHome }: SkinScreenProps) {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentFeaturedIndex, setCurrentFeaturedIndex] = useState(0);
@@ -118,17 +121,17 @@ export default function SkinScreen({ onBack, onNavigateToChatHistory }: SkinScre
               </View>
               <View style={styles.placeholderContainer}>
                 <Text style={styles.fixedText}>Ask </Text>
-                               <Animated.View style={[
-                   styles.animatedTextContainer,
-                   {
-                     transform: [{
-                       translateY: slideAnim.interpolate({
-                         inputRange: [-1, 0, 1],
-                         outputRange: [-10, 0, 10],
-                       })
-                     }]
-                   }
-                 ]}>
+                <Animated.View style={[
+                  styles.animatedTextContainer,
+                  {
+                    transform: [{
+                      translateY: slideAnim.interpolate({
+                        inputRange: [-1, 0, 1],
+                        outputRange: [-10, 0, 10],
+                      })
+                    }]
+                  }
+                ]}>
                   <Text style={styles.animatedText}>
                     {suggestions[currentTextIndex]}
                   </Text>
@@ -188,17 +191,17 @@ export default function SkinScreen({ onBack, onNavigateToChatHistory }: SkinScre
               </View>
               <View style={styles.placeholderContainer}>
                 <Text style={styles.fixedText}>Ask </Text>
-                               <Animated.View style={[
-                   styles.animatedTextContainer,
-                   {
-                     transform: [{
-                       translateY: slideAnim.interpolate({
-                         inputRange: [-1, 0, 1],
-                         outputRange: [-10, 0, 10],
-                       })
-                     }]
-                   }
-                 ]}>
+                <Animated.View style={[
+                  styles.animatedTextContainer,
+                  {
+                    transform: [{
+                      translateY: slideAnim.interpolate({
+                        inputRange: [-1, 0, 1],
+                        outputRange: [-10, 0, 10],
+                      })
+                    }]
+                  }
+                ]}>
                   <Text style={styles.animatedText}>
                     {suggestions[currentTextIndex]}
                   </Text>
@@ -211,173 +214,173 @@ export default function SkinScreen({ onBack, onNavigateToChatHistory }: SkinScre
           </View>
         </View>
 
-                               {/* Category Section */}
-          <View style={styles.categorySection}>
-            <View style={styles.categoryContainer}>
-              {/* First Row */}
-              <View style={styles.categoryRow}>
-                                 {[
-                   { name: 'Cleanser', image: require('../assets/images/cleanser.jpg') },
-                   { name: 'Moisturizer', image: require('../assets/images/moisturizer.jpg') },
-                   { name: 'Sunscreen', image: require('../assets/images/sunscreen.jpg') },
-                   { name: 'Serum', image: require('../assets/images/serum.jpg') },
-                 ].map((category, index) => (
-                   <TouchableOpacity key={index} style={styles.categoryItem}>
-                                          <View style={styles.categoryImageContainer}>
-                        <RNImage source={category.image} style={[
-                          styles.categoryImage,
-                          category.name === 'Moisturizer' && styles.longBobImage
-                        ]} />
-                      </View>
-                     <Text style={styles.categoryName}>{category.name}</Text>
-                   </TouchableOpacity>
-                 ))}
-              </View>
-              
-              {/* Second Row */}
-              <View style={styles.categoryRow}>
-                {[
-                  { name: 'Toner', image: require('../assets/images/toner.jpg') },
-                  { name: 'Mask', image: require('../assets/images/mask.jpg') },
-                  { name: 'Exfoliator', image: require('../assets/images/exfoliator.jpg') }
-                ].map((category, index) => (
-                  <TouchableOpacity key={index + 5} style={styles.categoryItem}>
-                    <View style={styles.categoryImageContainer}>
-                      <RNImage source={category.image} style={styles.categoryImage} />
-                    </View>
-                    <Text style={styles.categoryName}>{category.name}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
+        {/* Category Section */}
+        <View style={styles.categorySection}>
+          <View style={styles.categoryContainer}>
+            {/* First Row */}
+            <View style={styles.categoryRow}>
+              {[
+                { name: 'Cleanser', image: require('../assets/images/cleanser.jpg') },
+                { name: 'Moisturizer', image: require('../assets/images/moisturizer.jpg') },
+                { name: 'Sunscreen', image: require('../assets/images/sunscreen.jpg') },
+                { name: 'Serum', image: require('../assets/images/serum.jpg') },
+              ].map((category, index) => (
+                <TouchableOpacity key={index} style={styles.categoryItem}>
+                  <View style={styles.categoryImageContainer}>
+                    <RNImage source={category.image} style={[
+                      styles.categoryImage,
+                      category.name === 'Moisturizer' && styles.longBobImage
+                    ]} />
+                  </View>
+                  <Text style={styles.categoryName}>{category.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            
+            {/* Second Row */}
+            <View style={styles.categoryRow}>
+              {[
+                { name: 'Toner', image: require('../assets/images/toner.jpg') },
+                { name: 'Mask', image: require('../assets/images/mask.jpg') },
+                { name: 'Exfoliator', image: require('../assets/images/exfoliator.jpg') }
+              ].map((category, index) => (
+                <TouchableOpacity key={index + 5} style={styles.categoryItem}>
+                  <View style={styles.categoryImageContainer}>
+                    <RNImage source={category.image} style={styles.categoryImage} />
+                  </View>
+                  <Text style={styles.categoryName}>{category.name}</Text>
+                </TouchableOpacity>
+              ))}
             </View>
           </View>
+        </View>
 
-                         {/* Also Discover Section */}
-             <View style={styles.discoverSection}>
-               <Text style={styles.discoverTitle}>Also Discover</Text>
-               <View style={styles.discoverContainer}>
-                                   <TouchableOpacity style={styles.discoverBox}>
-                    <View style={styles.discoverImageContainer}>
-                      <RNImage source={require('../assets/images/haircare.jpg')} style={styles.discoverImage} />
-                    </View>
-                    <Text style={styles.discoverName}>Hair Care</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.discoverBox}>
-                    <View style={styles.discoverImageContainer}>
-                      <RNImage source={require('../assets/images/fashion.jpg')} style={styles.discoverImage} />
-                    </View>
-                    <Text style={styles.discoverName}>Fashion</Text>
-                  </TouchableOpacity>
-               </View>
-             </View>
+        {/* Also Discover Section */}
+        <View style={styles.discoverSection}>
+          <Text style={styles.discoverTitle}>Also Discover</Text>
+          <View style={styles.discoverContainer}>
+            <TouchableOpacity style={styles.discoverBox} onPress={async () => { try { await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}; onNavigateToHair && onNavigateToHair(); }}>
+              <View style={styles.discoverImageContainer}>
+                <RNImage source={require('../assets/images/haircare.jpg')} style={styles.discoverImage} />
+              </View>
+              <Text style={styles.discoverName}>Hair Care</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.discoverBox} onPress={async () => { try { await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}; onNavigateToHome && onNavigateToHome(); }}>
+              <View style={styles.discoverImageContainer}>
+                <RNImage source={require('../assets/images/fashion.jpg')} style={styles.discoverImage} />
+              </View>
+              <Text style={styles.discoverName}>Fashion</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
 
-                    {/* Featured Section */}
-            <View style={styles.featuredSection}>
-             <Text style={styles.featuredTitle}>Featured</Text>
-             <View style={styles.featuredCarouselContainer}>
-                             <ScrollView
-                  ref={featuredScrollRef}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  pagingEnabled={true}
-                  snapToInterval={Dimensions.get('window').width}
-                  decelerationRate="fast"
-                  contentContainerStyle={styles.featuredContainer}
-                  onMomentumScrollEnd={(event) => {
-                    const offsetX = event.nativeEvent.contentOffset.x;
-                    const newIndex = Math.round(offsetX / Dimensions.get('window').width);
-                    setCurrentFeaturedIndex(newIndex);
-                  }}
-                >
-                 {featuredItems.map((item, index) => (
-                   <View key={item.id} style={styles.featuredItem}>
-                     <Image source={item.image} style={styles.featuredImage} cachePolicy="memory-disk" />
-                   </View>
-                 ))}
-               </ScrollView>
-               
-               {/* Page Indicator Dots Overlay */}
-               <View style={styles.pageIndicatorOverlay}>
-                 {featuredItems.map((_, index) => (
-                   <View
-                     key={index}
-                     style={[
-                       styles.pageIndicatorDot,
-                       index === currentFeaturedIndex && styles.pageIndicatorDotActive
-                     ]}
-                   />
-                 ))}
+        {/* Featured Section */}
+        <View style={styles.featuredSection}>
+         <Text style={styles.featuredTitle}>Featured</Text>
+         <View style={styles.featuredCarouselContainer}>
+            <ScrollView
+              ref={featuredScrollRef}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              pagingEnabled={true}
+              snapToInterval={Dimensions.get('window').width}
+              decelerationRate="fast"
+              contentContainerStyle={styles.featuredContainer}
+              onMomentumScrollEnd={(event) => {
+                const offsetX = event.nativeEvent.contentOffset.x;
+                const newIndex = Math.round(offsetX / Dimensions.get('window').width);
+                setCurrentFeaturedIndex(newIndex);
+              }}
+            >
+             {featuredItems.map((item, index) => (
+               <View key={item.id} style={styles.featuredItem}>
+                 <Image source={item.image} style={styles.featuredImage} cachePolicy="memory-disk" />
                </View>
-             </View>
+             ))}
+           </ScrollView>
+           
+           {/* Page Indicator Dots Overlay */}
+           <View style={styles.pageIndicatorOverlay}>
+             {featuredItems.map((_, index) => (
+               <View
+                 key={index}
+                 style={[
+                   styles.pageIndicatorDot,
+                   index === currentFeaturedIndex && styles.pageIndicatorDotActive
+                 ]}
+               />
+             ))}
            </View>
+         </View>
+       </View>
 
-                       
+        
 
-                         {/* Virtual Try-On Section */}
-             <View style={styles.virtualTryOnSection}>
-                               <TouchableOpacity style={styles.virtualTryOnContainer}>
-                  <RNImage source={require('../assets/images/skintryon.png')} style={styles.virtualTryOnBackground} />
-                                  <View style={styles.virtualTryOnOverlay}>
-                   <Text style={styles.virtualTryOnTitle}>VIRTUAL TRY-ON</Text>
-                   <View style={styles.virtualTryOnSubtitleContainer}>
-                     <Text style={styles.virtualTryOnSubtitle}>Try Now</Text>
-                     <ArrowRight size={14} color="#ffffff" style={styles.arrowIcon} />
-                   </View>
-                 </View>
-               </TouchableOpacity>
-             </View>
+        {/* Virtual Try-On Section */}
+        <View style={styles.virtualTryOnSection}>
+          <TouchableOpacity style={styles.virtualTryOnContainer}>
+            <RNImage source={require('../assets/images/skintryon.png')} style={styles.virtualTryOnBackground} />
+            <View style={styles.virtualTryOnOverlay}>
+              <Text style={styles.virtualTryOnTitle}>VIRTUAL TRY-ON</Text>
+              <View style={styles.virtualTryOnSubtitleContainer}>
+                <Text style={styles.virtualTryOnSubtitle}>Try Now</Text>
+                <ArrowRight size={14} color="#ffffff" style={styles.arrowIcon} />
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-             {/* For You Section */}
-             <View style={styles.forYouSection}>
-               <Text style={styles.forYouTitle}>For You</Text>
-               <View style={styles.staggeredGrid}>
-                                   <View style={styles.leftColumn}>
-                    <TouchableOpacity style={styles.gridItem}>
-                      <RNImage source={require('../assets/images/wedding.jpg')} style={styles.gridImage} />
-                      <TouchableOpacity style={styles.heartIcon}>
-                        <Heart size={18} color="#ffffff" />
-                      </TouchableOpacity>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.gridItem}>
-                      <RNImage source={require('../assets/images/party.jpg')} style={styles.gridImage} />
-                      <TouchableOpacity style={styles.heartIcon}>
-                        <Heart size={18} color="#ffffff" />
-                      </TouchableOpacity>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.gridItem}>
-                      <RNImage source={require('../assets/images/college.jpg')} style={styles.gridImage} />
-                      <TouchableOpacity style={styles.heartIcon}>
-                        <Heart size={18} color="#ffffff" />
-                      </TouchableOpacity>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.rightColumn}>
-                    <TouchableOpacity style={styles.gridItem}>
-                      <RNImage source={require('../assets/images/office.jpg')} style={styles.gridImage} />
-                      <TouchableOpacity style={styles.heartIcon}>
-                        <Heart size={18} color="#ffffff" />
-                      </TouchableOpacity>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.gridItem}>
-                      <RNImage source={require('../assets/images/casual.jpg')} style={styles.gridImage} />
-                      <TouchableOpacity style={styles.heartIcon}>
-                        <Heart size={18} color="#ffffff" />
-                      </TouchableOpacity>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.gridItem}>
-                      <RNImage source={require('../assets/images/datenight.jpg')} style={styles.gridImage} />
-                      <TouchableOpacity style={styles.heartIcon}>
-                        <Heart size={18} color="#ffffff" />
-                      </TouchableOpacity>
-                    </TouchableOpacity>
-                  </View>
-               </View>
-             </View>
-             </ScrollView>
-       </GridBackground>
-     </SafeAreaView>
-   );
- }
+        {/* For You Section */}
+        <View style={styles.forYouSection}>
+          <Text style={styles.forYouTitle}>For You</Text>
+          <View style={styles.staggeredGrid}>
+            <View style={styles.leftColumn}>
+              <TouchableOpacity style={styles.gridItem}>
+                <RNImage source={require('../assets/images/wedding.jpg')} style={styles.gridImage} />
+                <TouchableOpacity style={styles.heartIcon}>
+                  <Heart size={18} color="#ffffff" />
+                </TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.gridItem}>
+                <RNImage source={require('../assets/images/party.jpg')} style={styles.gridImage} />
+                <TouchableOpacity style={styles.heartIcon}>
+                  <Heart size={18} color="#ffffff" />
+                </TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.gridItem}>
+                <RNImage source={require('../assets/images/college.jpg')} style={styles.gridImage} />
+                <TouchableOpacity style={styles.heartIcon}>
+                  <Heart size={18} color="#ffffff" />
+                </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.rightColumn}>
+              <TouchableOpacity style={styles.gridItem}>
+                <RNImage source={require('../assets/images/office.jpg')} style={styles.gridImage} />
+                <TouchableOpacity style={styles.heartIcon}>
+                  <Heart size={18} color="#ffffff" />
+                </TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.gridItem}>
+                <RNImage source={require('../assets/images/casual.jpg')} style={styles.gridImage} />
+                <TouchableOpacity style={styles.heartIcon}>
+                  <Heart size={18} color="#ffffff" />
+                </TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.gridItem}>
+                <RNImage source={require('../assets/images/datenight.jpg')} style={styles.gridImage} />
+                <TouchableOpacity style={styles.heartIcon}>
+                  <Heart size={18} color="#ffffff" />
+                </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        </ScrollView>
+      </GridBackground>
+    </SafeAreaView>
+  );
+}
 
  const styles = StyleSheet.create({
    safeArea: {
@@ -687,109 +690,109 @@ export default function SkinScreen({ onBack, onNavigateToChatHistory }: SkinScre
      borderRadius: 12,
      resizeMode: 'cover',
    },
-       discoverName: {
-      fontSize: 11,
+      discoverName: {
+     fontSize: 11,
+     fontWeight: '400',
+     color: '#2c2c2c',
+     textAlign: 'center',
+     lineHeight: 16,
+   },
+   virtualTryOnSection: {
+     paddingHorizontal: 20,
+     paddingVertical: 20,
+   },
+   virtualTryOnContainer: {
+     width: '100%',
+     height: 100,
+     borderRadius: 12,
+     overflow: 'hidden',
+     position: 'relative',
+     
+   },
+   virtualTryOnBackground: {
+     width: '100%',
+     height: '120%',
+     resizeMode: 'cover',
+   },
+   virtualTryOnOverlay: {
+     position: 'absolute',
+     top: 0,
+     left: 0,
+     right: 0,
+     bottom: 0,
+     backgroundColor: 'rgba(0, 0, 0, 0.3)',
+     justifyContent: 'center',
+     alignItems: 'flex-start',
+     paddingHorizontal: 20,
+   },
+   virtualTryOnTitle: {
+     fontSize: 18,
+     fontWeight: '600',
+     color: '#ffffff',
+     marginBottom: 4,
+     textShadowColor: 'rgba(0, 0, 0, 0.5)',
+     textShadowOffset: { width: 0, height: 1 },
+     textShadowRadius: 2,
+   },
+        virtualTryOnSubtitle: {
+      fontSize: 14,
       fontWeight: '400',
-      color: '#2c2c2c',
-      textAlign: 'center',
-      lineHeight: 16,
-    },
-    virtualTryOnSection: {
-      paddingHorizontal: 20,
-      paddingVertical: 20,
-    },
-    virtualTryOnContainer: {
-      width: '100%',
-      height: 100,
-      borderRadius: 12,
-      overflow: 'hidden',
-      position: 'relative',
-      
-    },
-    virtualTryOnBackground: {
-      width: '100%',
-      height: '120%',
-      resizeMode: 'cover',
-    },
-    virtualTryOnOverlay: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.3)',
-      justifyContent: 'center',
-      alignItems: 'flex-start',
-      paddingHorizontal: 20,
-    },
-    virtualTryOnTitle: {
-      fontSize: 18,
-      fontWeight: '600',
       color: '#ffffff',
-      marginBottom: 4,
       textShadowColor: 'rgba(0, 0, 0, 0.5)',
       textShadowOffset: { width: 0, height: 1 },
       textShadowRadius: 2,
     },
-         virtualTryOnSubtitle: {
-       fontSize: 14,
-       fontWeight: '400',
-       color: '#ffffff',
-       textShadowColor: 'rgba(0, 0, 0, 0.5)',
-       textShadowOffset: { width: 0, height: 1 },
-       textShadowRadius: 2,
+    virtualTryOnSubtitleContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 4,
+    },
+          arrowIcon: {
+       marginLeft: 2,
      },
-     virtualTryOnSubtitleContainer: {
+     forYouSection: {
+       paddingHorizontal: 10,
+       paddingTop: 10,
+     },
+     forYouTitle: {
+       fontSize: 18,
+       fontWeight: '600',
+       color: '#2c2c2c',
+       marginBottom: 18,
+       textAlign: 'center',
+       fontFamily: 'PlayfairDisplay',
+     },
+     staggeredGrid: {
        flexDirection: 'row',
-       alignItems: 'center',
-       gap: 4,
+       gap: 6,
      },
-           arrowIcon: {
-        marginLeft: 2,
-      },
-      forYouSection: {
-        paddingHorizontal: 10,
-        paddingTop: 10,
-      },
-      forYouTitle: {
-        fontSize: 18,
-        fontWeight: '600',
-        color: '#2c2c2c',
-        marginBottom: 18,
-        textAlign: 'center',
-        fontFamily: 'PlayfairDisplay',
-      },
-      staggeredGrid: {
-        flexDirection: 'row',
-        gap: 6,
-      },
-      leftColumn: {
-        flex: 1,
-        gap: 16,
-      },
-      rightColumn: {
-        flex: 1,
-        gap: 16,
-        marginTop: 0,
-      },
-      gridItem: {
-        position: 'relative',
-        borderRadius: 2,
-        overflow: 'hidden',
-        backgroundColor: '#f8f9fa',
-        
-      },
-      gridImage: {
-        width: '100%',
-        height: 200,
-        resizeMode: 'cover',
-      },
-      heartIcon: {
-        position: 'absolute',
-        top: 8,
-        right: 8,
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-        borderRadius: 500,
-        padding: 6,
-      },
-   });
+     leftColumn: {
+       flex: 1,
+       gap: 16,
+     },
+     rightColumn: {
+       flex: 1,
+       gap: 16,
+       marginTop: 0,
+     },
+     gridItem: {
+       position: 'relative',
+       borderRadius: 2,
+       overflow: 'hidden',
+       backgroundColor: '#f8f9fa',
+       
+     },
+     gridImage: {
+       width: '100%',
+       height: 200,
+       resizeMode: 'cover',
+     },
+     heartIcon: {
+       position: 'absolute',
+       top: 8,
+       right: 8,
+       backgroundColor: 'rgba(0, 0, 0, 0.3)',
+       borderRadius: 500,
+       padding: 6,
+     },
+});
