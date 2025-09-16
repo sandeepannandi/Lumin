@@ -9,9 +9,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface SkinScreenProps {
   onBack?: () => void;
+  onNavigateToChatHistory?: () => void;
 }
 
-export default function SkinScreen({ onBack }: SkinScreenProps) {
+export default function SkinScreen({ onBack, onNavigateToChatHistory }: SkinScreenProps) {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentFeaturedIndex, setCurrentFeaturedIndex] = useState(0);
@@ -166,7 +167,7 @@ export default function SkinScreen({ onBack }: SkinScreenProps) {
             <TouchableOpacity style={styles.iconButton}>
               <ShoppingBag size={22} color="#2c2c2c" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
+            <TouchableOpacity style={styles.iconButton} onPress={onNavigateToChatHistory}>
               <History size={22.8} color="#2c2c2c" />
             </TouchableOpacity>
           </View>

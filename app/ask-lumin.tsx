@@ -5,7 +5,11 @@ import { Image as ExpoImage } from 'expo-image';
 import LottieView from 'lottie-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function AskLuminScreen() {
+interface AskLuminProps {
+  onNavigateToChatHistory?: () => void;
+}
+
+export default function AskLuminScreen({ onNavigateToChatHistory }: AskLuminProps) {
   const [message, setMessage] = useState('');
 
   const knowYourselfItems = [
@@ -49,7 +53,7 @@ export default function AskLuminScreen() {
           <TouchableOpacity style={styles.headerIcon}>
             <ShoppingBag size={22} color="#2c2c2c" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.headerIcon}>
+          <TouchableOpacity style={styles.headerIcon} onPress={onNavigateToChatHistory}>
             <History size={22} color="#2c2c2c" />
           </TouchableOpacity>
         </View>

@@ -9,6 +9,7 @@ import WishlistScreen from './wishlist';
 import ProfileScreen from './profile';
 import HairScreen from './hair';
 import SkinScreen from './skin';
+import ChatHistoryScreen from './chat-history';
 
 export default function MainAppScreen() {
   const [activeTab, setActiveTab] = useState('home');
@@ -44,12 +45,13 @@ export default function MainAppScreen() {
 
   const renderTabContent = () => {
     const screens = {
-      'home': <HomeScreen onNavigateToHair={() => animateTabTransition('hair')} onNavigateToSkin={() => animateTabTransition('skin')} />,
-      'ask-lumin': <AskLuminScreen />,
+      'home': <HomeScreen onNavigateToHair={() => animateTabTransition('hair')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
+      'ask-lumin': <AskLuminScreen onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
       'wishlist': <WishlistScreen />,
       'profile': <ProfileScreen />,
-      'hair': <HairScreen onBack={() => animateTabTransition('home')} onNavigateToSkin={() => animateTabTransition('skin')} />,
-      'skin': <SkinScreen onBack={() => animateTabTransition('home')} />,
+      'hair': <HairScreen onBack={() => animateTabTransition('home')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
+      'skin': <SkinScreen onBack={() => animateTabTransition('home')} onNavigateToChatHistory={() => animateTabTransition('chat-history')} />,
+      'chat-history': <ChatHistoryScreen />,
     };
 
     return (
