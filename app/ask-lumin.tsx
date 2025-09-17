@@ -16,6 +16,7 @@ export default function AskLuminScreen({ onNavigateToChatHistory, autoFocusOnMou
   const [message, setMessage] = useState('');
   const inputRef = useRef<TextInput>(null);
   const [attachedImageUri, setAttachedImageUri] = useState<string | null>(null);
+  const [isPersonalizeActive, setIsPersonalizeActive] = useState(false);
 
   useEffect(() => {
     if (autoFocusOnMount && inputRef.current) {
@@ -149,7 +150,7 @@ export default function AskLuminScreen({ onNavigateToChatHistory, autoFocusOnMou
             </View>
           </View>
         )}
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer, attachedImageUri ? styles.inputContainerWithAttachment : undefined]}>
           <View style={styles.textInputContainer}>
             <TextInput
               ref={inputRef}
@@ -176,9 +177,9 @@ export default function AskLuminScreen({ onNavigateToChatHistory, autoFocusOnMou
               <TouchableOpacity style={[styles.imageButton, attachedImageUri ? styles.imageButtonDisabled : undefined]} onPress={handlePickImage} disabled={!!attachedImageUri}>
                 <ImagePlus size={18} color="#2c2c2c" />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.personalizeButton}>
-                <User size={18} color="#2c2c2c" />
-                <Text style={styles.personalizeText}>Personalize</Text>
+              <TouchableOpacity style={[styles.personalizeButton, isPersonalizeActive && styles.personalizeButtonActive]} onPress={() => setIsPersonalizeActive((v) => !v)}>
+                <User size={14} color={isPersonalizeActive ? '#fff' : '#2c2c2c'} />
+                <Text style={[styles.personalizeText, isPersonalizeActive && styles.personalizeTextActive]}>Personalize</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity 
@@ -365,6 +366,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
+  inputContainerWithAttachment: {
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
+  },
   attachmentThumb: {
     width: '100%',
     height: '100%',
@@ -376,11 +381,20 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     paddingRight: 16,
+    gap: 6,
   },
-  attachmentText: {
-    fontSize: 11.5,
+  attachmentPill: {
+    width: '60%',
+    paddingVertical: 7,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    backgroundColor: '#f9f9f9',
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+  },
+  attachmentPillText: {
+    fontSize: 12,
     color: '#2c2c2c',
-    marginBottom: 2,
   },
   imageButtonDisabled: {
     opacity: 0.4,
@@ -423,9 +437,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
   },
+  personalizeButtonActive: {
+    backgroundColor: '#2c2c2c',
+  },
   personalizeText: {
     fontSize: 12,
     color: '#2c2c2c',
+    fontWeight: '400',
+  },
+  personalizeTextActive: {
+    color: '#fff',
     fontWeight: '400',
   },
   clearButton: {
