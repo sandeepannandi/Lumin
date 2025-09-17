@@ -1,0 +1,105 @@
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { ChevronLeft } from 'lucide-react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+interface OrdersProps {
+  onBack?: () => void;
+}
+
+export default function OrdersScreen({ onBack }: OrdersProps) {
+  return (
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <View style={styles.headerLeft}>
+            <TouchableOpacity style={styles.backButton} onPress={onBack}>
+              <ChevronLeft size={22} color="#2c2c2c" />
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Your Orders</Text>
+          </View>
+        </View>
+
+        {/* Main Content (Empty State) */}
+        <View style={styles.mainContent}>
+          <View style={styles.imageContainer}>
+            <Image
+              source={require('../assets/images/emptybox.png')}
+              style={styles.mainImage}
+              resizeMode="cover"
+            />
+          </View>
+
+          <View style={styles.textSection}>
+            <Text style={styles.subText}>No orders yet to show</Text>
+          </View>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+    backgroundColor: '#fff',
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  backButton: {
+    padding: 0,
+    marginRight: 10,
+    marginTop: 4,
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#2c2c2c',
+    fontFamily: 'PlayfairDisplay',
+  },
+  mainContent: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  imageContainer: {
+    width: '80%',
+    height: 250,
+    borderRadius: 2,
+    overflow: 'hidden',
+    marginBottom: 10,
+  },
+  mainImage: {
+    width: '100%',
+    height: '100%',
+  },
+  textSection: {
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  subText: {
+    fontSize: 13,
+    width: 260,
+    color: '#6B7280',
+    fontFamily: 'undefined',
+    textAlign: 'center',
+  },
+});
+
+
