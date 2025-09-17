@@ -13,10 +13,12 @@ import SkinScreen from './skin';
 import ChatHistoryScreen from './chat-history';
 import BagCheckoutScreen from './bag-checkout';
 import OrdersScreen from './orders';
+import SettingsScreen from './settings';
 
 export default function MainAppScreen() {
   const [activeTab, setActiveTab] = useState('home');
   const [shouldAutoFocusAsk, setShouldAutoFocusAsk] = useState(false);
+  const [previousTabBeforeOverlay, setPreviousTabBeforeOverlay] = useState<string | null>(null);
 
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const overlayTranslateY = useRef(new Animated.Value(0)).current;
@@ -48,7 +50,8 @@ export default function MainAppScreen() {
     fadeAnim.setValue(1);
   };
 
-  const presentOverlay = (route: 'chat-history' | 'bag' | 'orders') => {
+  const presentOverlay = (route: 'chat-history' | 'bag' | 'orders' | 'settings') => {
+    setPreviousTabBeforeOverlay(activeTab);
     setActiveTab(route);
     overlayTranslateY.setValue(Dimensions.get('window').height);
     Animated.timing(overlayTranslateY, {
@@ -66,7 +69,8 @@ export default function MainAppScreen() {
       easing: Easing.bezier(0.4, 0.0, 1, 1),
       useNativeDriver: true,
     }).start(() => {
-      setActiveTab('home');
+      setActiveTab(previousTabBeforeOverlay ?? 'home');
+      setPreviousTabBeforeOverlay(null);
     });
   };
 
@@ -75,15 +79,16 @@ export default function MainAppScreen() {
       'home': <HomeScreen onNavigateToHair={() => animateTabTransition('hair')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToChatHistory={() => presentOverlay('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => presentOverlay('bag')} />,
       'ask-lumin': <AskLuminScreen autoFocusOnMount={shouldAutoFocusAsk} onNavigateToChatHistory={() => presentOverlay('chat-history')} onNavigateToBag={() => presentOverlay('bag')} />,
       'wishlist': <WishlistScreen onNavigateToAskLumin={() => animateTabTransition('ask-lumin')} onNavigateToBag={() => presentOverlay('bag')} />,
-      'profile': <ProfileScreen onNavigateToOrders={() => presentOverlay('orders')} />,
+      'profile': <ProfileScreen onNavigateToOrders={() => presentOverlay('orders')} onNavigateToSettings={() => presentOverlay('settings')} />,
       'hair': <HairScreen onBack={() => animateTabTransition('home')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToHome={() => animateTabTransition('home')} onNavigateToChatHistory={() => presentOverlay('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => presentOverlay('bag')} />,
       'skin': <SkinScreen onBack={() => animateTabTransition('home')} onNavigateToHair={() => animateTabTransition('hair')} onNavigateToHome={() => animateTabTransition('home')} onNavigateToChatHistory={() => presentOverlay('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => presentOverlay('bag')} />,
       'chat-history': <ChatHistoryScreen onBack={dismissOverlay} onNavigateToAskLumin={() => animateTabTransition('ask-lumin')} />,
       'bag': <BagCheckoutScreen onBack={dismissOverlay} />,
       'orders': <OrdersScreen onBack={dismissOverlay} />,
+      'settings': <SettingsScreen onBack={dismissOverlay} />,
     };
 
-    const isOverlay = activeTab === 'chat-history' || activeTab === 'bag' || activeTab === 'orders';
+    const isOverlay = activeTab === 'chat-history' || activeTab === 'bag' || activeTab === 'orders' || activeTab === 'settings';
     if (isOverlay) {
       return (
         <View style={styles.content}>
@@ -113,7 +118,7 @@ export default function MainAppScreen() {
         {renderTabContent()}
 
         {/* Custom Tab Bar */}
-        {!(activeTab === 'chat-history' || activeTab === 'bag') && (
+        {!(activeTab === 'chat-history' || activeTab === 'bag' || activeTab === 'orders' || activeTab === 'settings') && (
         <View style={styles.tabBar}>
           <View style={styles.tabWrapper}>
             <TouchableOpacity

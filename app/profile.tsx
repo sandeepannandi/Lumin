@@ -4,7 +4,7 @@ import { Settings, Edit3, ChevronRight, Package, ChevronLeft, Info, Lightbulb, H
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image as ExpoImage } from 'expo-image';
 
-export default function ProfileScreen({ onNavigateToOrders }: { onNavigateToOrders?: () => void }) {
+export default function ProfileScreen({ onNavigateToOrders, onNavigateToSettings }: { onNavigateToOrders?: () => void; onNavigateToSettings?: () => void }) {
   const [showSettings, setShowSettings] = useState(false);
   const [showShareSheet, setShowShareSheet] = useState(false);
   const [fadeAnim] = useState(new Animated.Value(0));
@@ -64,7 +64,7 @@ export default function ProfileScreen({ onNavigateToOrders }: { onNavigateToOrde
               </TouchableOpacity>
               <TouchableOpacity 
                 style={styles.headerIcon}
-                onPress={() => setShowSettings(true)}
+                onPress={onNavigateToSettings}
               >
                 <Settings size={22} color="#2c2c2c" />
               </TouchableOpacity>
