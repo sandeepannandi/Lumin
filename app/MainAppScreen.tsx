@@ -15,9 +15,10 @@ import BagCheckoutScreen from './bag-checkout';
 
 export default function MainAppScreen() {
   const [activeTab, setActiveTab] = useState('home');
+  const [shouldAutoFocusAsk, setShouldAutoFocusAsk] = useState(false);
+
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const overlayTranslateY = useRef(new Animated.Value(0)).current;
-  const [shouldAutoFocusAsk, setShouldAutoFocusAsk] = useState(false);
 
   const [fontsLoaded] = useFonts({
     'NataSans': require('../assets/fonts/NataSans-Regular.ttf'),

@@ -1,6 +1,7 @@
 import React, { Profiler, useRef, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
-import { ShoppingBag, History, Image, Send, X, ImagePlus, PersonStanding, User, SendHorizonal } from 'lucide-react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { ShoppingBag, History, Image, Send, X, ImagePlus, PersonStanding, User, SendHorizonal, CircleX } from 'lucide-react-native';
 import { Image as ExpoImage } from 'expo-image';
 import LottieView from 'lottie-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -14,6 +15,7 @@ interface AskLuminProps {
 export default function AskLuminScreen({ onNavigateToChatHistory, autoFocusOnMount, onNavigateToBag }: AskLuminProps) {
   const [message, setMessage] = useState('');
   const inputRef = useRef<TextInput>(null);
+  const [attachedImageUri, setAttachedImageUri] = useState<string | null>(null);
 
   useEffect(() => {
     if (autoFocusOnMount && inputRef.current) {
@@ -43,6 +45,23 @@ export default function AskLuminScreen({ onNavigateToChatHistory, autoFocusOnMou
       console.log('Sending message:', message);
       setMessage('');
     }
+  };
+
+  const handlePickImage = async () => {
+    if (attachedImageUri) return; // allow only one image max
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        quality: 1,
+        allowsMultipleSelection: false,
+        selectionLimit: 1 as any,
+      });
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        const uri = result.assets[0]?.uri;
+        if (uri) setAttachedImageUri(uri);
+      }
+    } catch {}
   };
 
   return (
@@ -107,6 +126,29 @@ export default function AskLuminScreen({ onNavigateToChatHistory, autoFocusOnMou
 
       {/* Input Area */}
       <View style={styles.inputArea}>
+        {attachedImageUri && (
+          <View style={styles.attachmentRowOuter}>
+            <View style={styles.attachmentLeft}>
+              <View style={styles.attachmentThumbContainer}>
+                <ExpoImage source={{ uri: attachedImageUri }} style={styles.attachmentThumb} />
+                <TouchableOpacity style={styles.attachmentClose} onPress={() => setAttachedImageUri(null)}>
+                  <CircleX size={18} color="#F97F7B" />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.attachmentTexts}>
+              <TouchableOpacity style={styles.attachmentPill}>
+                <Text style={styles.attachmentPillText}>Shop this look</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.attachmentPill}>
+                <Text style={styles.attachmentPillText}>Help me style this</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.attachmentPill}>
+                <Text style={styles.attachmentPillText}>Will it suit me?</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
         <View style={styles.inputContainer}>
           <View style={styles.textInputContainer}>
             <TextInput
@@ -131,7 +173,7 @@ export default function AskLuminScreen({ onNavigateToChatHistory, autoFocusOnMou
           </View>
           <View style={styles.buttonRow}>
             <View style={styles.leftButtonsContainer}>
-              <TouchableOpacity style={styles.imageButton}>
+              <TouchableOpacity style={[styles.imageButton, attachedImageUri ? styles.imageButtonDisabled : undefined]} onPress={handlePickImage} disabled={!!attachedImageUri}>
                 <ImagePlus size={18} color="#2c2c2c" />
               </TouchableOpacity>
               <TouchableOpacity style={styles.personalizeButton}>
@@ -280,6 +322,36 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 28,
     borderTopColor: '#f3f4f6',
   },
+  attachmentRowOuter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f3f4f6',
+    paddingHorizontal: 20,
+    paddingVertical:16,
+  },
+  attachmentLeft: {
+    marginRight: 30,
+  },
+  attachmentThumbContainer: {
+    width: 78,
+    height: 116,
+    borderRadius: 4,
+    overflow: 'visible',
+    position: 'relative',
+    backgroundColor: '#ffffff',
+  },
+  attachmentClose: {
+    position: 'absolute',
+    top: -8,
+    right: -8,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor:'#f3f4f6',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 2,
+  },
   inputContainer: {
     backgroundColor: '#f3f4f6',
     borderRadius: 0,
@@ -289,9 +361,29 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderWidth: 0,
     borderColor: '#e5e7eb',
-    height: 120,
+    minHeight: 120,
     flexDirection: 'column',
     justifyContent: 'space-between',
+  },
+  attachmentThumb: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 8,
+    resizeMode: 'cover',
+    backgroundColor: '#fff',
+  },
+  attachmentTexts: {
+    flex: 1,
+    flexDirection: 'column',
+    paddingRight: 16,
+  },
+  attachmentText: {
+    fontSize: 11.5,
+    color: '#2c2c2c',
+    marginBottom: 2,
+  },
+  imageButtonDisabled: {
+    opacity: 0.4,
   },
   textInputContainer: {
     flex: 1,
