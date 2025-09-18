@@ -73,7 +73,7 @@ export default function VirtualTryOnScreen({ onBack }: VirtualTryOnProps) {
               <View style={styles.rowTextWrap}>
                 <View style={styles.rowTextHeader}>
                   <View style={styles.iconCircleDark}>
-                    <LocalSvgIcon source={require('../assets/images/hanger.svg')} size={14} />
+                    <Image source={require('../assets/images/hanger.png')} style={{ width: 18, height: 18 }} />
                   </View>
                 </View>
                 <Text style={styles.rowSubtitle}>Preview hairsyles, makeup, and accessories on your avatar</Text>
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     gap: 0,
     flexGrow: 1,
     justifyContent: 'space-between',
-    paddingVertical: 50,
+    paddingVertical: 52,
   },
   row: {
     flexDirection: 'row',
@@ -197,9 +197,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   continueButton: {
-    marginTop: 22,
+    marginTop: 12,
     backgroundColor: '#2c2c2c',
     paddingVertical: 14,
+    marginBottom: 18,
     borderRadius: 28,
     height: 52,
     alignItems: 'center',
