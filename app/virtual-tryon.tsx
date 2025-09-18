@@ -4,6 +4,7 @@ import { ChevronLeft, Sparkles } from 'lucide-react-native';
 import { SvgUri } from 'react-native-svg';
 import { Asset } from 'expo-asset';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface VirtualTryOnProps {
   onBack?: () => void;
@@ -21,7 +22,7 @@ function LocalSvgIcon({ source, size = 18 }: { source: any; size?: number }) {
 export default function VirtualTryOnScreen({ onBack }: VirtualTryOnProps) {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <View style={styles.container}>
+      <LinearGradient colors={['#FFFFFF', '#F3E5F5']} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity style={styles.backButton} onPress={onBack}>
@@ -85,7 +86,7 @@ export default function VirtualTryOnScreen({ onBack }: VirtualTryOnProps) {
             <Text style={styles.continueText}>Continue</Text>
           </TouchableOpacity>
         </ScrollView>
-      </View>
+      </LinearGradient>
     </SafeAreaView>
   );
 }
