@@ -15,9 +15,10 @@ interface HairScreenProps {
   onNavigateToChatHistory?: () => void;
   onNavigateToAskWithFocus?: () => void;
   onNavigateToBag?: () => void;
+  onNavigateToVirtualTryOn?: () => void;
 }
 
-export default function HairScreen({ onBack, onNavigateToSkin, onNavigateToHome, onNavigateToChatHistory, onNavigateToAskWithFocus, onNavigateToBag }: HairScreenProps) {
+export default function HairScreen({ onBack, onNavigateToSkin, onNavigateToHome, onNavigateToChatHistory, onNavigateToAskWithFocus, onNavigateToBag, onNavigateToVirtualTryOn }: HairScreenProps) {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentFeaturedIndex, setCurrentFeaturedIndex] = useState(0);
@@ -333,7 +334,7 @@ export default function HairScreen({ onBack, onNavigateToSkin, onNavigateToHome,
 
         {/* Virtual Try-On Section */}
         <View style={styles.virtualTryOnSection}>
-          <TouchableOpacity style={styles.virtualTryOnContainer}>
+          <TouchableOpacity style={styles.virtualTryOnContainer} onPress={onNavigateToVirtualTryOn}>
             <RNImage source={require('../assets/images/hairtryon.png')} style={styles.virtualTryOnBackground} />
             <View style={styles.virtualTryOnOverlay}>
               <Text style={styles.virtualTryOnTitle}>VIRTUAL TRY-ON</Text>

@@ -10,14 +10,15 @@ import * as Haptics from 'expo-haptics';
 
 interface SkinScreenProps {
   onBack?: () => void;
-  onNavigateToChatHistory?: () => void;
   onNavigateToHair?: () => void;
   onNavigateToHome?: () => void;
+  onNavigateToChatHistory?: () => void;
   onNavigateToAskWithFocus?: () => void;
   onNavigateToBag?: () => void;
+  onNavigateToVirtualTryOn?: () => void;
 }
 
-export default function SkinScreen({ onBack, onNavigateToChatHistory, onNavigateToHair, onNavigateToHome, onNavigateToAskWithFocus, onNavigateToBag }: SkinScreenProps) {
+export default function SkinScreen({ onBack, onNavigateToHair, onNavigateToHome, onNavigateToChatHistory, onNavigateToAskWithFocus, onNavigateToBag, onNavigateToVirtualTryOn }: SkinScreenProps) {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentFeaturedIndex, setCurrentFeaturedIndex] = useState(0);
@@ -320,7 +321,7 @@ export default function SkinScreen({ onBack, onNavigateToChatHistory, onNavigate
 
         {/* Virtual Try-On Section */}
         <View style={styles.virtualTryOnSection}>
-          <TouchableOpacity style={styles.virtualTryOnContainer}>
+        <TouchableOpacity style={styles.virtualTryOnContainer} onPress={onNavigateToVirtualTryOn}>
             <RNImage source={require('../assets/images/skintryon.png')} style={styles.virtualTryOnBackground} />
             <View style={styles.virtualTryOnOverlay}>
               <Text style={styles.virtualTryOnTitle}>VIRTUAL TRY-ON</Text>
