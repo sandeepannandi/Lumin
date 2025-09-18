@@ -14,9 +14,10 @@ interface HomeScreenProps {
   onNavigateToChatHistory?: () => void;
   onNavigateToAskWithFocus?: () => void;
   onNavigateToBag?: () => void;
+  onNavigateToVirtualTryOn?: () => void;
 }
 
-export default function HomeScreen({ onNavigateToHair, onNavigateToSkin, onNavigateToChatHistory, onNavigateToAskWithFocus, onNavigateToBag }: HomeScreenProps) {
+export default function HomeScreen({ onNavigateToHair, onNavigateToSkin, onNavigateToChatHistory, onNavigateToAskWithFocus, onNavigateToBag, onNavigateToVirtualTryOn }: HomeScreenProps) {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentFeaturedIndex, setCurrentFeaturedIndex] = useState(0);
@@ -348,7 +349,7 @@ export default function HomeScreen({ onNavigateToHair, onNavigateToSkin, onNavig
 
         {/* Virtual Try-On Section */}
         <View style={styles.virtualTryOnSection}>
-          <TouchableOpacity style={styles.virtualTryOnContainer}>
+          <TouchableOpacity style={styles.virtualTryOnContainer} onPress={async () => { try { await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}; onNavigateToVirtualTryOn && onNavigateToVirtualTryOn(); }}>
             <RNImage source={require('../assets/images/tryon.png')} style={styles.virtualTryOnBackground} />
             <View style={styles.virtualTryOnOverlay}>
               <Text style={styles.virtualTryOnTitle}>VIRTUAL TRY-ON</Text>

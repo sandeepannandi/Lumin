@@ -14,6 +14,7 @@ import ChatHistoryScreen from './chat-history';
 import BagCheckoutScreen from './bag-checkout';
 import OrdersScreen from './orders';
 import SettingsScreen from './settings';
+import VirtualTryOnScreen from './virtual-tryon';
 
 export default function MainAppScreen() {
   const [activeTab, setActiveTab] = useState('home');
@@ -50,7 +51,7 @@ export default function MainAppScreen() {
     fadeAnim.setValue(1);
   };
 
-  const presentOverlay = (route: 'chat-history' | 'bag' | 'orders' | 'settings') => {
+  const presentOverlay = (route: 'chat-history' | 'bag' | 'orders' | 'settings' | 'virtual-tryon') => {
     setPreviousTabBeforeOverlay(activeTab);
     setActiveTab(route);
     overlayTranslateY.setValue(Dimensions.get('window').height);
@@ -76,7 +77,7 @@ export default function MainAppScreen() {
 
   const renderTabContent = () => {
     const screens = {
-      'home': <HomeScreen onNavigateToHair={() => animateTabTransition('hair')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToChatHistory={() => presentOverlay('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => presentOverlay('bag')} />,
+      'home': <HomeScreen onNavigateToHair={() => animateTabTransition('hair')} onNavigateToSkin={() => animateTabTransition('skin')} onNavigateToChatHistory={() => presentOverlay('chat-history')} onNavigateToAskWithFocus={goToAskWithFocus} onNavigateToBag={() => presentOverlay('bag')} onNavigateToVirtualTryOn={() => presentOverlay('virtual-tryon')} />,
       'ask-lumin': <AskLuminScreen autoFocusOnMount={shouldAutoFocusAsk} onNavigateToChatHistory={() => presentOverlay('chat-history')} onNavigateToBag={() => presentOverlay('bag')} />,
       'wishlist': <WishlistScreen onNavigateToAskLumin={() => animateTabTransition('ask-lumin')} onNavigateToBag={() => presentOverlay('bag')} />,
       'profile': <ProfileScreen onNavigateToOrders={() => presentOverlay('orders')} onNavigateToSettings={() => presentOverlay('settings')} />,
@@ -86,9 +87,10 @@ export default function MainAppScreen() {
       'bag': <BagCheckoutScreen onBack={dismissOverlay} />,
       'orders': <OrdersScreen onBack={dismissOverlay} />,
       'settings': <SettingsScreen onBack={dismissOverlay} />,
+      'virtual-tryon': <VirtualTryOnScreen onBack={dismissOverlay} />,
     };
 
-    const isOverlay = activeTab === 'chat-history' || activeTab === 'bag' || activeTab === 'orders' || activeTab === 'settings';
+    const isOverlay = activeTab === 'chat-history' || activeTab === 'bag' || activeTab === 'orders' || activeTab === 'settings' || activeTab === 'virtual-tryon';
     if (isOverlay) {
       return (
         <View style={styles.content}>
@@ -118,7 +120,7 @@ export default function MainAppScreen() {
         {renderTabContent()}
 
         {/* Custom Tab Bar */}
-        {!(activeTab === 'chat-history' || activeTab === 'bag' || activeTab === 'orders' || activeTab === 'settings') && (
+        {!(activeTab === 'chat-history' || activeTab === 'bag' || activeTab === 'orders' || activeTab === 'settings' || activeTab === 'virtual-tryon') && (
         <View style={styles.tabBar}>
           <View style={styles.tabWrapper}>
             <TouchableOpacity
