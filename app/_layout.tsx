@@ -299,6 +299,10 @@ export default function App() {
     return (
       <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
         <LoginScreen
+          onBack={() => {
+            setShowLogin(false);
+            setShowOnboarding(true);
+          }}
           onLoginSuccess={() => {
             fadeOut(() => {
               setShowLogin(false);
@@ -569,7 +573,7 @@ export default function App() {
   }
 
   if (showFaceAnalysis) {
-    return (
+  return (
       <Animated.View style={[
         styles.container,
         { transform: [{ translateX: faceAnalysisSlideAnim }] }
