@@ -273,6 +273,96 @@ export default function App() {
         Promise.allSettled(loginRest.map((mod) => Asset.fromModule(mod).downloadAsync()))
           .then(() => setLoginAssetsReady(true))
           .catch(() => setLoginAssetsReady(true));
+
+        // Preference screens: prioritize first image, preload rest in background
+        const casualImages = [
+          require('../assets/images/casual1.jpg'),
+          require('../assets/images/casual2.webp'),
+          require('../assets/images/casual3.webp'),
+          require('../assets/images/casual4.webp'),
+          require('../assets/images/casual5.jpg'),
+          require('../assets/images/casual6.jpg'),
+          require('../assets/images/casual7.jpg'),
+          require('../assets/images/casual8.jpg'),
+          require('../assets/images/casual9.jpg'),
+          require('../assets/images/casual10.webp'),
+          require('../assets/images/casual11.jpg'),
+          require('../assets/images/casual12.webp'),
+          require('../assets/images/casual13.webp'),
+          require('../assets/images/casual14.webp'),
+          require('../assets/images/casual15.jpg'),
+          require('../assets/images/casual16.jpg'),
+          require('../assets/images/casual17.jpg'),
+          require('../assets/images/casual18.jpg'),
+        ];
+        const workImages = [
+          require('../assets/images/work1.jpg'),
+          require('../assets/images/work2.jpg'),
+          require('../assets/images/work3.jpg'),
+          require('../assets/images/work4.jpg'),
+          require('../assets/images/work5.jpg'),
+          require('../assets/images/work6.jpg'),
+          require('../assets/images/work7.jpg'),
+          require('../assets/images/work8.jpg'),
+          require('../assets/images/work9.jpg'),
+          require('../assets/images/work10.webp'),
+          require('../assets/images/work11.webp'),
+          require('../assets/images/work12.webp'),
+          require('../assets/images/work13.webp'),
+          require('../assets/images/work14.webp'),
+          require('../assets/images/work15.jpg'),
+          require('../assets/images/work16.jpg'),
+          require('../assets/images/work17.jpg'),
+          require('../assets/images/work18.jpg'),
+        ];
+        const nightImages = [
+          require('../assets/images/night1.jpg'),
+          require('../assets/images/night2.jpg'),
+          require('../assets/images/night3.jpg'),
+          require('../assets/images/night4.jpg'),
+          require('../assets/images/night5.jpg'),
+          require('../assets/images/night6.jpg'),
+          require('../assets/images/night7.jpg'),
+          require('../assets/images/night8.jpg'),
+          require('../assets/images/night9.jpg'),
+          require('../assets/images/night10.jpg'),
+          require('../assets/images/night11.jpg'),
+          require('../assets/images/night12.jpg'),
+          require('../assets/images/night13.jpg'),
+          require('../assets/images/night14.jpg'),
+          require('../assets/images/night15.jpg'),
+          require('../assets/images/night16.jpg'),
+          require('../assets/images/night17.jpg'),
+          require('../assets/images/night18.webp'),
+        ];
+        const neverKeepImages = [
+          require('../assets/images/blazers.webp'),
+          require('../assets/images/skirt.jpg'),
+          require('../assets/images/dresses.webp'),
+          require('../assets/images/shorts.webp'),
+          require('../assets/images/jeans.webp'),
+          require('../assets/images/trouses.webp'),
+          require('../assets/images/jackets.webp'),
+          require('../assets/images/handbags.webp'),
+          require('../assets/images/heels.webp'),
+          require('../assets/images/earrings.avif'),
+          require('../assets/images/necklace.avif'),
+          require('../assets/images/bracelets.jpg'),
+        ];
+
+        // Prioritize first from each group in parallel (non-blocking for splash gating)
+        await Promise.allSettled([
+          Asset.fromModule(casualImages[0]).downloadAsync(),
+          Asset.fromModule(workImages[0]).downloadAsync(),
+          Asset.fromModule(nightImages[0]).downloadAsync(),
+          Asset.fromModule(neverKeepImages[0]).downloadAsync(),
+        ]);
+
+        // Background preload rest
+        const backgroundGroups = [casualImages.slice(1), workImages.slice(1), nightImages.slice(1), neverKeepImages.slice(1)];
+        backgroundGroups.forEach((group) => {
+          Promise.allSettled(group.map((mod) => Asset.fromModule(mod).downloadAsync())).catch(() => {});
+        });
       } catch (e) {
         // Ignore cache errors; continue
         setFirstImageReady(true);
