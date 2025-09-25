@@ -363,6 +363,117 @@ export default function App() {
         backgroundGroups.forEach((group) => {
           Promise.allSettled(group.map((mod) => Asset.fromModule(mod).downloadAsync())).catch(() => {});
         });
+
+        // Home, Hair, Skin pages
+        const homeCarousel = [
+          require('../assets/images/f1.png'),
+          require('../assets/images/f2.png'),
+          require('../assets/images/f3.png'),
+          require('../assets/images/f4.png'),
+          require('../assets/images/f5.png'),
+          require('../assets/images/f6.png'),
+          require('../assets/images/f7.png'),
+          require('../assets/images/f8.png'),
+          require('../assets/images/f9.png'),
+          require('../assets/images/f10.png'),
+          require('../assets/images/f11.png'),
+        ];
+        const homeDiscover = [
+          require('../assets/images/wedding.jpg'),
+          require('../assets/images/party.jpg'),
+          require('../assets/images/office.jpg'),
+          require('../assets/images/casual.jpg'),
+          require('../assets/images/datenight.jpg'),
+          require('../assets/images/travel.jpg'),
+          require('../assets/images/college.jpg'),
+          require('../assets/images/birthday.jpg'),
+        ];
+
+        const hairCarousel = [
+          require('../assets/images/f1.png'),
+          require('../assets/images/f2.png'),
+          require('../assets/images/f3.png'),
+          require('../assets/images/f4.png'),
+          require('../assets/images/f5.png'),
+          require('../assets/images/f6.png'),
+          require('../assets/images/f7.png'),
+          require('../assets/images/f8.png'),
+          require('../assets/images/f9.png'),
+          require('../assets/images/f10.png'),
+          require('../assets/images/f11.png'),
+        ];
+        const hairDiscover = [
+          require('../assets/images/wedding.jpg'),
+          require('../assets/images/party.jpg'),
+          require('../assets/images/office.jpg'),
+          require('../assets/images/casual.jpg'),
+          require('../assets/images/datenight.jpg'),
+          require('../assets/images/travel.jpg'),
+          require('../assets/images/college.jpg'),
+          require('../assets/images/birthday.jpg'),
+          require('../assets/images/nightout.jpg'),
+          require('../assets/images/gym.jpg'),
+        ];
+        const hairStyles = [
+          require('../assets/images/pixie.jpg'),
+          require('../assets/images/longbob.jpg'),
+          require('../assets/images/curtain.jpg'),
+          require('../assets/images/ponytail.jpg'),
+          require('../assets/images/messybun.jpg'),
+          require('../assets/images/braid.jpg'),
+          require('../assets/images/wolf.jpg'),
+        ];
+
+        const skinCarousel = [
+          require('../assets/images/f1.png'),
+          require('../assets/images/f2.png'),
+          require('../assets/images/f3.png'),
+          require('../assets/images/f4.png'),
+          require('../assets/images/f5.png'),
+          require('../assets/images/f6.png'),
+          require('../assets/images/f7.png'),
+          require('../assets/images/f8.png'),
+          require('../assets/images/f9.png'),
+          require('../assets/images/f10.png'),
+          require('../assets/images/f11.png'),
+        ];
+        const skinProducts = [
+          require('../assets/images/cleanser.jpg'),
+          require('../assets/images/moisturizer.jpg'),
+          require('../assets/images/sunscreen.jpg'),
+          require('../assets/images/serum.jpg'),
+          require('../assets/images/toner.jpg'),
+          require('../assets/images/mask.jpg'),
+          require('../assets/images/exfoliator.jpg'),
+        ];
+        const crossCategory = [
+          require('../assets/images/haircare.jpg'),
+          require('../assets/images/skincare.jpg'),
+          require('../assets/images/fashion.jpg'),
+        ];
+
+        // Prime one hero per page
+        await Promise.allSettled([
+          Asset.fromModule(homeCarousel[0]).downloadAsync(),
+          Asset.fromModule(hairCarousel[0]).downloadAsync(),
+          Asset.fromModule(skinCarousel[0]).downloadAsync(),
+          Asset.fromModule(homeDiscover[0]).downloadAsync(),
+        ]);
+
+        // Background preload others
+        const pageGroups = [
+          homeCarousel.slice(1),
+          hairCarousel.slice(1),
+          skinCarousel.slice(1),
+          homeDiscover.slice(1),
+          hairDiscover,
+          hairStyles,
+          skinProducts,
+          crossCategory,
+        ];
+        pageGroups.forEach((group) => {
+          Promise.allSettled(group.map((mod) => Asset.fromModule(mod).downloadAsync())).catch(() => {});
+        });
       } catch (e) {
         // Ignore cache errors; continue
         setFirstImageReady(true);
