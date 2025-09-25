@@ -14,6 +14,7 @@ import StylesNeverWearScreen from '../components/StylesNeverWearScreen';
 import FaceAnalysisScreen from '../components/FaceAnalysisScreen';
 import MainAppScreen from './MainAppScreen';
 import { useFonts } from 'expo-font';
+import { Asset } from 'expo-asset';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -64,6 +65,8 @@ export default function App() {
   const [showFaceAnalysis, setShowFaceAnalysis] = useState(false);
   const [showMainApp, setShowMainApp] = useState(false);
   const [onboardingStep, setOnboardingStep] = useState(0);
+  const [assetsReady, setAssetsReady] = useState(false);
+  const [splashAnimDone, setSplashAnimDone] = useState(false);
   
   // Separate animation values for each transition
   const userDetailsSlideAnim = useState(new Animated.Value(0))[0];
@@ -242,19 +245,25 @@ export default function App() {
     }).start(callback);
   };
 
-  // Handle splash screen
+  // Preload onboarding images during splash
   useEffect(() => {
-    if (!splashShownFlag) {
+    const preload = async () => {
+      try {
+        const imageModules = ONBOARDING_STEPS.map((s) => s.image);
+        await Promise.all(imageModules.map((mod) => Asset.fromModule(mod).downloadAsync()));
+      } catch (e) {
+        // Ignore cache errors; continue
+      } finally {
+        setAssetsReady(true);
+      }
+    };
+    preload();
+  }, []);
+
+  // When splash animation completes and assets are ready, proceed
+  useEffect(() => {
+    if (splashAnimDone && assetsReady) {
       splashShownFlag = true;
-      setTimeout(() => {
-        setShowSplash(false);
-        if (!onboardingDoneFlag) {
-          setShowOnboarding(true);
-        } else {
-          setShowLogin(true);
-        }
-      }, 3000);
-    } else {
       setShowSplash(false);
       if (!onboardingDoneFlag) {
         setShowOnboarding(true);
@@ -262,7 +271,7 @@ export default function App() {
         setShowLogin(true);
       }
     }
-  }, []);
+  }, [splashAnimDone, assetsReady]);
 
   // Don't render anything until fonts are loaded
   if (!fontsLoaded) {
@@ -273,8 +282,7 @@ export default function App() {
     return (
       <AnimatedSplashScreen
         onAnimationComplete={() => {
-          splashShownFlag = true;
-          setShowSplash(false);
+          setSplashAnimDone(true);
         }}
       />
     );
