@@ -67,6 +67,8 @@ export default function App() {
   const [onboardingStep, setOnboardingStep] = useState(0);
   const [assetsReady, setAssetsReady] = useState(false);
   const [firstImageReady, setFirstImageReady] = useState(false);
+  const [loginAssetsReady, setLoginAssetsReady] = useState(false);
+  const [firstLoginImageReady, setFirstLoginImageReady] = useState(false);
   const [splashAnimDone, setSplashAnimDone] = useState(false);
   
   // Separate animation values for each transition
@@ -259,27 +261,47 @@ export default function App() {
         Promise.allSettled(rest.map((mod) => Asset.fromModule(mod).downloadAsync()))
           .then(() => setAssetsReady(true))
           .catch(() => setAssetsReady(true));
+
+        // Preload Login screen assets: prioritize the main welcome image
+        const loginHero = require('../assets/images/welcome.jpg');
+        await Asset.fromModule(loginHero).downloadAsync();
+        setFirstLoginImageReady(true);
+        const loginRest = [
+          require('../assets/images/google.png'),
+          require('../assets/images/success.jpg'),
+        ];
+        Promise.allSettled(loginRest.map((mod) => Asset.fromModule(mod).downloadAsync()))
+          .then(() => setLoginAssetsReady(true))
+          .catch(() => setLoginAssetsReady(true));
       } catch (e) {
         // Ignore cache errors; continue
         setFirstImageReady(true);
         setAssetsReady(true);
+        setFirstLoginImageReady(true);
+        setLoginAssetsReady(true);
       }
     };
     preload();
   }, []);
 
-  // When splash animation completes and first image is ready, proceed (rest continue loading)
+  // When splash animation completes and the first image for the next screen is ready, proceed
   useEffect(() => {
-    if (splashAnimDone && firstImageReady) {
+    if (!splashAnimDone) return;
+
+    // Decide which gate to use based on whether onboarding is done
+    const needsOnboarding = !onboardingDoneFlag;
+    const gateReady = needsOnboarding ? firstImageReady : firstLoginImageReady;
+
+    if (gateReady) {
       splashShownFlag = true;
       setShowSplash(false);
-      if (!onboardingDoneFlag) {
+      if (needsOnboarding) {
         setShowOnboarding(true);
       } else {
         setShowLogin(true);
       }
     }
-  }, [splashAnimDone, firstImageReady]);
+  }, [splashAnimDone, firstImageReady, firstLoginImageReady]);
 
   // Don't render anything until fonts are loaded
   if (!fontsLoaded) {
