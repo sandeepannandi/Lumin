@@ -66,6 +66,7 @@ export default function App() {
   const [showMainApp, setShowMainApp] = useState(false);
   const [onboardingStep, setOnboardingStep] = useState(0);
   const [assetsReady, setAssetsReady] = useState(false);
+  const [firstImageReady, setFirstImageReady] = useState(false);
   const [splashAnimDone, setSplashAnimDone] = useState(false);
   
   // Separate animation values for each transition
@@ -250,19 +251,26 @@ export default function App() {
     const preload = async () => {
       try {
         const imageModules = ONBOARDING_STEPS.map((s) => s.image);
-        await Promise.all(imageModules.map((mod) => Asset.fromModule(mod).downloadAsync()));
+        // Prioritize the first slide for instant display
+        const [first, ...rest] = imageModules;
+        await Asset.fromModule(first).downloadAsync();
+        setFirstImageReady(true);
+        // Continue preloading the remaining images in the background (no blocking)
+        Promise.allSettled(rest.map((mod) => Asset.fromModule(mod).downloadAsync()))
+          .then(() => setAssetsReady(true))
+          .catch(() => setAssetsReady(true));
       } catch (e) {
         // Ignore cache errors; continue
-      } finally {
+        setFirstImageReady(true);
         setAssetsReady(true);
       }
     };
     preload();
   }, []);
 
-  // When splash animation completes and assets are ready, proceed
+  // When splash animation completes and first image is ready, proceed (rest continue loading)
   useEffect(() => {
-    if (splashAnimDone && assetsReady) {
+    if (splashAnimDone && firstImageReady) {
       splashShownFlag = true;
       setShowSplash(false);
       if (!onboardingDoneFlag) {
@@ -271,7 +279,7 @@ export default function App() {
         setShowLogin(true);
       }
     }
-  }, [splashAnimDone, assetsReady]);
+  }, [splashAnimDone, firstImageReady]);
 
   // Don't render anything until fonts are loaded
   if (!fontsLoaded) {
