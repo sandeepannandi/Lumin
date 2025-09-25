@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions
 const { width } = Dimensions.get('window');
 
 const AGES = ['<18', '18-25', '26-35', '36-45', '45+'];
-const GENDERS = ['Female', 'Male', 'Other'];
+const GENDERS = ['Female', 'Male'];
 const OCCUPATIONS = ['College Student', 'Working Professional', 'School Student', 'Other'];
 const BRANDS = [
   [

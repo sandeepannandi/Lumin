@@ -550,6 +550,7 @@ export default function App() {
             });
           }}
           onForgotPassword={() => {
+            setShowLogin(false);
             setShowForgotPassword(true);
           }}
         />
@@ -562,6 +563,7 @@ export default function App() {
       <ForgotPasswordScreen
         onBack={() => {
           setShowForgotPassword(false);
+          setShowLogin(true);
         }}
       />
     );

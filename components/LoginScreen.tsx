@@ -84,8 +84,8 @@ export default function LoginScreen({ onBack, onForgotPassword, onLoginSuccess }
          
           <View style={{ flex: 1 }} />
           <View style={{ flex: 1, alignItems: 'flex-end' }}>
-            <TouchableOpacity disabled={!isFormFilled} onPress={onForgotPassword}>
-              <Text style={[styles.forgotText, !isFormFilled && styles.forgotTextDisabled]}>Forgot Password?</Text>
+            <TouchableOpacity onPress={onForgotPassword}>
+              <Text style={styles.forgotText}>Forgot Password?</Text>
             </TouchableOpacity>
           </View>
         </View>
