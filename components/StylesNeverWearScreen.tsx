@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, Image } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, Image, Animated } from 'react-native';
 import { ChevronLeft, Check } from 'lucide-react-native';
 
 const { width } = Dimensions.get('window');
@@ -23,11 +23,30 @@ const STYLE_OPTIONS: { name: string; image: any }[] = [
 
 export default function StylesNeverWearScreen({ onComplete, onBack }: Props) {
 	const [selected, setSelected] = useState<string[]>([]);
+	const [toastVisible, setToastVisible] = useState(false);
+	const [toastMessage, setToastMessage] = useState('');
+	const toastOpacity = useRef(new Animated.Value(0));
+
+	const showToast = (message: string) => {
+		setToastMessage(message);
+		setToastVisible(true);
+		Animated.timing(toastOpacity.current, { toValue: 1, duration: 200, useNativeDriver: true }).start(() => {
+			setTimeout(() => {
+				Animated.timing(toastOpacity.current, { toValue: 0, duration: 200, useNativeDriver: true }).start(() => {
+					setToastVisible(false);
+				});
+			}, 1400);
+		});
+	};
 
 	const toggleSelection = (name: string) => {
 		setSelected((prev) => {
 			if (prev.includes(name)) {
 				return prev.filter((n) => n !== name);
+			}
+			if (prev.length >= 5) {
+				showToast('You can select up to 5 items');
+				return prev;
 			}
 			return [...prev, name];
 		});
@@ -78,6 +97,13 @@ export default function StylesNeverWearScreen({ onComplete, onBack }: Props) {
 					<Text style={styles.noteText}>Select at least 3 images</Text>
 				</View>
 			</View>
+		{toastVisible && (
+			<View style={styles.toastWrapper} pointerEvents="none">
+				<Animated.View style={[styles.toastContainer, { opacity: toastOpacity.current }]}> 
+					<Text style={styles.toastText}>{toastMessage}</Text>
+				</Animated.View>
+			</View>
+		)}
 		</View>
 	);
 }
@@ -116,6 +142,9 @@ const styles = StyleSheet.create({
 	continueBtnTextDisabled: { color: '#9CA3AF' },
 	noteBelow: { marginTop: 16, alignItems: 'center', justifyContent: 'center' },
 	noteText: { fontSize: 12, color: '#6b7280' },
+	toastWrapper: { position: 'absolute', left: 0, right: 0, bottom: 224, alignItems: 'center' },
+	toastContainer: { backgroundColor: '#404040', borderRadius: 20, paddingHorizontal: 20, paddingVertical: 10 },
+	toastText: { color: '#ffffff', fontSize: 12, fontWeight: '500' },
 });
 
 
