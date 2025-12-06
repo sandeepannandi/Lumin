@@ -128,10 +128,10 @@ const styles = StyleSheet.create({
 	scrollContent: { flex: 1, paddingHorizontal: 2 },
 	label: { fontSize: 12, color: '#2c2c2c', fontWeight: '500', marginTop: 12, marginBottom: 6, textAlign: 'center' },
 	required: { color: '#2c2c2c', fontWeight: '600' },
-	imageGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', gap: 3, marginTop: 6, marginBottom: 206 },
+	imageGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', gap: 3, marginTop: 6 },
 	imageBox: {
 		width: (width - 12) / 3,
-		aspectRatio: 1,
+		height: ((width - 0) / 1.8),
 		backgroundColor: 'transparent',
 		borderRadius: 2,
 		padding: 0,
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 	},
 	selectionOverlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(255,255,255,0.5)', alignItems: 'center', justifyContent: 'center', borderRadius: 2 },
-	optionImage: { width: '100%', height: '160%', borderRadius: 2 },
+	optionImage: { width: '100%', height: '100%', borderRadius: 2 },
 	buttonRow: {
 		paddingHorizontal: 18,
 		paddingBottom: 70,
