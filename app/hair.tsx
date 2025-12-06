@@ -283,7 +283,7 @@ export default function HairScreen({ onBack, onNavigateToSkin, onNavigateToHome,
             </TouchableOpacity>
             <TouchableOpacity style={styles.discoverBox} onPress={async () => { try { await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}; onNavigateToHome && onNavigateToHome(); }}>
               <View style={styles.discoverImageContainer}>
-                <RNImage source={require('../assets/images/fashion.jpg')} style={styles.discoverImage} />
+                <RNImage source={require('../assets/images/onboarding1.webp')} style={styles.discoverImage} />
               </View>
               <Text style={styles.discoverName}>Fashion</Text>
             </TouchableOpacity>

@@ -24,7 +24,7 @@ export default function LoginScreen({ onBack, onForgotPassword, onLoginSuccess }
         <TouchableOpacity style={styles.backBtn} onPress={onBack}>
           <Ionicons name="chevron-back" size={20} color="#fff" />
         </TouchableOpacity>
-        <Image source={require('../assets/images/welcome.jpg')} style={styles.topImage} />
+        <Image source={require('../assets/images/welcome.webp')} style={styles.topImage} />
         <Svg
           width={width}
           height={60}

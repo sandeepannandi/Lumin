@@ -25,25 +25,25 @@ let onboardingDoneFlag = false;
 
 const ONBOARDING_STEPS = [
   {
-    image: require('../assets/images/fashion2.png'),
+    image: require('../assets/images/onboarding1.webp'),
     headline: 'Discover Fashion via AI Chat',
     subtitle: 'Because your style deserves smart advice.',
     shadowColor: '#ac765d',
   },
   {
-    image: require('../assets/images/shop.png'),
+    image: require('../assets/images/onboarding2.webp'),
     headline: 'Shop the Look',
     subtitle: 'Find and buy outfits curated just for you.',
     shadowColor: '#ac765d',
   },
   {
-    image: require('../assets/images/trackskin.png'),
+    image: require('../assets/images/onboarding3.webp'),
     headline: 'Track Your Skin',
     subtitle: 'Analyze and monitor your skin progress with AI.',
     shadowColor: '#ac765d',
   },
   {
-    image: require('../assets/images/hairstyles.png'),
+    image: require('../assets/images/onboarding4.webp'),
     headline: 'Personalized Hairstyles',
     subtitle: 'Discover styles that suit your face shape.',
     shadowColor: '#ac765d',
@@ -449,7 +449,7 @@ export default function App() {
         const crossCategory = [
           require('../assets/images/haircare.jpg'),
           require('../assets/images/skincare.jpg'),
-          require('../assets/images/fashion.jpg'),
+          require('../assets/images/onboarding1.webp'),
         ];
 
         // Prime one hero per page

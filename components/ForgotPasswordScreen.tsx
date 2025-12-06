@@ -12,7 +12,7 @@ export default function ForgotPasswordScreen({ onBack }: { onBack?: () => void }
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       {/* Top image section with floating back button */}
       <View style={styles.topSection}>
-        <Image source={require('../assets/images/reset.jpg')} style={styles.topImage} />
+        <Image source={require('../assets/images/resetimg.webp')} style={styles.topImage} />
         <TouchableOpacity style={styles.backBtn} onPress={onBack}>
           <Ionicons name="chevron-back" size={20} color="#fff" />
         </TouchableOpacity>

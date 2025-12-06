@@ -5,11 +5,11 @@ import { ChevronLeft } from 'lucide-react-native';
 const { width } = Dimensions.get('window');
 
 const BODY_SHAPES = [
-  { name: 'Apple', image: require('../assets/images/apple.jpg') },
-  { name: 'Pear', image: require('../assets/images/pear.jpg') },
-  { name: 'Hourglass', image: require('../assets/images/hourglass.jpg') },
-  { name: 'Triangle', image: require('../assets/images/triangle.jpg') },
-  { name: 'Rectangle', image: require('../assets/images/rectangle.jpg') }
+  { name: 'Apple', image: require('../assets/images/applebodyshape.webp') },
+  { name: 'Pear', image: require('../assets/images/pearbodyshape.webp') },
+  { name: 'Hourglass', image: require('../assets/images/hourglassbodyshape.webp') },
+  { name: 'Triangle', image: require('../assets/images/trianglebodyshape.webp') },
+  { name: 'Rectangle', image: require('../assets/images/rectanglebodyshape.webp') }
 ];
 const BODY_SIZES = ['Petite', 'Skinny', 'Average', 'Athletic', 'Plus-size'];
 const SKIN_TONES = [
