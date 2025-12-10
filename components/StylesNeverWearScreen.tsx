@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
 	scrollContent: { flex: 1, paddingHorizontal: 2 },
 	label: { fontSize: 12, color: '#2c2c2c', fontWeight: '500', marginTop: 12, marginBottom: 6, textAlign: 'center' },
 	required: { color: '#2c2c2c', fontWeight: '600' },
-	imageGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', gap: 3, marginTop: 6, marginBottom: 18 },
+	imageGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', gap: 3, marginTop: 6 },
 	imageBox: {
 		width: (width - 12) / 3,
 		backgroundColor: 'transparent',
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
 	},
 	imageContainer: {
 		width: '100%',
-		aspectRatio: 1,
+		height: ((width - 0) / 2.7),
 		borderRadius: 2,
 		overflow: 'hidden',
 	},
