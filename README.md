@@ -1,67 +1,150 @@
-# Lumin: AI Glow Up App
+<p align="center">
+  <img src="assets/images/icon.png" alt="Lumin Logo" width="120" height="120" />
+</p>
 
-Lumin is a React Native app built with Expo, designed to help users achieve their best selves with the power of AI. Whether it's enhancing photos, tracking self-improvement, or providing personalized recommendations, Lumin aims to be your digital glow-up companion.
+<h1 align="center">Lumin — AI Glow Up</h1>
+
+<p align="center">
+  <strong>Your AI-powered personal beauty & style companion.</strong>
+</p>
+
+<p align="center">
+  <a href="#features">Features</a> •
+  <a href="#screenshots">Screenshots</a> •
+  <a href="#tech-stack">Tech Stack</a> •
+  <a href="#getting-started">Getting Started</a> •
+  <a href="#project-structure">Project Structure</a> •
+  <a href="#contributing">Contributing</a> •
+  <a href="#license">License</a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/React_Native-0.81-61DAFB?logo=react&logoColor=white" alt="React Native" />
+  <img src="https://img.shields.io/badge/Expo-54-000020?logo=expo&logoColor=white" alt="Expo" />
+  <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/License-Apache_2.0-D22128?logo=apache&logoColor=white" alt="License" />
+</p>
+
+---
+
+## Overview
+
+**Lumin** is a cross-platform mobile application that leverages artificial intelligence to help users discover their best look. From AI-driven skin and hair analysis to virtual try-on and personalised style recommendations, Lumin is the all-in-one glow-up toolkit built for the modern era.
 
 ## Features
-- AI-powered glow up tools (details to be filled in as features are developed)
-- Animated splash screen
-- Tabbed navigation (Profile, Settings, Home, etc.)
-- Modern, mobile-first UI
 
-## Project Structure
-```
-app/
-  _layout.tsx           # Main app layout
-  (tabs)/               # Tabbed navigation screens
-    _layout.tsx
-    index.tsx           # Home screen
-    profile.tsx         # User profile
-    settings.tsx        # App settings
-  +not-found.tsx        # 404/Not Found screen
-components/
-  AnimatedSplashScreen.tsx
-hooks/
-  useFrameworkReady.ts  # Custom React hook
-assets/
-  images/               # App images
-```
+| Feature                    | Description                                                                 |
+| -------------------------- | --------------------------------------------------------------------------- |
+| 🧠 **Ask Lumin (AI Chat)** | Conversational AI assistant for personalised beauty & style advice          |
+| 🪞 **Face Analysis**       | AI-powered facial feature analysis with tailored recommendations            |
+| 💇 **Hair Analysis**       | Detailed hair type detection and care routine suggestions                   |
+| 🧴 **Skin Analysis**       | Skin condition assessment with product & routine guidance                   |
+| 👗 **Virtual Try-On**      | Camera-based virtual try-on for outfits and accessories                     |
+| 🛍️ **Smart Shopping**      | Curated product recommendations with bag & wishlist management              |
+| 🎨 **Style Profiling**     | Multi-step onboarding that captures work, casual, and night-out preferences |
+| 🌙 **Animated Splash**     | Premium animated splash screen with smooth transition                       |
+
+## Screenshots
+
+> _Coming soon — screenshots and demo GIFs will be added here._
+
+## Tech Stack
+
+| Layer          | Technology                                                                                                             |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **Framework**  | [React Native](https://reactnative.dev/) 0.81                                                                          |
+| **Platform**   | [Expo](https://expo.dev/) SDK 54 (Expo Router v6)                                                                      |
+| **Language**   | [TypeScript](https://www.typescriptlang.org/) 5.9                                                                      |
+| **Navigation** | [React Navigation](https://reactnavigation.org/) 7 (Bottom Tabs + Native Stack)                                        |
+| **Animations** | [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/) 4 · [Lottie](https://airbnb.io/lottie/) |
+| **UI**         | Expo Linear Gradient · Expo Blur · Lucide Icons                                                                        |
+| **Media**      | Expo Camera · Expo Image Picker · Expo Video                                                                           |
+| **Networking** | React Native URL Polyfill · Cross-Fetch                                                                                |
 
 ## Getting Started
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/)
-- [Expo CLI](https://docs.expo.dev/get-started/installation/)
+
+- **Node.js** ≥ 18 — [Download](https://nodejs.org/)
+- **Expo CLI** — installed globally or via `npx`
+- A physical device with **Expo Go**, or an Android / iOS emulator
 
 ### Installation
-1. Clone the repository:
-   ```bash
-   git clone <repo-url>
-   cd Lumin-AI-glow-up
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-3. Start the Expo development server:
-   ```bash
-   npx expo start
-   ```
 
-### Running on Device/Emulator
-- Use the Expo Go app on your iOS/Android device, or run on an emulator via the Expo CLI interface.
+```bash
+# 1. Clone the repository
+git clone https://github.com/sandeepannandi/Lumin.git
+cd Lumin
 
-## Scripts
-- `npm start` / `npx expo start` — Start the development server
-- `npm run android` — Run on Android emulator/device
-- `npm run ios` — Run on iOS simulator/device (Mac only)
+# 2. Install dependencies
+npm install
+
+# 3. Start the development server
+npx expo start
+```
+
+Scan the QR code with **Expo Go** (Android / iOS) or press `a` / `i` to launch an emulator.
+
+### Available Scripts
+
+| Command             | Description                                    |
+| ------------------- | ---------------------------------------------- |
+| `npx expo start`    | Start the Expo development server              |
+| `npm run android`   | Build & run on an Android device / emulator    |
+| `npm run ios`       | Build & run on an iOS simulator _(macOS only)_ |
+| `npm run lint`      | Run the project linter                         |
+| `npm run build:web` | Export a production web bundle                 |
+
+## Project Structure
+
+```
+lumin/
+├── app/                        # Expo Router screens
+│   ├── _layout.tsx             # Root layout & navigation config
+│   ├── home.tsx                # Home / dashboard screen
+│   ├── ask-lumin.tsx           # AI chat assistant
+│   ├── skin.tsx                # Skin analysis module
+│   ├── hair.tsx                # Hair analysis module
+│   ├── virtual-tryon.tsx       # Virtual try-on camera screen
+│   ├── profile.tsx             # User profile
+│   ├── settings.tsx            # App settings
+│   ├── bag-checkout.tsx        # Shopping bag & checkout
+│   ├── wishlist.tsx            # Saved / wishlist items
+│   ├── orders.tsx              # Order history
+│   └── chat-history.tsx        # Past AI conversations
+├── components/                 # Reusable UI components
+│   ├── AnimatedSplashScreen.tsx
+│   ├── FaceAnalysisScreen.tsx
+│   ├── LoginScreen.tsx
+│   ├── OnboardingCarousel.tsx
+│   ├── UserDetailsScreen.tsx
+│   ├── BodyDetailsScreen.tsx
+│   └── *PreferenceScreen.tsx   # Style-preference onboarding steps
+├── hooks/                      # Custom React hooks
+├── assets/                     # Images, icons & media
+├── app.json                    # Expo configuration
+├── package.json
+└── tsconfig.json
+```
 
 ## Contributing
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+
+Contributions are welcome! Please follow these steps:
+
+1. **Fork** the repository.
+2. **Create** a feature branch: `git checkout -b feature/amazing-feature`.
+3. **Commit** your changes: `git commit -m "feat: add amazing feature"`.
+4. **Push** to the branch: `git push origin feature/amazing-feature`.
+5. **Open** a Pull Request.
+
+> For major changes, please open an issue first to discuss the proposed modification.
 
 ## License
-[MIT](LICENSE)
+
+This project is licensed under the **Apache License 2.0** — see the [LICENSE](LICENSE) file for details.
 
 ---
-*Lumin: Let your inner light shine with a little help from AI!* 
+
+<p align="center">
+  Built with ❤️ by <a href="https://github.com/sandeepannandi">Sandeep Annandi</a>
+</p>
