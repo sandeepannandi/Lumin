@@ -146,5 +146,5 @@ This project is licensed under the **Apache License 2.0** — see the [LICENSE](
 ---
 
 <p align="center">
-  Built with ❤️ by <a href="https://github.com/sandeepannandi">Sandeep Annandi</a>
+  Built with ❤️ by <a href="https://github.com/sandeepannandi">Sandeepan Nandi</a>
 </p>
